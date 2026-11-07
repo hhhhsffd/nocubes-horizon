@@ -1,0 +1,10 @@
+NoCubes Rust native port
+Derived from Cadiboo/NoCubes, revision 38904f71b818a1f4770c5253b9a1dd522201babc.
+Original authors include Cadiboo, Click_Me, and Wulferis. LGPL-3.0-or-later.
+Surface Nets algorithm: Mikola Lysenko (c) 2012; adapted by Cadiboo.
+Marching Cubes lookup data and chamfer faces translated from NoCubes.
+Horizon mesher and picking integration contains adapted MIT-licensed Horizon code,
+revision 41f822b659789780f58d32c63ddfb6887ea1b8bf. See LICENSE.Horizon.
+This is an unofficial port, not endorsed by the original authors.
+No Mojang code, game assets, Java runtime, WASM, or binary patches are included.
+CSS named color values: W3C CSS Color 4, https://www.w3.org/TR/css-color-4/#named-colors.

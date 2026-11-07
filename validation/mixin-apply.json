@@ -1,0 +1,14 @@
+{
+  "bridges": 0,
+  "crates": 1,
+  "data": 1,
+  "injections": 94,
+  "modules": 39,
+  "post_build": 0,
+  "seconds": 37.115548174,
+  "stage": "/tmp/nocubes-stage",
+  "stage_changed": true,
+  "states": 0,
+  "status": "ok",
+  "transformation_seconds": 37.115522424
+}

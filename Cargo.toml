@@ -1,0 +1,3 @@
+[workspace]
+members = ["mixins/nocubes/engine", "tools/bundle", "tools/adapters"]
+resolver = "2"

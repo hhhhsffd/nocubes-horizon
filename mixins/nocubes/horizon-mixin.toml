@@ -1,0 +1,1258 @@
+[mod]
+id = "nocubes"
+version = "0.2.1"
+[compatibility]
+horizon_revision = "41f822b659789780f58d32c63ddfb6887ea1b8bf"
+[[crate]]
+id = "engine"
+path = "engine"
+dependent = "horizon-core"
+[[module]]
+id = "core"
+file = "crates/horizon-core/src/lib.rs"
+name = "nocubes"
+source = "core.rs"
+visibility = "pub"
+[[module]]
+id = "render"
+file = "crates/horizon-client-render/src/mesher.rs"
+name = "nocubes_render"
+source = "render.rs"
+[[injection]]
+id = "mesh"
+target = "horizon_client_render::mesher::Mesher<'_>::mesh_reusing"
+kind = "HEAD"
+cancellable = true
+helper = "mesh.rs"
+bindings = [
+ { name = "mesher", ty = "&mut crate::mesher::Mesher<'_>", value = "&mut *self" },
+ { name = "region", ty = "&[[Option<&crate::chunk::Chunk>;3];3]", value = "region" },
+ { name = "sy", ty = "i32", value = "sy" },
+ { name = "out", ty = "&mut crate::mesher::SectionMesh", value = "&mut out" },
+ { name = "scratch", ty = "&mut crate::mesher::MeshScratch", value = "scratch" },
+]
+[[module]]
+id = "collision"
+file = "crates/horizon-client-render/src/collisions.rs"
+name = "nocubes_collision"
+visibility = "pub"
+source = "collision.rs"
+[[injection]]
+id = "collision_block"
+target = "horizon_client_render::collisions::<SceneCollisions<'_,'_> as BlockCollisionWorld>::collision_block"
+kind = "HEAD"
+cancellable = true
+helper = "collision_block.rs"
+bindings = [
+ { name = "scene", ty = "&crate::collisions::SceneCollisions<'_, '_>", value = "&*self" },
+ { name = "chunk", ty = "&crate::chunk::Chunk", value = "chunk" },
+ { name = "p", ty = "BlockPos", value = "p" },
+]
+[[injection]]
+id = "collision_shortcut"
+target = "horizon_client_render::collisions::SceneCollisions<'_,'_>::cells_without_collision"
+kind = "HEAD"
+cancellable = true
+helper = "no_shortcut.rs"
+
+[[module]]
+id = "picking"
+file = "crates/horizon-client/src/game.rs"
+name = "nocubes_picking"
+source = "picking.rs"
+[[injection]]
+id = "pick"
+target = "horizon_client::game::Game<'_>::clip_ray"
+kind = "HEAD"
+cancellable = true
+helper = "pick.rs"
+bindings = [
+ { name = "game", ty = "&crate::game::Game<'_>", value = "&*self" },
+ { name = "origin", ty = "[f64;3]", value = "origin" },
+ { name = "dir", ty = "[f64;3]", value = "dir" },
+ { name = "reach", ty = "f64", value = "reach" },
+]
+
+[[injection]]
+id = "send_config"
+hook = "player_logged_in"
+hook_version = 1
+kind = "HEAD"
+helper = "send_config.rs"
+bindings = [
+ {name="game",ty="&mut crate::game::Game<'_>",value="&mut *self"},
+ {name="player",ty="u128",value="player"},
+]
+[[injection]]
+id = "receive_config"
+target = "horizon_client::game::native_hooks::Game<'_>::native_net_from_server"
+kind = "HEAD"
+helper = "receive_config.rs"
+bindings = [
+ {name="game",ty="&mut crate::game::Game<'_>",value="&mut *self"},
+ {name="channel",ty="&str",value="channel"},
+ {name="data",ty="&[u8]",value="data"},
+]
+[[injection]]
+id = "clear_config"
+target = "horizon_client::game::native_hooks::Game<'_>::native_client_disconnecting"
+kind = "HEAD"
+helper = "clear_config.rs"
+[[injection]]
+id = "dirty"
+target = "horizon_client_render::world::World::set"
+kind = "HEAD"
+helper = "dirty.rs"
+bindings = [
+ {name="world",ty="&mut crate::world::World",value="&mut *self"},
+ {name="x",ty="i32",value="x"},
+ {name="y",ty="i32",value="y"},
+ {name="z",ty="i32",value="z"},
+]
+[[module]]
+id="fluid_render"
+file="crates/horizon-client-render/src/mesher.rs"
+name="nocubes_fluid"
+source="fluid_render.rs"
+
+
+
+# Runtime completion hooks
+
+[[module]]
+id="runtime"
+file="crates/horizon-client/src/game.rs"
+name="nocubes_runtime"
+source="runtime.rs"
+
+[[injection]]
+id="runtime_tick"
+target="horizon_client::game::native_hooks::Game<'_>::native_tick"
+kind="HEAD"
+helper="runtime_tick.rs"
+bindings=[{name="game",ty="&mut crate::game::Game<'_>",value="&mut *self"}]
+
+[[injection]]
+id="runtime_input"
+target="horizon_client::game::native_hooks::Game<'_>::native_input_key"
+kind="HEAD"
+helper="runtime_input.rs"
+bindings=[{name="game",ty="&mut crate::game::Game<'_>",value="&mut *self"},{name="event",ty="&winit::event::KeyEvent",value="event"},{name="modifiers",ty="u32",value="modifiers"}]
+
+[[injection]]
+id="runtime_from_client"
+target="horizon_client::game::native_hooks::Game<'_>::native_net_from_client"
+kind="HEAD"
+helper="runtime_from_client.rs"
+bindings=[{name="game",ty="&mut crate::game::Game<'_>",value="&mut *self"},{name="player",ty="u128",value="player"},{name="channel",ty="&str",value="channel"},{name="data",ty="&[u8]",value="data"}]
+
+[[injection]]
+id="runtime_screen"
+target="horizon_client::game::native_hooks::Game<'_>::native_screen_render_post"
+kind="HEAD"
+helper="runtime_screen.rs"
+bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="batch",ty="&mut HudBatch",value="batch"},{name="screen",ty="&NativeScreenView<'_>",value="screen"}]
+
+[[injection]]
+id="runtime_click"
+target="horizon_client::game::native_hooks::Game<'_>::native_screen_mouse_button_pressed_pre"
+kind="HEAD"
+helper="runtime_click.rs"
+bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="screen",ty="&NativeScreenView<'_>",value="screen"},{name="button",ty="i32",value="button"},{name="canceled",ty="&mut bool",value="canceled"}]
+
+[[injection]]
+id="runtime_screen_key"
+target="horizon_client::game::native_hooks::Game<'_>::native_screen_key_pressed_pre"
+kind="HEAD"
+helper="runtime_screen_key.rs"
+bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="key",ty="&str",value="key"},{name="canceled",ty="&mut bool",value="canceled"}]
+
+[[injection]]
+id="runtime_char"
+target="horizon_client::game::native_hooks::Game<'_>::native_screen_char_typed_pre"
+kind="HEAD"
+helper="runtime_char.rs"
+bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="c",ty="char",value="c"},{name="canceled",ty="&mut bool",value="canceled"}]
+
+[[injection]]
+id="runtime_commands"
+target="horizon_client::game::native_hooks::Game<'_>::native_commands"
+kind="HEAD"
+helper="runtime_commands.rs"
+bindings=[{name="commands",ty="&mut Vec<&'static str>",value="commands"}]
+
+[[injection]]
+id="runtime_command"
+target="horizon_client::game::native_hooks::Game<'_>::native_command"
+kind="HEAD"
+helper="runtime_command.rs"
+bindings=[{name="game",ty="&mut crate::game::Game<'_>",value="&mut *self"},{name="command",ty="&str",value="command"},{name="ran",ty="&mut bool",value="ran"}]
+
+[[injection]]
+id="highlight"
+target="horizon_client::game::native_hooks::Game<'_>::native_block_highlight"
+kind="HEAD"
+helper="highlight.rs"
+bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="state",ty="BlockStateId",value="state"},{name="canceled",ty="&mut bool",value="canceled"}]
+
+[[injection]]
+id="motion_fluid"
+target="horizon_client_lib::motion::fluids::MotionWorld<'_,'_,'_>::fluid_at"
+kind="HEAD"
+helper="motion_fluid.rs"
+cancellable=true
+bindings=[{name="world",ty="&crate::motion::MotionWorld<'_,'_,'_>",value="&*self"},{name="p",ty="BlockPos",value="p"}]
+
+[[injection]]
+id="mob_fluid"
+target="horizon_client_lib::mobs::world::MobWorld<'_>::fluid"
+kind="HEAD"
+helper="mob_fluid.rs"
+cancellable=true
+bindings=[{name="world",ty="&crate::mobs::MobWorld<'_>",value="&*self"},{name="x",ty="i32",value="x"},{name="y",ty="i32",value="y"},{name="z",ty="i32",value="z"}]
+
+
+[[module]]
+id="overlays"
+file="crates/horizon-client/src/game.rs"
+name="nocubes_overlays"
+source="overlays.rs"
+
+[[injection]]
+id="world_overlays"
+target="horizon_client::game::native_hooks::Game<'_>::native_world_primitives"
+kind="HEAD"
+helper="world_overlays.rs"
+bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="primitives",ty="&mut WorldPrimitives",value="primitives"}]
+
+[[injection]]
+id="view_blocking"
+target="horizon_client::game::cushions::Game<'_>::state_view_blocking"
+kind="HEAD"
+helper="view_blocking.rs"
+cancellable=true
+bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="state",ty="horizon_world::registry::BlockStateId",value="state"},{name="pos",ty="[i32;3]",value="pos"},{name="near_plane",ty="Aabb",value="near_plane"}]
+
+[[injection]]
+id="player_in_wall"
+target="horizon_client::game::lan_actions::Game<'_>::in_wall"
+kind="HEAD"
+helper="player_in_wall.rs"
+cancellable=true
+bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="at",ty="[f64;3]",value="at"},{name="body",ty="Dimensions",value="body"}]
+
+
+
+[[injection]]
+id="register_kinds"
+target="horizon_client_render::mesher::MeshTables::new"
+kind="HEAD"
+helper="register_kinds.rs"
+bindings=[{name="facts",ty="&BlockFacts",value="facts"},{name="assets",ty="&Assets",value="assets"}]
+
+[[injection]]
+id="reach_sections"
+target="horizon_client_render::collisions::<SceneCollisions<'_,'_> as BlockCollisionWorld>::may_reach_out"
+kind="HEAD"
+cancellable=true
+helper="reach_sections.rs"
+[[injection]]
+id="nonempty_sections"
+target="horizon_client_render::collisions::<SceneCollisions<'_,'_> as BlockCollisionWorld>::section_is_empty"
+kind="HEAD"
+cancellable=true
+helper="nonempty_sections.rs"
+[[injection]]
+id="registry_metadata"
+target="horizon_world::block_collision::BlockCollisionRegistry<'_>::collision_block"
+kind="HEAD"
+cancellable=true
+helper="registry_metadata.rs"
+bindings=[{name="binding",ty="&BlockCollisionRegistry<'_>",value="&*self"},{name="state",ty="BlockStateId",value="state"}]
+
+
+[[injection]]
+id="mob_fluid_height"
+target="horizon_client_lib::mobs::living::MobWorld<'_>::fluid_height"
+kind="HEAD"
+cancellable=true
+helper="mob_fluid_height.rs"
+bindings=[{name="world",ty="&crate::mobs::MobWorld<'_>",value="&*self"},{name="x",ty="i32",value="x"},{name="y",ty="i32",value="y"},{name="z",ty="i32",value="z"}]
+
+[[injection]]
+id="boat_fluid_height"
+target="horizon_client::game::boats::Game<'_>::fluid_height_of"
+kind="HEAD"
+cancellable=true
+helper="boat_fluid_height.rs"
+bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="x",ty="i32",value="x"},{name="y",ty="i32",value="y"},{name="z",ty="i32",value="z"},{name="fluid",ty="Option<Fluid>",value="fluid"}]
+
+[[injection]]
+id="camera_fluids"
+target="horizon_client_render::fog::camera_fluid_height"
+kind="HEAD"
+cancellable=true
+helper="camera_fluids.rs"
+bindings=[{name="world",ty="&World",value="world"},{name="facts",ty="&BlockFacts",value="facts"},{name="b",ty="[i32;3]",value="b"}]
+
+
+[[injection]]
+id="client_login"
+target="horizon_client::game::native_hooks::Game<'_>::native_client_player_network_logging_in"
+kind="HEAD"
+helper="client_login.rs"
+bindings=[{name="game",ty="&mut crate::game::Game<'_>",value="&mut *self"}]
+
+[[module]]
+id="cracks"
+file="crates/horizon-client/src/game.rs"
+name="nocubes_cracks"
+source="cracks.rs"
+
+
+
+[[module]]
+id="registry"
+file="crates/horizon-client-render/src/mesher.rs"
+name="nocubes_registry"
+source="registry.rs"
+visibility="pub"
+[[module]]
+id="suffocation"
+file="crates/horizon-client/src/game.rs"
+name="nocubes_suffocation"
+source="suffocation.rs"
+
+# Generated query adapters
+
+[[module]]
+id="queries_arrows"
+file="crates/horizon-client/src/arrows.rs"
+name="nocubes_queries"
+source="generated/queries_arrows.rs"
+
+[[injection]]
+id = "query_1"
+target = "horizon_client_lib::arrows::ArrowScene<'_,'_>::collision_boxes"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_1.rs"
+bindings = [
+{name="receiver",ty="& ArrowScene < '_ , '_ >",value="&*self"},
+{name="state",ty="BlockStateId",value="state"},
+{name="p",ty="BlockPos",value="p"}
+]
+
+[[injection]]
+id = "query_2"
+target = "horizon_client_lib::arrows::ArrowScene<'_,'_>::clip"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_2.rs"
+bindings = [
+{name="receiver",ty="& ArrowScene < '_ , '_ >",value="&*self"},
+{name="from",ty="Vec3",value="from"},
+{name="to",ty="Vec3",value="to"},
+{name="ignored",ty="Option < BlockPos >",value="ignored"}
+]
+
+[[injection]]
+id = "query_3"
+target = "horizon_client_lib::arrows::clip_block_hit"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_3.rs"
+bindings = [
+{name="world",ty="& World",value="&*world"},
+{name="facts",ty="& BlockFacts",value="&*facts"},
+{name="collision",ty="& BlockCollisionRegistry < '_ >",value="&*collision"},
+{name="from",ty="Vec3",value="from"},
+{name="movement",ty="Vec3",value="movement"}
+]
+
+[[injection]]
+id = "query_4"
+target = "horizon_client_lib::arrows::Ticker<'_,'_,'_,'_>::apply_effects_from_blocks"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_4.rs"
+bindings = [
+{name="receiver",ty="& mut Ticker < '_ , '_ , '_ , '_ >",value="&mut *self"},
+{name="from",ty="Vec3",value="from"},
+{name="to",ty="Vec3",value="to"}
+]
+
+[[injection]]
+id = "query_5"
+target = "horizon_client_lib::arrows::Ticker<'_,'_,'_,'_>::bubble_column"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_5.rs"
+bindings = [
+{name="receiver",ty="& mut Ticker < '_ , '_ , '_ , '_ >",value="&mut *self"},
+{name="state",ty="BlockStateId",value="state"},
+{name="p",ty="BlockPos",value="p"}
+]
+
+[[injection]]
+id = "query_6"
+target = "horizon_client_lib::arrows::ArrowScene<'_,'_>::in_water"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_6.rs"
+bindings = [
+{name="receiver",ty="& ArrowScene < '_ , '_ >",value="&*self"},
+{name="at",ty="Vec3",value="at"}
+]
+
+[[injection]]
+id = "query_7"
+target = "horizon_client_lib::arrows::<&ArrowScene<'_,'_> as FluidHeightWorld>::fluid"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_7.rs"
+bindings = [
+{name="receiver",ty="& mut & ArrowScene < '_ , '_ >",value="&mut *self"},
+{name="p",ty="[i32 ; 3]",value="p"}
+]
+
+[[injection]]
+id = "query_8"
+target = "horizon_client_lib::arrows::<Ticker<'_,'_,'_,'_> as FluidInteractionWorld>::fluid_state"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_8.rs"
+bindings = [
+{name="receiver",ty="& mut Ticker < '_ , '_ , '_ , '_ >",value="&mut *self"},
+{name="p",ty="BlockPos",value="p"}
+]
+
+[[injection]]
+id = "query_9"
+target = "horizon_client_lib::arrows::<Ticker<'_,'_,'_,'_> as FluidHeightWorld>::fluid"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_9.rs"
+bindings = [
+{name="receiver",ty="& mut Ticker < '_ , '_ , '_ , '_ >",value="&mut *self"},
+{name="p",ty="[i32 ; 3]",value="p"}
+]
+
+[[injection]]
+id = "query_10"
+target = "horizon_client_lib::arrows::<Ticker<'_,'_,'_,'_> as FluidFlowWorld>::fluid"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_10.rs"
+bindings = [
+{name="receiver",ty="& mut Ticker < '_ , '_ , '_ , '_ >",value="&mut *self"},
+{name="p",ty="BlockPos",value="p"}
+]
+
+[[module]]
+id="queries_entities_fluids"
+file="crates/horizon-client/src/entities/fluids.rs"
+name="nocubes_queries"
+source="generated/queries_entities_fluids.rs"
+
+[[injection]]
+id = "query_11"
+target = "horizon_client_lib::entities::fluids::fluid_flow"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_11.rs"
+bindings = [
+{name="world",ty="& World",value="&*world"},
+{name="fluids",ty="& FluidResources",value="&*fluids"},
+{name="pos",ty="[i32 ; 3]",value="pos"}
+]
+
+[[injection]]
+id = "query_12"
+target = "horizon_client_lib::entities::fluids::<EntityFluidWorld<'_> as FluidInteractionWorld>::fluid_state"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_12.rs"
+bindings = [
+{name="receiver",ty="& mut EntityFluidWorld < '_ >",value="&mut *self"},
+{name="p",ty="BlockPos",value="p"}
+]
+
+[[injection]]
+id = "query_13"
+target = "horizon_client_lib::entities::fluids::<EntityFluidWorld<'_> as FluidHeightWorld>::fluid"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_13.rs"
+bindings = [
+{name="receiver",ty="& mut EntityFluidWorld < '_ >",value="&mut *self"},
+{name="p",ty="[i32 ; 3]",value="p"}
+]
+
+[[injection]]
+id = "query_14"
+target = "horizon_client_lib::entities::fluids::<EntityFluidWorld<'_> as FluidFlowWorld>::fluid"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_14.rs"
+bindings = [
+{name="receiver",ty="& mut EntityFluidWorld < '_ >",value="&mut *self"},
+{name="p",ty="BlockPos",value="p"}
+]
+
+[[module]]
+id="queries_game_boats"
+file="crates/horizon-client/src/game/boats.rs"
+name="nocubes_queries"
+source="generated/queries_game_boats.rs"
+
+[[injection]]
+id = "query_15"
+target = "horizon_client::game::boats::Game<'_>::boat_ground_friction"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_15.rs"
+bindings = [
+{name="receiver",ty="& Game < '_ >",value="&*self"},
+{name="bb",ty="Aabb",value="bb"}
+]
+
+[[module]]
+id="queries_game_creatures"
+file="crates/horizon-client/src/game/creatures.rs"
+name="nocubes_queries"
+source="generated/queries_game_creatures.rs"
+
+[[injection]]
+id = "query_16"
+target = "horizon_client::game::creatures::<ProjWorld<'_,'_> as ProjectileWorld>::clip"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_16.rs"
+bindings = [
+{name="receiver",ty="& ProjWorld < '_ , '_ >",value="&*self"},
+{name="from",ty="Vec3",value="from"},
+{name="to",ty="Vec3",value="to"}
+]
+
+[[module]]
+id="queries_game_cushions"
+file="crates/horizon-client/src/game/cushions.rs"
+name="nocubes_queries"
+source="generated/queries_game_cushions.rs"
+
+[[injection]]
+id = "query_17"
+target = "horizon_client::game::cushions::<PlacementWorld<'_,'_> as horizon_client::cushion::World>::collision_shapes"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_17.rs"
+bindings = [
+{name="receiver",ty="& PlacementWorld < '_ , '_ >",value="&*self"},
+{name="bounds",ty="Aabb",value="bounds"}
+]
+
+[[injection]]
+id = "query_18"
+target = "horizon_client::game::cushions::Game<'_>::cushion_spawn"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_18.rs"
+bindings = [
+{name="receiver",ty="& Game < '_ >",value="&*self"},
+{name="hit",ty="& Hit",value="&*hit"}
+]
+
+[[module]]
+id="queries_game_debug_renderers"
+file="crates/horizon-client/src/game/debug_renderers.rs"
+name="nocubes_queries"
+source="generated/queries_game_debug_renderers.rs"
+
+[[injection]]
+id = "query_19"
+target = "horizon_client::game::debug_renderers::Game<'_>::debug_renderer_gizmos"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_19.rs"
+bindings = [
+{name="receiver",ty="& Game < '_ >",value="&*self"},
+{name="g",ty="& mut Gizmos",value="&mut *g"}
+]
+
+[[module]]
+id="queries_game_explosion"
+file="crates/horizon-client/src/game/explosion.rs"
+name="nocubes_queries"
+source="generated/queries_game_explosion.rs"
+
+[[injection]]
+id = "query_20"
+target = "horizon_client::game::explosion::Game<'_>::seen_percent"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_20.rs"
+bindings = [
+{name="receiver",ty="& Game < '_ >",value="&*self"},
+{name="center",ty="[f64 ; 3]",value="center"},
+{name="min",ty="[f64 ; 3]",value="min"},
+{name="max",ty="[f64 ; 3]",value="max"}
+]
+
+[[module]]
+id="queries_game_fishing"
+file="crates/horizon-client/src/game/fishing.rs"
+name="nocubes_queries"
+source="generated/queries_game_fishing.rs"
+
+[[injection]]
+id = "query_21"
+target = "horizon_client::game::fishing::Game<'_>::hook_block_hit"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_21.rs"
+bindings = [
+{name="receiver",ty="& Game < '_ >",value="&*self"},
+{name="from",ty="Vec3",value="from"},
+{name="to",ty="Vec3",value="to"}
+]
+
+[[module]]
+id="queries_game_initial_spawn"
+file="crates/horizon-client/src/game/initial_spawn.rs"
+name="nocubes_queries"
+source="generated/queries_game_initial_spawn.rs"
+
+[[injection]]
+id = "query_22"
+target = "horizon_client::game::initial_spawn::<Columns<'_,'_> as SpawnLevel>::top_face_full"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_22.rs"
+bindings = [
+{name="receiver",ty="& Columns < '_ , '_ >",value="&*self"},
+{name="x",ty="i32",value="x"},
+{name="y",ty="i32",value="y"},
+{name="z",ty="i32",value="z"}
+]
+
+[[injection]]
+id = "query_23"
+target = "horizon_client::game::initial_spawn::Game<'_>::collision_empty"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_23.rs"
+bindings = [
+{name="receiver",ty="& Game < '_ >",value="&*self"},
+{name="pos",ty="[i32 ; 3]",value="pos"}
+]
+
+[[module]]
+id="queries_game_perspective"
+file="crates/horizon-client/src/game/perspective.rs"
+name="nocubes_queries"
+source="generated/queries_game_perspective.rs"
+
+[[injection]]
+id = "query_24"
+target = "horizon_client::game::perspective::Game<'_>::camera_view"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_24.rs"
+bindings = [
+{name="receiver",ty="& mut Game < '_ >",value="&mut *self"},
+{name="partial",ty="f32",value="partial"}
+]
+
+[[module]]
+id="queries_game_piston_push"
+file="crates/horizon-client/src/game/piston_push.rs"
+name="nocubes_queries"
+source="generated/queries_game_piston_push.rs"
+
+[[injection]]
+id = "query_25"
+target = "horizon_client::game::piston_push::Game<'_>::push_piston_entities"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_25.rs"
+bindings = [
+{name="receiver",ty="& mut Game < '_ >",value="&mut *self"},
+{name="pushes",ty="& Vec < Push >",value="&pushes"}
+]
+
+[[injection]]
+id = "query_26"
+target = "horizon_client::game::piston_push::Game<'_>::push_entities_up"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_26.rs"
+bindings = [
+{name="receiver",ty="& mut Game < '_ >",value="&mut *self"},
+{name="pos",ty="BlockPos",value="pos"},
+{name="old",ty="horizon_world :: registry :: BlockStateId",value="old"}
+]
+
+[[module]]
+id="queries_game_respawn_anchor"
+file="crates/horizon-client/src/game/respawn_anchor.rs"
+name="nocubes_queries"
+source="generated/queries_game_respawn_anchor.rs"
+
+[[injection]]
+id = "query_27"
+target = "horizon_client::game::respawn_anchor::Game<'_>::block_collision_shape"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_27.rs"
+bindings = [
+{name="receiver",ty="& Game < '_ >",value="&*self"},
+{name="p",ty="[i32 ; 3]",value="p"}
+]
+
+[[module]]
+id="queries_game_spear"
+file="crates/horizon-client/src/game/spear.rs"
+name="nocubes_queries"
+source="generated/queries_game_spear.rs"
+
+[[injection]]
+id = "query_28"
+target = "horizon_client::game::spear::Game<'_>::clip_collider"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_28.rs"
+bindings = [
+{name="receiver",ty="& Game < '_ >",value="&*self"},
+{name="from",ty="Vec3",value="from"},
+{name="to",ty="Vec3",value="to"}
+]
+
+[[module]]
+id="queries_game_trident"
+file="crates/horizon-client/src/game/trident.rs"
+name="nocubes_queries"
+source="generated/queries_game_trident.rs"
+
+[[injection]]
+id = "query_29"
+target = "horizon_client::game::trident::Game<'_>::channel_rod_hit"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_29.rs"
+bindings = [
+{name="receiver",ty="& mut Game < '_ >",value="&mut *self"},
+{name="from",ty="Vec3",value="from"},
+{name="velocity",ty="Vec3",value="velocity"},
+{name="guest",ty="Option < u32 >",value="guest"}
+]
+
+[[injection]]
+id = "query_30"
+target = "horizon_client::game::trident::Game<'_>::trident_block_effects"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_30.rs"
+bindings = [
+{name="receiver",ty="& mut Game < '_ >",value="&mut *self"},
+{name="t",ty="& mut ThrownTrident",value="&mut *t"},
+{name="from",ty="Vec3",value="from"},
+{name="to",ty="Vec3",value="to"}
+]
+
+[[module]]
+id="queries_game"
+file="crates/horizon-client/src/game.rs"
+name="nocubes_queries"
+source="generated/queries_game.rs"
+
+[[injection]]
+id = "query_31"
+target = "horizon_client::game::<GameLevel<'_> as LevelAccess>::is_unobstructed"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_31.rs"
+bindings = [
+{name="receiver",ty="& GameLevel < '_ >",value="&*self"},
+{name="pos",ty="BlockPos",value="pos"},
+{name="state",ty="BlockStateId",value="state"}
+]
+
+[[injection]]
+id = "query_32"
+target = "horizon_client::game::Game<'_>::closest_space_nudge"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_32.rs"
+bindings = [
+{name="receiver",ty="& Game < '_ >",value="&*self"}
+]
+
+[[injection]]
+id = "query_33"
+target = "horizon_client::game::Game<'_>::entity_geometry"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_33.rs"
+bindings = [
+{name="receiver",ty="& mut Game < '_ >",value="&mut *self"},
+{name="camera",ty="glam :: DVec3",value="camera"},
+{name="alpha",ty="f64",value="alpha"},
+{name="fov_degrees",ty="f32",value="fov_degrees"},
+{name="out",ty="& mut Vec < Vertex >",value="&mut out"}
+]
+
+[[injection]]
+id = "query_34"
+target = "horizon_client::game::Game<'_>::try_sleep"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_34.rs"
+bindings = [
+{name="receiver",ty="& mut Game < '_ >",value="&mut *self"},
+{name="pos",ty="[i32 ; 3]",value="pos"}
+]
+
+[[injection]]
+id = "query_35"
+target = "horizon_client::game::closest_space_nudge"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_35.rs"
+bindings = [
+{name="p",ty="& PlayerMotion",value="&*p"},
+{name="world",ty="& World",value="&*world"},
+{name="facts",ty="& BlockFacts",value="&*facts"}
+]
+
+[[module]]
+id="queries_landing"
+file="crates/horizon-client/src/landing.rs"
+name="nocubes_queries"
+source="generated/queries_landing.rs"
+
+[[injection]]
+id = "query_36"
+target = "horizon_client_lib::landing::<MotionWorld<'_,'_,'_> as BlockPushWorld>::collision_shape"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_36.rs"
+bindings = [
+{name="receiver",ty="& mut MotionWorld < '_ , '_ , '_ >",value="&mut *self"},
+{name="state",ty="BlockStateId",value="state"},
+{name="p",ty="BlockPos",value="p"}
+]
+
+[[module]]
+id="queries_mobs_ai"
+file="crates/horizon-client/src/mobs/ai.rs"
+name="nocubes_queries"
+source="generated/queries_mobs_ai.rs"
+
+[[injection]]
+id = "query_37"
+target = "horizon_client_lib::mobs::ai::base_tick"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_37.rs"
+bindings = [
+{name="m",ty="& mut Mob",value="&mut *m"},
+{name="w",ty="& MobWorld",value="&*w"},
+{name="events",ty="& mut Vec < MobEvent >",value="&mut *events"}
+]
+
+[[module]]
+id="queries_mobs_creaking_heart"
+file="crates/horizon-client/src/mobs/creaking_heart.rs"
+name="nocubes_queries"
+source="generated/queries_mobs_creaking_heart.rs"
+
+[[injection]]
+id = "query_38"
+target = "horizon_client_lib::mobs::creaking_heart::Blocks<'_,'_>::with_prop"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_38.rs"
+bindings = [
+{name="receiver",ty="& Blocks < '_ , '_ >",value="&*self"},
+{name="s",ty="BlockStateId",value="s"},
+{name="key",ty="& str",value="&*key"},
+{name="value",ty="& str",value="&*value"}
+]
+
+[[injection]]
+id = "query_39"
+target = "horizon_client_lib::mobs::creaking_heart::can_spawn_on"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_39.rs"
+bindings = [
+{name="b",ty="& Blocks",value="&*b"},
+{name="pos",ty="[i32 ; 3]",value="pos"},
+{name="state",ty="BlockStateId",value="state"},
+{name="above",ty="BlockStateId",value="above"}
+]
+
+[[module]]
+id="queries_mobs_landing"
+file="crates/horizon-client/src/mobs/landing.rs"
+name="nocubes_queries"
+source="generated/queries_mobs_landing.rs"
+
+[[injection]]
+id = "query_40"
+target = "horizon_client_lib::mobs::landing::<MobLanding<'_,'_> as BlockPushWorld>::collision_shape"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_40.rs"
+bindings = [
+{name="receiver",ty="& mut MobLanding < '_ , '_ >",value="&mut *self"},
+{name="state",ty="BlockStateId",value="state"},
+{name="p",ty="BlockPos",value="p"}
+]
+
+[[module]]
+id="queries_mobs_living"
+file="crates/horizon-client/src/mobs/living.rs"
+name="nocubes_queries"
+source="generated/queries_mobs_living.rs"
+
+[[injection]]
+id = "query_41"
+target = "horizon_client_lib::mobs::living::MobWorld<'_>::fluids"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_41.rs"
+bindings = [
+{name="receiver",ty="& MobWorld < '_ >",value="&*self"},
+{name="bounds",ty="Aabb",value="bounds"},
+{name="eye_y",ty="f64",value="eye_y"}
+]
+
+[[injection]]
+id = "query_42"
+target = "horizon_client_lib::mobs::living::MobWorld<'_>::fluid_currents"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_42.rs"
+bindings = [
+{name="receiver",ty="& MobWorld < '_ >",value="&*self"},
+{name="bounds",ty="Aabb",value="bounds"}
+]
+
+[[injection]]
+id = "query_43"
+target = "horizon_client_lib::mobs::living::MobWorld<'_>::block_collision_boxes"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_43.rs"
+bindings = [
+{name="receiver",ty="& MobWorld < '_ >",value="&*self"},
+{name="x",ty="i32",value="x"},
+{name="y",ty="i32",value="y"},
+{name="z",ty="i32",value="z"}
+]
+
+[[injection]]
+id = "query_44"
+target = "horizon_client_lib::mobs::living::Mob::do_move"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_44.rs"
+bindings = [
+{name="receiver",ty="& mut Mob",value="&mut *self"},
+{name="w",ty="& MobWorld",value="&*w"},
+{name="events",ty="& mut Vec < MobEvent >",value="&mut *events"}
+]
+
+[[module]]
+id="queries_mobs_shulker"
+file="crates/horizon-client/src/mobs/shulker.rs"
+name="nocubes_queries"
+source="generated/queries_mobs_shulker.rs"
+
+[[injection]]
+id = "query_45"
+target = "horizon_client_lib::mobs::shulker::BlockSpace<'_,'_>::no_collision"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_45.rs"
+bindings = [
+{name="receiver",ty="& BlockSpace < '_ , '_ >",value="&*self"},
+{name="m",ty="& Mob",value="&*m"},
+{name="bounds",ty="Aabb",value="bounds"}
+]
+
+[[injection]]
+id = "query_46"
+target = "horizon_client_lib::mobs::shulker::BlockSpace<'_,'_>::can_stay_at"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_46.rs"
+bindings = [
+{name="receiver",ty="& BlockSpace < '_ , '_ >",value="&*self"},
+{name="m",ty="& Mob",value="&*m"},
+{name="p",ty="[i32 ; 3]",value="p"},
+{name="face",ty="u8",value="face"}
+]
+
+[[module]]
+id="queries_mobs_turtle"
+file="crates/horizon-client/src/mobs/turtle.rs"
+name="nocubes_queries"
+source="generated/queries_mobs_turtle.rs"
+
+[[injection]]
+id = "query_47"
+target = "horizon_client_lib::mobs::turtle::<LayEgg as Goal>::tick"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_47.rs"
+bindings = [
+{name="receiver",ty="& mut LayEgg",value="&mut *self"},
+{name="m",ty="& mut Mob",value="&mut *m"},
+{name="cx",ty="& mut Cx",value="&mut *cx"}
+]
+
+[[module]]
+id="queries_mobs_world"
+file="crates/horizon-client/src/mobs/world.rs"
+name="nocubes_queries"
+source="generated/queries_mobs_world.rs"
+
+[[injection]]
+id = "query_48"
+target = "horizon_client_lib::mobs::world::MobWorld<'_>::block_floor_height"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_48.rs"
+bindings = [
+{name="receiver",ty="& MobWorld < '_ >",value="&*self"},
+{name="x",ty="i32",value="x"},
+{name="y",ty="i32",value="y"},
+{name="z",ty="i32",value="z"}
+]
+
+[[injection]]
+id = "query_49"
+target = "horizon_client_lib::mobs::world::MobWorld<'_>::clear_between_for"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_49.rs"
+bindings = [
+{name="receiver",ty="& MobWorld < '_ >",value="&*self"},
+{name="feet_y",ty="Option < f64 >",value="feet_y"},
+{name="from",ty="Vec3",value="from"},
+{name="to",ty="Vec3",value="to"},
+{name="fluids_block",ty="bool",value="fluids_block"}
+]
+
+[[injection]]
+id = "query_50"
+target = "horizon_client_lib::mobs::world::MobWorld<'_>::visual_clip"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_50.rs"
+bindings = [
+{name="receiver",ty="& MobWorld < '_ >",value="&*self"},
+{name="from",ty="Vec3",value="from"},
+{name="to",ty="Vec3",value="to"}
+]
+
+[[injection]]
+id = "query_51"
+target = "horizon_client_lib::mobs::world::MobWorld<'_>::clip_block"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_51.rs"
+bindings = [
+{name="receiver",ty="& MobWorld < '_ >",value="&*self"},
+{name="from",ty="Vec3",value="from"},
+{name="to",ty="Vec3",value="to"}
+]
+
+[[injection]]
+id = "query_52"
+target = "horizon_client_lib::mobs::world::MobWorld<'_>::clip_block_at"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_52.rs"
+bindings = [
+{name="receiver",ty="& MobWorld < '_ >",value="&*self"},
+{name="from",ty="Vec3",value="from"},
+{name="to",ty="Vec3",value="to"}
+]
+
+[[injection]]
+id = "query_53"
+target = "horizon_client_lib::mobs::world::MobWorld<'_>::collision_bounds_of"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_53.rs"
+bindings = [
+{name="receiver",ty="& MobWorld < '_ >",value="&*self"},
+{name="state",ty="horizon_world :: registry :: BlockStateId",value="state"},
+{name="p",ty="[i32 ; 3]",value="p"}
+]
+
+[[module]]
+id="queries_motion_environment"
+file="crates/horizon-client/src/motion/environment.rs"
+name="nocubes_queries"
+source="generated/queries_motion_environment.rs"
+
+[[injection]]
+id = "query_54"
+target = "horizon_client_lib::motion::environment::MotionWorld<'_,'_,'_>::bubble_column_inside"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_54.rs"
+bindings = [
+{name="receiver",ty="& mut MotionWorld < '_ , '_ , '_ >",value="&mut *self"},
+{name="state",ty="BlockStateId",value="state"},
+{name="p",ty="BlockPos",value="p"},
+{name="precise",ty="bool",value="precise"}
+]
+
+[[module]]
+id="queries_motion_fluids"
+file="crates/horizon-client/src/motion/fluids.rs"
+name="nocubes_queries"
+source="generated/queries_motion_fluids.rs"
+
+[[injection]]
+id = "query_55"
+target = "horizon_client_lib::motion::fluids::bubble_column_at"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_55.rs"
+bindings = [
+{name="world",ty="& World",value="&*world"},
+{name="registry",ty="& horizon_world :: registry :: BlockRegistry",value="&*registry"},
+{name="facts",ty="& crate :: blocks :: BlockFacts",value="&*facts"},
+{name="collision",ty="& horizon_world :: block_collision :: BlockCollisionRegistry < '_ >",value="&*collision"},
+{name="pos",ty="BlockPos",value="pos"}
+]
+
+[[module]]
+id="queries_motion"
+file="crates/horizon-client/src/motion.rs"
+name="nocubes_queries"
+source="generated/queries_motion.rs"
+
+[[injection]]
+id = "query_56"
+target = "horizon_client_lib::motion::MotionWorld<'_,'_,'_>::check_inside_blocks"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_56.rs"
+bindings = [
+{name="receiver",ty="& mut MotionWorld < '_ , '_ , '_ >",value="&mut *self"},
+{name="from",ty="Vec3",value="from"},
+{name="to",ty="Vec3",value="to"},
+{name="visited",ty="& mut crate :: fast_hash :: FxHashSet < i64 >",value="&mut *visited"},
+{name="entered",ty="& mut Vec < (i32 , BlockPos) >",value="&mut *entered"},
+{name="max_iterations",ty="i32",value="max_iterations"},
+{name="damage_only",ty="bool",value="damage_only"}
+]
+
+[[injection]]
+id = "query_57"
+target = "horizon_client_lib::motion::<MotionWorld<'_,'_,'_> as crate::auto_jump::AutoJumpWorld>::collision_shape"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_57.rs"
+bindings = [
+{name="receiver",ty="& mut MotionWorld < '_ , '_ , '_ >",value="&mut *self"},
+{name="p",ty="BlockPos",value="p"}
+]
+
+[[module]]
+id="queries_stand_up"
+file="crates/horizon-client/src/stand_up.rs"
+name="nocubes_queries"
+source="generated/queries_stand_up.rs"
+
+[[injection]]
+id = "query_58"
+target = "horizon_client_lib::stand_up::StandUpLevel<'_,'_>::collision_shape"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_58.rs"
+bindings = [
+{name="receiver",ty="& StandUpLevel < '_ , '_ >",value="&*self"},
+{name="p",ty="[i32 ; 3]",value="p"}
+]
+
+[[module]]
+id="queries_collisions"
+file="crates/horizon-client-render/src/collisions.rs"
+name="nocubes_queries"
+source="generated/queries_collisions.rs"
+
+[[injection]]
+id = "query_59"
+target = "horizon_client_render::collisions::<SceneCollisions<'_,'_> as BlockCollisionWorld>::context_shape"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_59.rs"
+bindings = [
+{name="receiver",ty="& mut SceneCollisions < '_ , '_ >",value="&mut *self"},
+{name="block",ty="CollisionBlock",value="block"},
+{name="p",ty="BlockPos",value="p"},
+{name="context",ty="& CollisionContext < '_ >",value="&*context"}
+]
+
+[[injection]]
+id = "query_60"
+target = "horizon_client_render::collisions::<SceneCollisions<'_,'_> as PistonCollisionWorld>::collision_shape"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_60.rs"
+bindings = [
+{name="receiver",ty="& mut SceneCollisions < '_ , '_ >",value="&mut *self"},
+{name="state",ty="BlockStateId",value="state"},
+{name="p",ty="[i32 ; 3]",value="p"}
+]
+
+[[injection]]
+id = "query_61"
+target = "horizon_client_render::collisions::<LookupCollisions<'_,'_> as BlockCollisionWorld>::context_shape"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_61.rs"
+bindings = [
+{name="receiver",ty="& mut LookupCollisions < '_ , '_ >",value="&mut *self"},
+{name="block",ty="CollisionBlock",value="block"},
+{name="p",ty="BlockPos",value="p"},
+{name="context",ty="& CollisionContext < '_ >",value="&*context"}
+]
+
+[[module]]
+id="queries_potent_sulfur"
+file="crates/horizon-client-render/src/potent_sulfur.rs"
+name="nocubes_queries"
+source="generated/queries_potent_sulfur.rs"
+
+[[injection]]
+id = "query_62"
+target = "horizon_client_render::potent_sulfur::is_geyser_passable_block"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_62.rs"
+bindings = [
+{name="level",ty="& ParticleLevel",value="&*level"},
+{name="pos",ty="[i32 ; 3]",value="pos"}
+]
+
+[[injection]]
+id = "query_63"
+target = "horizon_client_render::potent_sulfur::have_line_of_sight"
+kind = "HEAD"
+cancellable = true
+helper = "generated/query_63.rs"
+bindings = [
+{name="level",ty="& ParticleLevel",value="&*level"},
+{name="a",ty="[f64 ; 3]",value="a"},
+{name="b",ty="[f64 ; 3]",value="b"}
+]
