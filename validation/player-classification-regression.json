@@ -1,0 +1,279 @@
+{
+    "version":  "0.2.6",
+    "fixtures":  [
+                     {
+                         "disabled":  {
+                                          "block":  "minecraft:glass",
+                                          "distance":  3.5149392902462786,
+                                          "face":  "north",
+                                          "loaded":  true,
+                                          "point":  [
+                                                        0.5,
+                                                        151.29627448196084,
+                                                        0.0
+                                                    ],
+                                          "pos":  [
+                                                      0,
+                                                      151,
+                                                      0
+                                                  ],
+                                          "state":  "minecraft:glass"
+                                      },
+                         "state":  "minecraft:glass",
+                         "enabled":  {
+                                         "block":  "minecraft:glass",
+                                         "distance":  3.7999041030891823,
+                                         "face":  "north",
+                                         "loaded":  true,
+                                         "point":  [
+                                                       0.5,
+                                                       151.27002925397773,
+                                                       0.2837536476711904
+                                                   ],
+                                         "pos":  [
+                                                     0,
+                                                     151,
+                                                     0
+                                                 ],
+                                         "state":  "minecraft:glass"
+                                     },
+                         "smooth":  true,
+                         "x":  0
+                     },
+                     {
+                         "disabled":  {
+                                          "block":  "minecraft:oak_leaves",
+                                          "distance":  3.5149392902462786,
+                                          "face":  "north",
+                                          "loaded":  true,
+                                          "point":  [
+                                                        2.5,
+                                                        151.29627448196084,
+                                                        0.0
+                                                    ],
+                                          "pos":  [
+                                                      2,
+                                                      151,
+                                                      0
+                                                  ],
+                                          "state":  "minecraft:oak_leaves[distance=7,persistent=false,waterlogged=false]"
+                                      },
+                         "state":  "minecraft:oak_leaves",
+                         "enabled":  {
+                                         "block":  "minecraft:oak_leaves",
+                                         "distance":  3.7999041030891823,
+                                         "face":  "north",
+                                         "loaded":  true,
+                                         "point":  [
+                                                       2.5,
+                                                       151.27002925397773,
+                                                       0.2837536476711904
+                                                   ],
+                                         "pos":  [
+                                                     2,
+                                                     151,
+                                                     0
+                                                 ],
+                                         "state":  "minecraft:oak_leaves[distance=7,persistent=false,waterlogged=false]"
+                                     },
+                         "smooth":  true,
+                         "x":  2
+                     },
+                     {
+                         "disabled":  {
+                                          "block":  "minecraft:oak_slab",
+                                          "distance":  3.5149392902462786,
+                                          "face":  "north",
+                                          "loaded":  true,
+                                          "point":  [
+                                                        4.5,
+                                                        151.29627448196084,
+                                                        0.0
+                                                    ],
+                                          "pos":  [
+                                                      4,
+                                                      151,
+                                                      0
+                                                  ],
+                                          "state":  "minecraft:oak_slab[type=bottom,waterlogged=false]"
+                                      },
+                         "state":  "minecraft:oak_slab[type=bottom]",
+                         "enabled":  {
+                                         "block":  "minecraft:oak_slab",
+                                         "distance":  3.5149392902462786,
+                                         "face":  "north",
+                                         "loaded":  true,
+                                         "point":  [
+                                                       4.5,
+                                                       151.29627448196084,
+                                                       0.0
+                                                   ],
+                                         "pos":  [
+                                                     4,
+                                                     151,
+                                                     0
+                                                 ],
+                                         "state":  "minecraft:oak_slab[type=bottom,waterlogged=false]"
+                                     },
+                         "smooth":  false,
+                         "x":  4
+                     },
+                     {
+                         "disabled":  {
+                                          "block":  "minecraft:oak_slab",
+                                          "distance":  3.5149392902462786,
+                                          "face":  "north",
+                                          "loaded":  true,
+                                          "point":  [
+                                                        6.5,
+                                                        151.29627448196084,
+                                                        0.0
+                                                    ],
+                                          "pos":  [
+                                                      6,
+                                                      151,
+                                                      0
+                                                  ],
+                                          "state":  "minecraft:oak_slab[type=double,waterlogged=false]"
+                                      },
+                         "state":  "minecraft:oak_slab[type=double]",
+                         "enabled":  {
+                                         "block":  "minecraft:oak_slab",
+                                         "distance":  3.7999041030891823,
+                                         "face":  "north",
+                                         "loaded":  true,
+                                         "point":  [
+                                                       6.5,
+                                                       151.27002925397773,
+                                                       0.2837536476711904
+                                                   ],
+                                         "pos":  [
+                                                     6,
+                                                     151,
+                                                     0
+                                                 ],
+                                         "state":  "minecraft:oak_slab[type=double,waterlogged=false]"
+                                     },
+                         "smooth":  true,
+                         "x":  6
+                     },
+                     {
+                         "disabled":  {
+                                          "block":  "minecraft:short_grass",
+                                          "distance":  3.640472836326502,
+                                          "face":  "north",
+                                          "loaded":  true,
+                                          "point":  [
+                                                        8.5,
+                                                        151.28471285614629,
+                                                        0.125
+                                                    ],
+                                          "pos":  [
+                                                      8,
+                                                      151,
+                                                      0
+                                                  ],
+                                          "state":  "minecraft:short_grass"
+                                      },
+                         "state":  "minecraft:short_grass",
+                         "enabled":  {
+                                         "block":  "minecraft:short_grass",
+                                         "distance":  3.640472836326502,
+                                         "face":  "north",
+                                         "loaded":  true,
+                                         "point":  [
+                                                       8.5,
+                                                       151.28471285614629,
+                                                       0.125
+                                                   ],
+                                         "pos":  [
+                                                     8,
+                                                     151,
+                                                     0
+                                                 ],
+                                         "state":  "minecraft:short_grass"
+                                     },
+                         "smooth":  false,
+                         "x":  8
+                     },
+                     {
+                         "disabled":  {
+                                          "block":  "minecraft:torch",
+                                          "distance":  3.8915399284869503,
+                                          "face":  "north",
+                                          "loaded":  true,
+                                          "point":  [
+                                                        10.5,
+                                                        151.26158960451718,
+                                                        0.375
+                                                    ],
+                                          "pos":  [
+                                                      10,
+                                                      151,
+                                                      0
+                                                  ],
+                                          "state":  "minecraft:torch"
+                                      },
+                         "state":  "minecraft:torch",
+                         "enabled":  {
+                                         "block":  "minecraft:torch",
+                                         "distance":  3.8915399284869503,
+                                         "face":  "north",
+                                         "loaded":  true,
+                                         "point":  [
+                                                       10.5,
+                                                       151.26158960451718,
+                                                       0.375
+                                                   ],
+                                         "pos":  [
+                                                     10,
+                                                     151,
+                                                     0
+                                                 ],
+                                         "state":  "minecraft:torch"
+                                     },
+                         "smooth":  false,
+                         "x":  10
+                     },
+                     {
+                         "disabled":  {
+                                          "block":  "minecraft:oak_fence",
+                                          "distance":  3.8915399284869503,
+                                          "face":  "north",
+                                          "loaded":  true,
+                                          "point":  [
+                                                        12.5,
+                                                        151.26158960451718,
+                                                        0.375
+                                                    ],
+                                          "pos":  [
+                                                      12,
+                                                      151,
+                                                      0
+                                                  ],
+                                          "state":  "minecraft:oak_fence[east=false,north=false,south=false,waterlogged=false,west=false]"
+                                      },
+                         "state":  "minecraft:oak_fence",
+                         "enabled":  {
+                                         "block":  "minecraft:oak_fence",
+                                         "distance":  3.8915399284869503,
+                                         "face":  "north",
+                                         "loaded":  true,
+                                         "point":  [
+                                                       12.5,
+                                                       151.26158960451718,
+                                                       0.375
+                                                   ],
+                                         "pos":  [
+                                                     12,
+                                                     151,
+                                                     0
+                                                 ],
+                                         "state":  "minecraft:oak_fence[east=false,north=false,south=false,waterlogged=false,west=false]"
+                                     },
+                         "smooth":  false,
+                         "x":  12
+                     }
+                 ],
+    "passed":  true
+}

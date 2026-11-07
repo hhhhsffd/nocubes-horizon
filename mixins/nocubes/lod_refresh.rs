@@ -7,7 +7,7 @@ impl Lod {
     /// The server and client share settings, but each LOD owner must observe
     /// every revision independently. Never consume a client update globally.
     pub fn nocubes_sync(&mut self) {
-        let revision = horizon_core::nocubes::revision();
+        let revision = horizon_core::nocubes::terrain_revision();
         let changed = {
             let mut seen = REVISIONS.lock().unwrap_or_else(|e| e.into_inner());
             seen.retain(|(owner, _)| owner.strong_count() > 0);

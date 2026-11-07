@@ -1,6 +1,6 @@
 [mod]
 id = "nocubes"
-version = "0.2.5"
+version = "0.2.6"
 [compatibility]
 horizon_revision = "41f822b659789780f58d32c63ddfb6887ea1b8bf"
 [[module]]
@@ -152,6 +152,28 @@ source="fluid_render.rs"
 
 
 # Runtime completion hooks
+
+[[module]]
+id="player_model"
+file="crates/horizon-client/src/game.rs"
+name="nocubes_player_model"
+source="player_model.rs"
+
+[[injection]]
+id="player_model_select"
+target="horizon_client::game::remote::Game<'_>::skin_3d_model"
+kind="HEAD"
+cancellable=true
+helper="player_model_select.rs"
+bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="kind",ty="&std::sync::Arc<horizon_client::mobs::MobType>",value="kind"},{name="slim",ty="bool",value="slim"}]
+
+[[injection]]
+id="player_arm"
+target="horizon_client::game::Game<'_>::first_person_arm"
+kind="HEAD"
+cancellable=true
+helper="player_arm.rs"
+bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="left",ty="bool",value="left"},{name="m",ty="glam::Mat4",value="m"},{name="light",ty="u32",value="light"},{name="out",ty="&mut Vec<Vertex>",value="&mut *out"}]
 
 [[injection]]
 id="runtime_mods"

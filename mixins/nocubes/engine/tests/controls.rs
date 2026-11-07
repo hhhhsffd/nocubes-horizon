@@ -45,6 +45,27 @@ fn captured_binding_round_trips_and_empty_never_matches() {
 }
 
 #[test]
+fn player_model_is_opt_in_client_local_and_does_not_invalidate_terrain() {
+    let default = Config::default();
+    assert!(!default.player_model);
+    let enabled = Config {
+        player_model: true,
+        ..default.clone()
+    };
+    assert!(default.terrain_eq(&enabled));
+    assert!(!ui::server_field("player_model"));
+    assert_eq!(
+        serde_json::from_slice::<Config>(&serde_json::to_vec(&enabled).unwrap()).unwrap(),
+        enabled
+    );
+    let changed = Config {
+        render: false,
+        ..enabled.clone()
+    };
+    assert!(!enabled.terrain_eq(&changed));
+}
+
+#[test]
 fn full_blocks_default_to_smooth_but_decorations_and_partial_shapes_do_not() {
     let cfg = Config::default();
     for name in [

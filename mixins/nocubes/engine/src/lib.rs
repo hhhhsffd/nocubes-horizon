@@ -5,6 +5,7 @@ mod cache;
 mod defaults;
 mod lod;
 pub use lod::lod_vertex;
+pub mod player;
 mod texture;
 use serde::{Deserialize, Serialize};
 #[cfg(test)]
@@ -29,6 +30,7 @@ pub enum Mesher {
 #[serde(default, deny_unknown_fields)]
 pub struct Config {
     pub render: bool,
+    pub player_model: bool,
     pub collisions: bool,
     pub mesher: Mesher,
     pub use_defaults: bool,
@@ -76,6 +78,7 @@ impl Default for Config {
     fn default() -> Self {
         Self {
             render: true,
+            player_model: false,
             collisions: true,
             mesher: Mesher::SurfaceNets,
             use_defaults: true,
@@ -120,6 +123,13 @@ fn ignore_legacy<'de, D: serde::Deserializer<'de>, T: Default>(d: D) -> Result<T
     Ok(T::default())
 }
 impl Config {
+    /// Player-only appearance/input changes do not invalidate terrain meshes.
+    pub fn terrain_eq(&self, other: &Self) -> bool {
+        let mut value = self.clone();
+        value.player_model = other.player_model;
+        value.block_toggle_key.clone_from(&other.block_toggle_key);
+        value == *other
+    }
     pub fn validate(&self) -> Result<(), String> {
         if !self.roughness.is_finite() || !(0.0..=1.0).contains(&self.roughness) {
             return Err("roughness must be in 0..=1.0".into());

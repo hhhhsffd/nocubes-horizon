@@ -4,6 +4,7 @@ use horizon_core::nocubes;
 use std::sync::atomic::{AtomicU64, Ordering};
 static REGISTRY_SEEN: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
 static CLIENT_SEEN: AtomicU64 = AtomicU64::new(0);
+static CLIENT_TERRAIN_SEEN: AtomicU64 = AtomicU64::new(0);
 static SERVER_SEEN: AtomicU64 = AtomicU64::new(0);
 static LAST_RELOAD: std::sync::Mutex<Option<std::time::Instant>> = std::sync::Mutex::new(None);
 fn translated(key: &str) -> String {
@@ -22,7 +23,11 @@ fn rows() -> Vec<(String, serde_json::Value)> {
         .iter()
         .map(|(k, v)| (k.clone(), v.clone()))
         .collect();
-    rows.sort_by_key(|(key, _)| key != "block_toggle_key");
+    rows.sort_by_key(|(key, _)| match key.as_str() {
+        "block_toggle_key" => 0,
+        "player_model" => 1,
+        _ => 2,
+    });
     rows
 }
 impl Game<'_> {
@@ -69,6 +74,10 @@ impl Game<'_> {
         drop(last);
         let revision = nocubes::revision();
         if CLIENT_SEEN.swap(revision, Ordering::AcqRel) != revision {
+            self.update_remote_skins();
+        }
+        let terrain_revision = nocubes::terrain_revision();
+        if CLIENT_TERRAIN_SEEN.swap(terrain_revision, Ordering::AcqRel) != terrain_revision {
             self.nocubes_remesh();
         }
         if self.remote.is_some() {
@@ -79,7 +88,7 @@ impl Game<'_> {
                     let _ = self.native_net_send_to_server("nocubes:hello", &[]);
                 }
             }
-        } else if SERVER_SEEN.swap(revision, Ordering::AcqRel) != revision {
+        } else if SERVER_SEEN.swap(terrain_revision, Ordering::AcqRel) != terrain_revision {
             if let Ok(data) = nocubes::server_config_bytes() {
                 for p in self.native_server_players() {
                     let _ = self.native_net_send_to_player(p.uuid, "nocubes:config", &data);

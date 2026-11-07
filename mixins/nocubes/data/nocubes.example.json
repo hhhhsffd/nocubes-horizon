@@ -1,5 +1,6 @@
 {
   "render": true,
+  "player_model": false,
   "collisions": true,
   "mesher": "SurfaceNets",
   "use_defaults": true,

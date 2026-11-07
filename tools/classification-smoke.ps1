@@ -1,7 +1,8 @@
 param(
     [Parameter(Mandatory = $true)][string]$Control,
     [string]$Socket = "$env:APPDATA\horizon-launcher\game-control.json",
-    [string]$InstanceHome = "$env:APPDATA\horizon\instances\nocubes-port-validation"
+    [string]$InstanceHome = "$env:APPDATA\horizon\instances\nocubes-port-validation",
+    [string]$Output = "$PSScriptRoot\..\validation\classification-smoke.json"
 )
 $ErrorActionPreference = 'Stop'
 function Ctl {
@@ -33,7 +34,7 @@ $fixtures = @(
     @{ x = 12; state = 'minecraft:oak_fence'; smooth = $false }
 )
 $old = @()
-$result = [ordered]@{ version = '0.2.5'; fixtures = @() }
+$result = [ordered]@{ version = '0.2.6'; fixtures = @() }
 try {
     Ctl -Arguments @('command', 'gamemode spectator') | Out-Null
     foreach ($fixture in $fixtures) {
@@ -66,5 +67,5 @@ try {
     }
     [IO.File]::WriteAllBytes($configPath, $original)
     Ctl -Arguments @('wait', '30') | Out-Null
-    [IO.File]::WriteAllText((Join-Path $root 'validation\classification-smoke.json'), ($result | ConvertTo-Json -Depth 20))
+    [IO.File]::WriteAllText([IO.Path]::GetFullPath($Output), ($result | ConvertTo-Json -Depth 20))
 }

@@ -1,0 +1,19 @@
+﻿{
+    "version":  "0.2.6",
+    "native_version":  "native-41f822b-02fb060fdc7e",
+    "bundle_sha256":  "9c4baa14791aade654c4c6d90db6d6f4a46e2c56d32f68fe67323ae602637197",
+    "bundle_files":  173,
+    "engine_tests_passed":  54,
+    "native_renderer_tests_passed":  11,
+    "native_player_cache_tests_passed":  1,
+    "total_automated_tests":  66,
+    "prepared_skin_variants":  2,
+    "runtime_passed":  true,
+    "visual_review_completed":  true,
+    "player_toggle_remeshed_terrain":  false,
+    "block_control_regression_checks":  7,
+    "protected_shape_regression_fixtures":  7,
+    "final_player_model_off":  true,
+    "fps_rebenchmarked":  false,
+    "remote_multiplayer_retested":  false
+}

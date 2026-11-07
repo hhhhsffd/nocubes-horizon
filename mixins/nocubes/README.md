@@ -1,8 +1,10 @@
 # NoCubes for Horizon
 
-A Rust port of [Cadiboo/NoCubes](https://github.com/Cadiboo/NoCubes) for Horizon native mods. The installable bundle is [`dist/nocubes-0.2.5.hnmod`](dist/nocubes-0.2.5.hnmod). It contains Rust source which Horizon compiles into the instance executable.
+A Rust port of [Cadiboo/NoCubes](https://github.com/Cadiboo/NoCubes) for Horizon native mods. The installable bundle is [`dist/nocubes-0.2.6.hnmod`](dist/nocubes-0.2.6.hnmod). It contains Rust source which Horizon compiles into the instance executable.
 
 This release implements all nine upstream mesher modes, terrain rendering, smooth collisions and picking, fluid extension, grass and snow features, outlines and debug overlays, live configuration, block/state controls, and multiplayer configuration/edit synchronization. [port coverage](README.PORTING.md) maps the upstream features to their Rust implementations and explains the Horizon-specific integration.
+
+Version 0.2.6 adds an optional **NoCubes player model**, off by default. Enable it in mod settings to round player body parts, skin layers and first-person arms using each player's existing skin UVs and textures. Classic/slim shapes, part poses and animations are retained; hitboxes, armour and held items are unchanged. The client-side toggle does not rebuild terrain or LOD meshes. Rounded model geometry is cached (32 source models maximum); curved faces use Horizon's existing CPU model path, so this option adds rendering work. Rounded outer layers take precedence over Horizon's pixel-extruded 3D skin layers while enabled. Custom non-box parts and custom entity-model replacements are left unchanged.
 
 Version 0.2.4 smooths Horizon far-terrain LOD using Surface Nets at each existing LOD cell width. It preserves the native distance levels, column summaries, water, biome colors, lighting and terrain cutouts. Flat faces remain merged; tile mesh budgets retain the original reduced geometry for unusually complex tiles. Cubic modes retain cubic LOD. Visual and smoothability changes remesh cached LOD tiles without resampling them.
 
@@ -56,7 +58,7 @@ cargo run -p nocubes-adapters -- /path/to/horizon
 horizon-mixins apply --workspace /path/to/horizon --mods ./mixins --out /tmp/nocubes-stage
 CARGO_TARGET_DIR=/tmp/nocubes-target cargo check --manifest-path /tmp/nocubes-stage/Cargo.toml \
   --locked -p horizon-client --lib --no-default-features
-cargo horizon-mod check ./dist/nocubes-0.2.5.hnmod --json
+cargo horizon-mod check ./dist/nocubes-0.2.6.hnmod --json
 ```
 
 The compile check uses Horizon's headless/server feature set, which avoids system audio/controller development dependencies. It creates no window and requests no GPU. Keep the Cargo target directory outside the disposable mixin stage.

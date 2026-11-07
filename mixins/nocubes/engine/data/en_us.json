@@ -2,6 +2,7 @@
   "nocubes.keycategory": "NoCubes",
   "nocubes.key.toggleSmoothableBlockType": "Toggle block smoothness",
   "nocubes.config.render": "NoCubes rendering",
+  "nocubes.config.player_model": "NoCubes player model",
   "nocubes.config.selectionBoxColor": "Selection box color",
   "nocubes.config.betterGrassSides": "Better grass sides",
   "nocubes.config.moreSnow": "More snow",

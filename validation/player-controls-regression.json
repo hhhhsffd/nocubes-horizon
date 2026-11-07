@@ -1,0 +1,197 @@
+{
+    "version":  "0.2.6",
+    "checks":  [
+                   "Old default key is inactive",
+                   "One key disables both blocks of the same type, not other types",
+                   "A second press restores smoothing for the type",
+                   "Key repeats and releases do not toggle a second time",
+                   "Modifier capture and cancellation preserve the chosen binding",
+                   "Clearing/cancelling works and the cleared key is inactive",
+                   "No shortcut hints are posted to chat"
+               ],
+    "first_smooth":  {
+                         "block":  "minecraft:oak_planks",
+                         "distance":  4.40169287771131,
+                         "face":  "north",
+                         "loaded":  true,
+                         "point":  [
+                                       0.34044660569983876,
+                                       151.49045724873469,
+                                       0.3333337972605932
+                                   ],
+                         "pos":  [
+                                     0,
+                                     151,
+                                     0
+                                 ],
+                         "state":  "minecraft:oak_planks"
+                     },
+    "second_smooth":  {
+                          "block":  "minecraft:oak_planks",
+                          "distance":  3.835517376914851,
+                          "face":  "north",
+                          "loaded":  true,
+                          "point":  [
+                                        2.5,
+                                        151.4905851507018,
+                                        0.33333345068788844
+                                    ],
+                          "pos":  [
+                                      2,
+                                      151,
+                                      0
+                                  ],
+                          "state":  "minecraft:oak_planks"
+                      },
+    "other_type_smooth":  {
+                              "block":  "minecraft:stone_bricks",
+                              "distance":  4.401634741957008,
+                              "face":  "north",
+                              "loaded":  true,
+                              "point":  [
+                                            4.659436426446092,
+                                            151.4904642651568,
+                                            0.3333331728280484
+                                        ],
+                              "pos":  [
+                                          4,
+                                          151,
+                                          0
+                                      ],
+                              "state":  "minecraft:stone_bricks"
+                          },
+    "first_cubic":  {
+                        "block":  "minecraft:oak_planks",
+                        "distance":  4.018936488911841,
+                        "face":  "north",
+                        "loaded":  true,
+                        "point":  [
+                                      0.5282340960101013,
+                                      151.50172185053043,
+                                      0.0
+                                  ],
+                        "pos":  [
+                                    0,
+                                    151,
+                                    0
+                                ],
+                        "state":  "minecraft:oak_planks"
+                    },
+    "second_cubic":  {
+                         "block":  "minecraft:oak_planks",
+                         "distance":  3.501994019537486,
+                         "face":  "north",
+                         "loaded":  true,
+                         "point":  [
+                                       2.5,
+                                       151.50183861989024,
+                                       0.0
+                                   ],
+                         "pos":  [
+                                     2,
+                                     151,
+                                     0
+                                 ],
+                         "state":  "minecraft:oak_planks"
+                     },
+    "other_type_unchanged":  {
+                                 "block":  "minecraft:stone_bricks",
+                                 "distance":  4.401634741957008,
+                                 "face":  "north",
+                                 "loaded":  true,
+                                 "point":  [
+                                               4.659436426446092,
+                                               151.4904642651568,
+                                               0.3333331728280484
+                                           ],
+                                 "pos":  [
+                                             4,
+                                             151,
+                                             0
+                                         ],
+                                 "state":  "minecraft:stone_bricks"
+                             },
+    "messages":  {
+                     "actionbar":  null,
+                     "chat":  [
+                                  "Set own game mode to Spectator Mode",
+                                  "Set own game mode to Creative Mode",
+                                  "Set own game mode to Survival Mode",
+                                  "Set own game mode to Creative Mode",
+                                  "Set own game mode to Survival Mode",
+                                  "Set own game mode to Creative Mode",
+                                  "Set own game mode to Spectator Mode",
+                                  "Set own game mode to Creative Mode"
+                              ],
+                     "order":  "newest first",
+                     "styled":  [
+                                    {
+                                        "translate":  "commands.gamemode.success.self",
+                                        "with":  [
+                                                     {
+                                                         "translate":  "gameMode.spectator"
+                                                     }
+                                                 ]
+                                    },
+                                    {
+                                        "translate":  "commands.gamemode.success.self",
+                                        "with":  [
+                                                     {
+                                                         "translate":  "gameMode.creative"
+                                                     }
+                                                 ]
+                                    },
+                                    {
+                                        "translate":  "commands.gamemode.success.self",
+                                        "with":  [
+                                                     {
+                                                         "translate":  "gameMode.survival"
+                                                     }
+                                                 ]
+                                    },
+                                    {
+                                        "translate":  "commands.gamemode.success.self",
+                                        "with":  [
+                                                     {
+                                                         "translate":  "gameMode.creative"
+                                                     }
+                                                 ]
+                                    },
+                                    {
+                                        "translate":  "commands.gamemode.success.self",
+                                        "with":  [
+                                                     {
+                                                         "translate":  "gameMode.survival"
+                                                     }
+                                                 ]
+                                    },
+                                    {
+                                        "translate":  "commands.gamemode.success.self",
+                                        "with":  [
+                                                     {
+                                                         "translate":  "gameMode.creative"
+                                                     }
+                                                 ]
+                                    },
+                                    {
+                                        "translate":  "commands.gamemode.success.self",
+                                        "with":  [
+                                                     {
+                                                         "translate":  "gameMode.spectator"
+                                                     }
+                                                 ]
+                                    },
+                                    {
+                                        "translate":  "commands.gamemode.success.self",
+                                        "with":  [
+                                                     {
+                                                         "translate":  "gameMode.creative"
+                                                     }
+                                                 ]
+                                    }
+                                ],
+                     "subtitle":  null,
+                     "title":  null
+                 },
+    "passed":  true
+}

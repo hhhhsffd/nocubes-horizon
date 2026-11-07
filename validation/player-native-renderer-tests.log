@@ -1,0 +1,124 @@
+﻿cargo :    Compiling nocubes-engine v0.2.6 
+(C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\native-crates\nocubes\engine)
+At line:1 char:378
++ ... ive-check'; cargo test --manifest-path "$env:APPDATA\horizon-launcher ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (   Compiling no...nocubes\engine):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   Compiling horizon-world v0.1.0 (C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-world)
+warning: libmimalloc-sys@0.1.49: In file included from 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/prim.c:12,
+warning: libmimalloc-sys@0.1.49:                  from 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:40:
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:822: 
+warning: ignoring '#pragma comment ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   822 |     #pragma comment(linker, "/INCLUDE:_tls_used")
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:823: 
+warning: ignoring '#pragma comment ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   823 |     #pragma comment(linker, "/INCLUDE:_mi_tls_callback_pre")
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:824: 
+warning: ignoring '#pragma comment ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   824 |     #pragma comment(linker, "/INCLUDE:_mi_tls_callback_post")
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:825: 
+warning: ignoring '#pragma const_seg ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   825 |     #pragma const_seg(".CRT$XLB")
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:828: 
+warning: ignoring '#pragma const_seg ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   828 |     #pragma const_seg()
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:829: 
+warning: ignoring '#pragma const_seg ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   829 |     #pragma const_seg(".CRT$XLY")
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:832: 
+warning: ignoring '#pragma const_seg ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   832 |     #pragma const_seg()
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:833: 
+warning: ignoring '#pragma const_seg ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   833 |     #pragma const_seg(".CRT$XIB")
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:836: 
+warning: ignoring '#pragma const_seg ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   836 |     #pragma const_seg()
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: 
+visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49:    41 | #if MI_OSX_ZONE
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: 
+visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: 
+visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: 
+visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: 
+visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: 
+visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: 
+visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: 
+visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: 
+visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: 
+visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: 
+visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: 
+visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: 
+D:\horizonmod\target\lod-stage-final\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: 
+visibility attribute not supported in this configuration; ignored [-Wattributes]
+   Compiling horizon-client-render v0.1.0 
+(C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-client-render)
+   Compiling horizon-core v0.1.0 (C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-core)
+   Compiling horizon-optifine v0.1.0 
+(C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-optifine)
+   Compiling horizon-shaders v0.1.0 
+(C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-shaders)
+   Compiling horizon-assets v0.1.0 (C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-assets)
+   Compiling horizon-client-core v0.1.0 
+(C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-client-core)
+   Compiling horizon-protocol v0.1.0 
+(C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-protocol)
+   Compiling horizon-items v0.1.0 (C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-items)
+   Compiling horizon-client-input v0.1.0 
+(C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-client-input)
+   Compiling horizon-command v0.1.0 
+(C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-command)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3m 52s
+     Running unittests src\lib.rs (target\lod-native-check\debug\deps\horizon_client_render-0aaf02473794f566.exe)
+
+running 11 tests
+test lod::mesh::nocubes_lod::tests::clipping_stays_on_the_native_footprint_and_cell_count_stays_lod_sized ... ok
+test collisions::nocubes_collision::tests::collision_cache_invalidates_after_edits_config_or_registry_changes ... ok
+test mesher::nocubes_render::occlusion_tests::solid_interior_occludes_and_a_hole_keeps_its_surface_halo_open ... ok
+test lod::mesh::nocubes_lod::tests::water_non_smooth_blocks_and_mixed_level_edges_anchor_geometry ... ok
+test lod::mesh::nocubes_lod::tests::contiguous_material_runs_do_not_create_a_false_air_surface ... ok
+test lod::mesh::nocubes_lod::tests::same_level_neighbors_produce_the_same_shared_edge_vertex ... ok
+test lod::nocubes_lod_refresh::tests::visual_changes_remesh_active_tiles_without_discarding_reduced_columns ... ok
+test lod::nocubes_lod_refresh::tests::independent_lod_owners_each_observe_a_shared_settings_revision ... ok
+test lod::mesh::nocubes_lod::tests::reduced_steps_are_smoothed_and_sloping_grass_uses_one_top_layer ... ok
+test lod::mesh::nocubes_lod::tests::flat_tiles_retain_greedy_mesh_and_water_vertices_are_unchanged ... ok
+test collisions::nocubes_collision::tests::batched_shape_union_matches_incremental_optimization ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 1581 filtered out; finished in 1.93s
+

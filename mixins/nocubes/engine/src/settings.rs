@@ -7,6 +7,7 @@ use std::{
     },
 };
 static REVISION: AtomicU64 = AtomicU64::new(1);
+static TERRAIN_REVISION: AtomicU64 = AtomicU64::new(1);
 struct Settings {
     local: Arc<Config>,
     remote: Option<Config>,
@@ -104,12 +105,19 @@ fn refresh(s: &mut Settings) {
         effective.blacklist = v.blacklist.clone();
         effective.state_overrides = v.state_overrides.clone();
     }
+    let terrain_changed = !s.effective.terrain_eq(&effective);
     (s.disabled, s.visual_only) = variants(&effective);
     s.effective = Arc::new(effective);
     REVISION.fetch_add(1, Ordering::Release);
+    if terrain_changed {
+        TERRAIN_REVISION.fetch_add(1, Ordering::Release);
+    }
 }
 pub fn revision() -> u64 {
     REVISION.load(Ordering::Acquire)
+}
+pub fn terrain_revision() -> u64 {
+    TERRAIN_REVISION.load(Ordering::Acquire)
 }
 pub fn config() -> Arc<Config> {
     let s = store().read().unwrap_or_else(|e| e.into_inner());
@@ -266,12 +274,14 @@ static CLIENT_CONNECTED: std::sync::atomic::AtomicBool = std::sync::atomic::Atom
 pub fn set_client_connected() {
     CLIENT_CONNECTED.store(true, Ordering::Release);
     REVISION.fetch_add(1, Ordering::Release);
+    TERRAIN_REVISION.fetch_add(1, Ordering::Release);
 }
 
 static ENABLED: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(true);
 pub fn set_enabled(enabled: bool) {
     if ENABLED.swap(enabled, Ordering::AcqRel) != enabled {
         REVISION.fetch_add(1, Ordering::Release);
+        TERRAIN_REVISION.fetch_add(1, Ordering::Release);
     }
 }
 pub fn enabled() -> bool {
@@ -299,6 +309,7 @@ mod tests {
     #[test]
     fn server_settings_never_replace_local_block_key() {
         let local = Config {
+            player_model: true,
             block_toggle_key: "KeyJ".into(),
             ..Config::default()
         };
@@ -309,6 +320,7 @@ mod tests {
         };
         let effective = merged(&local, Some(&remote));
         assert_eq!(effective.block_toggle_key, "KeyJ");
+        assert!(effective.player_model);
         assert!(!effective.use_defaults);
     }
     #[test]

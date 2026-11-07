@@ -1,7 +1,9 @@
 param(
     [Parameter(Mandatory = $true)][string]$Control,
     [string]$Socket = "$env:APPDATA\horizon-launcher\game-control.json",
-    [string]$InstanceHome = "$env:APPDATA\horizon\instances\nocubes-port-validation"
+    [string]$InstanceHome = "$env:APPDATA\horizon\instances\nocubes-port-validation",
+    [string]$Output = "$PSScriptRoot\..\validation\controls-smoke.json",
+    [string]$ScreenshotName = 'controls-unbound.png'
 )
 $ErrorActionPreference = 'Stop'
 function Ctl {
@@ -32,7 +34,7 @@ $configPath = Join-Path $InstanceHome 'config\nocubes.json'
 $original = [IO.File]::ReadAllBytes($configPath)
 $state = Ctl -Arguments @('state')
 if ($state.world -ne 'NoCubesValidation') { throw 'Open the isolated NoCubesValidation world first' }
-$result = [ordered]@{ version = '0.2.5'; checks = @() }
+$result = [ordered]@{ version = '0.2.6'; checks = @() }
 $old = @{}
 try {
     foreach ($x in @('0', '2', '4')) {
@@ -50,7 +52,7 @@ try {
     if ([IO.File]::ReadAllText($configPath) -ne $before) { throw 'An old default key changed settings' }
     $result.checks += 'Old default key is inactive'
     Settings
-    Ctl -Arguments @('screenshot', (Join-Path $root 'validation\screenshots\controls-unbound.png')) | Out-Null
+    Ctl -Arguments @('screenshot', (Join-Path $root "validation\screenshots\$ScreenshotName")) | Out-Null
     Capture 'j'
     if ((Config).block_toggle_key -ne 'KeyJ') { throw 'Click-to-bind did not persist the chosen key' }
     Ctl -Arguments @('close') | Out-Null
@@ -116,5 +118,5 @@ try {
     foreach ($x in $old.Keys) { Ctl -Arguments @('setblock', $x, '151', '0', $old[$x]) | Out-Null }
     [IO.File]::WriteAllBytes($configPath, $original)
     Ctl -Arguments @('wait', '30') | Out-Null
-    [IO.File]::WriteAllText((Join-Path $root 'validation\controls-smoke.json'), ($result | ConvertTo-Json -Depth 20))
+    [IO.File]::WriteAllText([IO.Path]::GetFullPath($Output), ($result | ConvertTo-Json -Depth 20))
 }
