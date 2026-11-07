@@ -11,11 +11,10 @@ impl Game<'_> {
     ) {
         use horizon_core::nocubes;
         let cfg = nocubes::config();
+        let samples = nocubes::kinds::samples(&cfg);
         let id = self.world.block(pos[0], pos[1], pos[2]);
         let state = self.pack.assets.registry.state(id);
-        let smooth = state.is_some_and(|s| {
-            cfg.smoothable_with(&s.name, |k| s.properties.get(k).map(String::as_str))
-        });
+        let smooth = samples.get(id.0).smooth;
         let plant = state.is_some_and(|s| {
             nocubes::kinds::snapshot()
                 .get(&s.name)
@@ -26,17 +25,12 @@ impl Game<'_> {
             return;
         }
         let mut profile = nocubes::profile_block();
-        let sample = |q: [i32; 3]| {
-            let p = std::array::from_fn::<_, 3, _>(|i| pos[i] + q[i]);
-            let id = self.world.block(p[0], p[1], p[2]);
-            nocubes::kinds::sample(&cfg, id.0)
-        };
-        let faces = nocubes::generate_at(
-            &sample,
+        let faces = self.nocubes_query_mesh(
+            pos,
             if plant { [0, -1, 0] } else { [0; 3] },
             [1; 3],
             &cfg,
-            pos,
+            &samples,
         );
         if let Some(p) = &mut profile {
             p.set_faces(faces.len());
@@ -56,7 +50,7 @@ impl Game<'_> {
             );
             return;
         }
-        for face in faces {
+        for face in faces.iter() {
             for reverse in [false, true] {
                 if reverse
                     && (self.res.facts().get(id).solid_render

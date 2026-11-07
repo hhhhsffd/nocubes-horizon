@@ -1,8 +1,42 @@
 [mod]
 id = "nocubes"
-version = "0.2.1"
+version = "0.2.5"
 [compatibility]
 horizon_revision = "41f822b659789780f58d32c63ddfb6887ea1b8bf"
+[[module]]
+id = "lod_render"
+file = "crates/horizon-client-render/src/lod/mesh.rs"
+name = "nocubes_lod"
+source = "lod_render.rs"
+[[module]]
+id = "lod_refresh"
+file = "crates/horizon-client-render/src/lod.rs"
+name = "nocubes_lod_refresh"
+source = "lod_refresh.rs"
+[[injection]]
+id = "lod_revision_check"
+target = "horizon_client_render::lod::Lod::update"
+kind = "HEAD"
+helper = "lod_revision.rs"
+bindings = [
+ { name = "lod", ty = "&mut Lod", value = "&mut *self" },
+]
+[[injection]]
+id = "lod_mesh"
+target = "horizon_client_render::lod::mesh::Mesher::mesh"
+kind = "HEAD"
+cancellable = true
+helper = "lod_mesh.rs"
+bindings = [
+ { name = "mesher", ty = "&mut Mesher", value = "&mut *self" },
+ { name = "key", ty = "TileKey", value = "key" },
+ { name = "columns", ty = "&[&Column]", value = "columns" },
+ { name = "covered", ty = "&FxHashSet<(i32, i32)>", value = "covered" },
+ { name = "covered_bounds", ty = "Option<[i32; 4]>", value = "covered_bounds" },
+ { name = "context", ty = "&WorkerContext", value = "context" },
+ { name = "neighbors", ty = "&[Vec<EdgeColumn<'_>>; 4]", value = "neighbors" },
+ { name = "finer", ty = "&[TileKey]", value = "finer" },
+]
 [[crate]]
 id = "engine"
 path = "engine"
@@ -119,6 +153,20 @@ source="fluid_render.rs"
 
 # Runtime completion hooks
 
+[[injection]]
+id="runtime_mods"
+target="horizon_client::game::native_hooks::Game<'_>::native_mods"
+kind="HEAD"
+helper="runtime_mods.rs"
+bindings=[{name="mods",ty="&mut Vec<NativeMod>",value="mods"}]
+
+[[injection]]
+id="runtime_settings"
+target="horizon_client::game::native_hooks::Game<'_>::native_settings"
+kind="HEAD"
+helper="runtime_settings.rs"
+bindings=[{name="mod_id",ty="&str",value="mod_id"},{name="buttons",ty="&mut Vec<String>",value="buttons"}]
+
 [[module]]
 id="runtime"
 file="crates/horizon-client/src/game.rs"
@@ -134,10 +182,10 @@ bindings=[{name="game",ty="&mut crate::game::Game<'_>",value="&mut *self"}]
 
 [[injection]]
 id="runtime_input"
-target="horizon_client::game::native_hooks::Game<'_>::native_input_key"
+target="horizon_client::game::native_hooks::Game<'_>::native_key"
 kind="HEAD"
 helper="runtime_input.rs"
-bindings=[{name="game",ty="&mut crate::game::Game<'_>",value="&mut *self"},{name="event",ty="&winit::event::KeyEvent",value="event"},{name="modifiers",ty="u32",value="modifiers"}]
+bindings=[{name="game",ty="&mut crate::game::Game<'_>",value="&mut *self"},{name="key",ty="&str",value="key"},{name="pressed",ty="bool",value="pressed"}]
 
 [[injection]]
 id="runtime_from_client"
@@ -165,7 +213,7 @@ id="runtime_screen_key"
 target="horizon_client::game::native_hooks::Game<'_>::native_screen_key_pressed_pre"
 kind="HEAD"
 helper="runtime_screen_key.rs"
-bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="key",ty="&str",value="key"},{name="canceled",ty="&mut bool",value="canceled"}]
+bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="key",ty="&str",value="key"},{name="repeat",ty="bool",value="repeat"},{name="modifiers",ty="u32",value="modifiers"},{name="canceled",ty="&mut bool",value="canceled"}]
 
 [[injection]]
 id="runtime_char"
@@ -175,25 +223,11 @@ helper="runtime_char.rs"
 bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="c",ty="char",value="c"},{name="canceled",ty="&mut bool",value="canceled"}]
 
 [[injection]]
-id="runtime_commands"
-target="horizon_client::game::native_hooks::Game<'_>::native_commands"
-kind="HEAD"
-helper="runtime_commands.rs"
-bindings=[{name="commands",ty="&mut Vec<&'static str>",value="commands"}]
-
-[[injection]]
-id="runtime_command"
-target="horizon_client::game::native_hooks::Game<'_>::native_command"
-kind="HEAD"
-helper="runtime_command.rs"
-bindings=[{name="game",ty="&mut crate::game::Game<'_>",value="&mut *self"},{name="command",ty="&str",value="command"},{name="ran",ty="&mut bool",value="ran"}]
-
-[[injection]]
 id="highlight"
 target="horizon_client::game::native_hooks::Game<'_>::native_block_highlight"
 kind="HEAD"
 helper="highlight.rs"
-bindings=[{name="game",ty="&crate::game::Game<'_>",value="&*self"},{name="state",ty="BlockStateId",value="state"},{name="canceled",ty="&mut bool",value="canceled"}]
+bindings=[{name="state",ty="BlockStateId",value="state"},{name="canceled",ty="&mut bool",value="canceled"}]
 
 [[injection]]
 id="motion_fluid"
@@ -301,7 +335,6 @@ id="client_login"
 target="horizon_client::game::native_hooks::Game<'_>::native_client_player_network_logging_in"
 kind="HEAD"
 helper="client_login.rs"
-bindings=[{name="game",ty="&mut crate::game::Game<'_>",value="&mut *self"}]
 
 [[module]]
 id="cracks"

@@ -7,24 +7,154 @@ const DIR_OFFSETS: [[i32; 3]; 6] = [
     [-1, 0, 0],
     [1, 0, 0],
 ];
+/// Only the interior of a full opaque smooth neighborhood can occlude. Keep a
+/// two-cell halo open around surfaces, including the averaged-density meshers.
+fn interior_rows(full: &[u32]) -> [u16; 256] {
+    std::array::from_fn(|r| {
+        let y = (r >> 4) as i32;
+        let z = (r & 15) as i32;
+        let mut bits = u32::MAX;
+        for dy in -2..=2 {
+            for dz in -2..=2 {
+                let row = full[(y + dy + B) as usize * P + (z + dz + B) as usize];
+                bits &= row & row << 1 & row >> 1 & row << 2 & row >> 2;
+            }
+        }
+        (bits >> B) as u16
+    })
+}
+#[cfg(test)]
+mod occlusion_tests {
+    use super::*;
+    #[test]
+    fn solid_interior_occludes_and_a_hole_keeps_its_surface_halo_open() {
+        let mut full = vec![(1 << P) - 1; P * P];
+        assert!(interior_rows(&full).iter().all(|row| *row == u16::MAX));
+        full[(8 + B) as usize * P + (8 + B) as usize] &= !(1 << (8 + B));
+        let rows = interior_rows(&full);
+        for y in 0..16 {
+            for z in 0..16 {
+                for x in 0..16 {
+                    let near =
+                        (6..=10).contains(&x) && (6..=10).contains(&y) && (6..=10).contains(&z);
+                    assert_eq!(rows[y * 16 + z] >> x & 1 == 0, near);
+                }
+            }
+        }
+    }
+}
 impl Mesher<'_> {
+    pub(super) fn nocubes_passes(
+        &self,
+        region: &[[Option<&Chunk>; 3]; 3],
+        sy: i32,
+        samples: &horizon_core::nocubes::kinds::Samples,
+    ) -> [bool; 2] {
+        let mut passes = [false; 2];
+        for chunk in region.iter().flatten().flatten() {
+            for y in sy - 1..=sy + 1 {
+                let Some(section) = chunk.sections.get(y as usize) else {
+                    continue;
+                };
+                for (i, solid) in [true, false].into_iter().enumerate() {
+                    if !passes[i] {
+                        passes[i] = section.blocks.maybe_has(|id| {
+                            samples.get(id).smooth && self.nocubes_solid(id) == solid
+                        });
+                    }
+                }
+                if passes == [true; 2] {
+                    return passes;
+                }
+            }
+        }
+        passes
+    }
+    fn nocubes_solid(&self, id: u32) -> bool {
+        self.tables.info.get(id as usize).is_some_and(|s| s.solid)
+            || self
+                .assets
+                .registry
+                .state(BlockStateId(id))
+                .is_some_and(|s| s.name == "minecraft:dirt_path")
+    }
+    fn nocubes_enclosed(
+        &self,
+        region: &[[Option<&Chunk>; 3]; 3],
+        sy: i32,
+        samples: &horizon_core::nocubes::kinds::Samples,
+    ) -> bool {
+        region.iter().flatten().all(|chunk| {
+            chunk.is_some_and(|chunk| {
+                (sy - 1..=sy + 1).all(|y| {
+                    chunk.sections.get(y as usize).is_some_and(|section| {
+                        !section.blocks.maybe_has(|id| {
+                            let s = samples.get(id);
+                            !s.smooth
+                                || s.density != 1.
+                                || self.tables.info.get(id as usize).is_none_or(|i| {
+                                    !i.opaque_cube || i.block_entity || i.emission > 0
+                                })
+                        })
+                    })
+                })
+            })
+        })
+    }
     pub(super) fn nocubes_mesh(
         &mut self,
         region: &[[Option<&Chunk>; 3]; 3],
         sy: i32,
         mut out: SectionMesh,
         scratch: &mut MeshScratch,
+        cfg: &horizon_core::nocubes::Config,
+        samples: &horizon_core::nocubes::kinds::Samples,
+        passes: [bool; 2],
     ) -> SectionMesh {
-        let cfg = horizon_core::nocubes::config();
         let kinds = horizon_core::nocubes::kinds::snapshot();
         out.clear();
+        if cfg.mesher != horizon_core::nocubes::Mesher::StupidCubic
+            && self.nocubes_enclosed(region, sy, samples)
+        {
+            out.visibility = 0;
+            return out;
+        }
         let center = region[1][1].expect("centre chunk");
         let own = scratch.own.get_or_insert_with(|| Box::new([0; 4096]));
         scratch.padded.fill(region, sy, own);
         let pad = &scratch.padded;
         solid_rows(pad, &self.tables.solid, &mut scratch.solid_rows);
         let opaque = &scratch.solid_rows;
-        out.visibility = visibility_rows(&open_rows(opaque));
+        let mut open = open_rows(opaque);
+        let full: Vec<u32> = pad
+            .blocks
+            .as_chunks::<P>()
+            .0
+            .iter()
+            .map(|row| {
+                row.iter().enumerate().fold(0, |bits, (x, &id)| {
+                    let s = samples.get(id);
+                    bits | u32::from(
+                        s.smooth
+                            && s.density == 1.
+                            && self.tables.info[id as usize].opaque_cube
+                            && self.nocubes_solid(id),
+                    ) << x
+                })
+            })
+            .collect();
+        let interior = interior_rows(&full);
+        for y in 0..16 {
+            for z in 0..16 {
+                for x in 0..16 {
+                    if samples.get(pad.blocks[pi(x, y, z)]).smooth {
+                        open[(y * 16 + z) as usize] |= 1 << x;
+                    }
+                }
+                open[(y * 16 + z) as usize] &= !interior[(y * 16 + z) as usize];
+            }
+        }
+        out.visibility = visibility_rows(&open);
         let base_y = center.min_y() + sy * 16;
         if self.leaf_culling.is_interior() {
             scratch
@@ -38,29 +168,7 @@ impl Mesher<'_> {
             self.blend_radius,
             [center.x, center.z, base_y],
         );
-        let mut smooth = vec![false; self.tables.info.len()];
-        let mut seen = std::collections::HashSet::new();
-        for pz in -3..19 {
-            for py in -3..19 {
-                for px in -3..19 {
-                    let rx = (px + 16_i32).div_euclid(16) as usize;
-                    let rz = (pz + 16_i32).div_euclid(16) as usize;
-                    let id = region[rz][rx].map_or(0, |c| c.block(px, base_y + py, pz).0);
-                    if seen.insert(id) {
-                        smooth[id as usize] = self
-                            .assets
-                            .registry
-                            .state(BlockStateId(id))
-                            .is_some_and(|s| {
-                                cfg.render
-                                    && cfg.smoothable_with(&s.name, |k| {
-                                        s.properties.get(k).map(String::as_str)
-                                    })
-                            });
-                    }
-                }
-            }
-        }
+        let smooth = samples.visual_smooth();
         let info = &self.tables.info;
         let full_faces = &self.tables.full_faces;
         let catalog = &self.render.model_catalog;
@@ -165,7 +273,7 @@ impl Mesher<'_> {
                             .unwrap_or("");
                         let plant = kinds.get(name).is_some_and(|k| k.short_plant);
                         if plant {
-                            let sample = |p| self.nocubes_sample(region, sy, &smooth, p, &cfg);
+                            let sample = |p| self.nocubes_sample(region, sy, &samples, p);
                             let faces = horizon_core::nocubes::generate_at(
                                 &sample,
                                 [x - 1, y - 2, z - 1],
@@ -283,9 +391,8 @@ impl Mesher<'_> {
             }
         }
         if cfg.render && !(cfg.debug && cfg.debug_skip_rendering) {
-            self.nocubes_surfaces(region, sy, pad, &smooth, &mut tints, &mut out);
+            self.nocubes_surfaces(region, sy, pad, samples, cfg, passes, &mut tints, &mut out);
         }
-        out.visibility = ALL_VISIBLE;
         out.finish_sprite_layers();
         out
     }
@@ -294,9 +401,8 @@ impl Mesher<'_> {
         &self,
         region: &[[Option<&Chunk>; 3]; 3],
         sy: i32,
-        smooth: &[bool],
+        samples: &horizon_core::nocubes::kinds::Samples,
         p: [i32; 3],
-        cfg: &horizon_core::nocubes::Config,
     ) -> horizon_core::nocubes::Sample {
         use horizon_core::nocubes::Sample;
         let base_y = region[1][1].expect("centre chunk").min_y() + sy * 16;
@@ -308,13 +414,7 @@ impl Mesher<'_> {
         }
         let id =
             region[rz as usize][rx as usize].map_or(0, |c| c.block(p[0], base_y + p[1], p[2]).0);
-        let smooth = smooth[id as usize];
-        let mut sample = horizon_core::nocubes::kinds::sample(cfg, id);
-        sample.smooth = smooth;
-        if !smooth {
-            sample.density = -1.;
-        }
-        sample
+        samples.get(id)
     }
 
     fn nocubes_surfaces(
@@ -322,27 +422,26 @@ impl Mesher<'_> {
         region: &[[Option<&Chunk>; 3]; 3],
         sy: i32,
         pad: &Padded,
-        smooth: &[bool],
+        samples: &horizon_core::nocubes::kinds::Samples,
+        cfg: &horizon_core::nocubes::Config,
+        passes: [bool; 2],
         tints: &mut Tints,
         out: &mut SectionMesh,
     ) {
         use horizon_core::nocubes;
-        let cfg = nocubes::config();
         let kinds = nocubes::kinds::snapshot();
         let center = region[1][1].expect("centre chunk");
         let base_y = center.min_y() + sy * 16;
-        let sample = |p| self.nocubes_sample(region, sy, smooth, p, &cfg);
+        let sample = |p| self.nocubes_sample(region, sy, samples, p);
         let timer = std::time::Instant::now();
         let mut faces = Vec::new();
-        for solid in [true, false] {
+        for (pass, solid) in [true, false].into_iter().enumerate() {
+            if !passes[pass] {
+                continue;
+            }
             let group = |p| {
                 let mut s = sample(p);
-                let is_solid = self.tables.info[s.state as usize].solid
-                    || self
-                        .assets
-                        .registry
-                        .state(BlockStateId(s.state))
-                        .is_some_and(|s| s.name == "minecraft:dirt_path");
+                let is_solid = self.nocubes_solid(s.state);
                 if is_solid != solid {
                     s.smooth = false;
                     s.density = -1.;
@@ -416,35 +515,67 @@ impl Mesher<'_> {
                 (2, false) => ModelDirection::North,
                 _ => ModelDirection::South,
             };
-            let grass = cfg.better_grass_sides
-                && self
-                    .assets
-                    .registry
-                    .state(BlockStateId(id))
-                    .is_some_and(|s| s.properties.contains_key("snowy"));
-            let wanted = if grass { ModelDirection::Up } else { direction };
+            let grass = self
+                .assets
+                .registry
+                .state(BlockStateId(id))
+                .is_some_and(|s| s.properties.contains_key("snowy"));
+            // Grass covers upward-facing slopes, even when their horizontal
+            // normal is larger. Vertical cliffs retain the upright side model.
+            let wanted = if grass && (normal[1] > 1e-4 || cfg.better_grass_sides && normal[1] >= 0.)
+            {
+                ModelDirection::Up
+            } else {
+                direction
+            };
             let mut selected: Vec<_> = models
                 .iter()
                 .flat_map(|m| &m.faces)
-                .filter(|f| f.quad.cull.is_none() || f.quad.facing == wanted)
+                .filter(|f| f.quad.facing == wanted)
                 .collect();
             if selected.is_empty() {
                 selected.extend(models.iter().flat_map(|m| &m.faces).take(1));
             }
+            let raw_light = |point: [i32; 3]| {
+                let rx = (point[0] + 16).div_euclid(16);
+                let rz = (point[2] + 16).div_euclid(16);
+                if !(0..3).contains(&rx) || !(0..3).contains(&rz) {
+                    return 0;
+                }
+                let Some(chunk) = region[rz as usize][rx as usize] else {
+                    return 0;
+                };
+                let id = chunk.block(point[0], base_y + point[1], point[2]);
+                lighting::packed_coords(
+                    &self.tables.info[id.0 as usize],
+                    chunk.light(point[0], base_y + point[1], point[2]),
+                )
+            };
             for face in selected {
                 let mut quad = face.quad.clone();
+                let texture_axis = |d| match d {
+                    ModelDirection::West | ModelDirection::East => 0,
+                    ModelDirection::Up | ModelDirection::Down => 1,
+                    _ => 2,
+                };
+                quad.uv = nocubes::surface_uv(
+                    surface.vertices,
+                    // A grass top on a slope uses the ground plane. Better
+                    // grass on a vertical cliff still needs a side projection.
+                    if wanted == ModelDirection::Up && normal[1] > 1e-4 {
+                        1
+                    } else {
+                        axis
+                    },
+                    quad.positions,
+                    texture_axis(wanted),
+                    quad.uv,
+                );
                 quad.positions = surface
                     .vertices
                     .map(|v| std::array::from_fn(|i| v[i] - p[i] as f32));
                 quad.cull = None;
                 quad.facing = direction;
-                match direction {
-                    ModelDirection::Down | ModelDirection::South | ModelDirection::West => {
-                        quad.uv.rotate_right(1)
-                    }
-                    ModelDirection::Up => quad.uv.rotate_left(2),
-                    _ => {}
-                }
                 let face = BakedFace {
                     quad,
                     layer: face.layer,
@@ -496,21 +627,6 @@ impl Mesher<'_> {
                         false,
                     );
                 }
-                let raw_light = |point: [i32; 3]| {
-                    let rx = (point[0] + 16).div_euclid(16);
-                    let rz = (point[2] + 16).div_euclid(16);
-                    if !(0..3).contains(&rx) || !(0..3).contains(&rz) {
-                        return 0;
-                    }
-                    let Some(chunk) = region[rz as usize][rx as usize] else {
-                        return 0;
-                    };
-                    let id = chunk.block(point[0], base_y + point[1], point[2]);
-                    lighting::packed_coords(
-                        &self.tables.info[id.0 as usize],
-                        chunk.light(point[0], base_y + point[1], point[2]),
-                    )
-                };
                 for vertex in out.solid[starts.0..]
                     .iter_mut()
                     .chain(&mut out.translucent[starts.1..])
@@ -521,6 +637,7 @@ impl Mesher<'_> {
                     ));
                 }
             }
+            let tuft_starts = (out.solid.len(), out.translucent.len());
             if cfg.grass_tufts
                 && direction == ModelDirection::Up
                 && self
@@ -600,6 +717,16 @@ impl Mesher<'_> {
                         }
                     }
                 }
+            }
+            for vertex in out.solid[tuft_starts.0..]
+                .iter_mut()
+                .chain(&mut out.translucent[tuft_starts.1..])
+            {
+                vertex.light = pack_coords(nocubes::vertex_light(
+                    vertex.pos,
+                    surface.area_normal(),
+                    &raw_light,
+                ));
             }
         }
         if cfg.debug && cfg.debug_mesh_performance {

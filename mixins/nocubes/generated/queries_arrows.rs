@@ -309,12 +309,10 @@ fn nocubes_arrow_fluid(scene: &ArrowScene<'_, '_>, p: BlockPos) -> FluidState {
         [p.x, p.y, p.z],
         cfg.extend_fluids_range,
         |q| {
-            scene
-                .registry
-                .state(scene.block(BlockPos::new(q[0], q[1], q[2])))
-                .is_some_and(|s| {
-                    cfg.smoothable_with(&s.name, |k| s.properties.get(k).map(String::as_str))
-                })
+            horizon_core::nocubes::kinds::smoothable(
+                &cfg,
+                scene.block(BlockPos::new(q[0], q[1], q[2])).0,
+            )
         },
         |f: FluidState| f.kind() == FluidKind::Empty,
         |f: FluidState| f.is_source(),

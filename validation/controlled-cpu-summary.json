@@ -1,0 +1,92 @@
+[
+    {
+        "mesher":  "SurfaceNets",
+        "before_mesh_ms":  1.35825,
+        "after_mesh_ms":  0.393,
+        "mesh_speedup":  3.4561068702290072,
+        "before_collision_us":  36.6922,
+        "after_collision_us":  32.77235,
+        "faces":  416,
+        "boxes":  109
+    },
+    {
+        "mesher":  "SurfaceNets2x",
+        "before_mesh_ms":  7.97715,
+        "after_mesh_ms":  0.9815,
+        "mesh_speedup":  8.1275089149261337,
+        "before_collision_us":  191.5706,
+        "after_collision_us":  41.3936,
+        "faces":  402,
+        "boxes":  154
+    },
+    {
+        "mesher":  "MarchingCubes",
+        "before_mesh_ms":  1.11215,
+        "after_mesh_ms":  0.27995000000000003,
+        "mesh_speedup":  3.9726736917306655,
+        "before_collision_us":  13.04575,
+        "after_collision_us":  14.523900000000001,
+        "faces":  848,
+        "boxes":  161
+    },
+    {
+        "mesher":  "MarchingCubes2x",
+        "before_mesh_ms":  7.5784,
+        "after_mesh_ms":  0.69425,
+        "mesh_speedup":  10.915952466690673,
+        "before_collision_us":  56.477999999999994,
+        "after_collision_us":  13.0561,
+        "faces":  808,
+        "boxes":  65
+    },
+    {
+        "mesher":  "CullingCubic",
+        "before_mesh_ms":  0.60685,
+        "after_mesh_ms":  0.24925,
+        "mesh_speedup":  2.4347041123370112,
+        "before_collision_us":  0.0392,
+        "after_collision_us":  0.037349999999999994,
+        "faces":  416,
+        "boxes":  12
+    },
+    {
+        "mesher":  "StupidCubic",
+        "before_mesh_ms":  0.74855,
+        "after_mesh_ms":  0.403,
+        "mesh_speedup":  1.8574441687344914,
+        "before_collision_us":  0.038599999999999995,
+        "after_collision_us":  0.0369,
+        "faces":  13728,
+        "boxes":  12
+    },
+    {
+        "mesher":  "OldNoCubes",
+        "before_mesh_ms":  1.34755,
+        "after_mesh_ms":  0.6755,
+        "mesh_speedup":  1.9948926720947446,
+        "before_collision_us":  1.5539,
+        "after_collision_us":  0.86749999999999994,
+        "faces":  416,
+        "boxes":  50
+    },
+    {
+        "mesher":  "CullingChamfer",
+        "before_mesh_ms":  0.6523,
+        "after_mesh_ms":  0.2381,
+        "mesh_speedup":  2.7396052078958419,
+        "before_collision_us":  0.0375,
+        "after_collision_us":  0.03705,
+        "faces":  566,
+        "boxes":  12
+    },
+    {
+        "mesher":  "Wulferis",
+        "before_mesh_ms":  3.5349500000000003,
+        "after_mesh_ms":  2.1526,
+        "mesh_speedup":  1.6421769023506458,
+        "before_collision_us":  5.6160499999999995,
+        "after_collision_us":  3.4345499999999998,
+        "faces":  416,
+        "boxes":  50
+    }
+]

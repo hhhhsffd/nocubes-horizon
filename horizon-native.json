@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "id": "nocubes",
-  "version": "0.2.1",
+  "version": "0.2.5",
   "game": "26.3",
   "horizon": "41f822b659789780f58d32c63ddfb6887ea1b8bf",
   "mixins": "5a64af938ec86b00d53d16a408aabc0038fb3e57"

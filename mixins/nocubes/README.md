@@ -1,12 +1,16 @@
 # NoCubes for Horizon
 
-A Rust port of [Cadiboo/NoCubes](https://github.com/Cadiboo/NoCubes) for Horizon native mods. The installable bundle is [`dist/nocubes-0.2.1.hnmod`](dist/nocubes-0.2.1.hnmod). It contains Rust source which Horizon compiles into the instance executable.
+A Rust port of [Cadiboo/NoCubes](https://github.com/Cadiboo/NoCubes) for Horizon native mods. The installable bundle is [`dist/nocubes-0.2.5.hnmod`](dist/nocubes-0.2.5.hnmod). It contains Rust source which Horizon compiles into the instance executable.
 
 This release implements all nine upstream mesher modes, terrain rendering, smooth collisions and picking, fluid extension, grass and snow features, outlines and debug overlays, live configuration, block/state controls, and multiplayer configuration/edit synchronization. [port coverage](README.PORTING.md) maps the upstream features to their Rust implementations and explains the Horizon-specific integration.
 
-Version 0.2.1 corrects legacy source-fluid solidity, partial-snow face culling, Wulferis transparency-pass barriers, special-block backfaces, and rolling profiling.
+Version 0.2.4 smooths Horizon far-terrain LOD using Surface Nets at each existing LOD cell width. It preserves the native distance levels, column summaries, water, biome colors, lighting and terrain cutouts. Flat faces remain merged; tile mesh budgets retain the original reduced geometry for unusually complex tiles. Cubic modes retain cubic LOD. Visual and smoothability changes remesh cached LOD tiles without resampling them.
 
-No in-game testing or GPU testing was performed, as requested. CPU tests, source transformation, compilation checks, and bundle validation are recorded in [`validation`](validation). Runtime appearance and gameplay still require validation on a machine that can run Horizon.
+Version 0.2.3 fixes rotated terrain textures and grass side overlays on ground and hills. UV orientation follows the baked model and surface geometry across meshers. Upward-facing grass slopes use the grass top; vertical sides retain their side texture unless better grass is enabled.
+
+Version 0.2.2 adds cached registry classification, contiguous mesher sampling and vertex caches, dependency-validated collision shape reuse, batched collision unions, reusable picking/outline/crack meshes, conservative terrain occlusion, stable configuration snapshots, and duplicate network snapshot suppression. Disabling visuals restores the normal Horizon mesher.
+
+GPU gameplay testing now runs on Windows with an NVIDIA GeForce RTX 2080 (Vulkan, 1280 x 720) in an isolated launcher instance. CPU checks and measured runtime coverage are recorded in `validation/runtime-report.json`; benchmark inputs and raw measurements are included in `validation`. These checks do not establish exhaustive multiplayer or visual parity.
 
 The native adapters require these exact revisions:
 
@@ -24,20 +28,13 @@ horizon-launcher native-build ./mixins/nocubes --instance <instance> --trust-nat
 
 Use the mod on the server and clients for smooth physical collisions. The server supplies gameplay settings; client visual preferences remain local. On servers without NoCubes, terrain smoothing and temporary visual block edits work locally, with custom physical collisions disabled. Disconnecting restores local settings.
 
-Default controls while playing:
+Open settings through Horizon's native mod screen. The first row, **Toggle targeted block smoothness**, is unbound by default. Click it and press the desired key (modifier chords are supported). Backspace/Delete clears the binding; Escape cancels capture. While playing, the assigned key toggles smoothing for the targeted block type, leaving other types unchanged. There are no built-in NoCubes shortcuts, chat commands or login hints. Legacy shortcut fields in existing configuration files are ignored and omitted on the next save.
 
-| Input | Action |
-| --- | --- |
-| `N` | Toggle smoothing for the targeted block type |
-| `Shift+N` | Toggle smoothing for only the targeted block state |
-| `Ctrl+V` | Toggle terrain visuals, unless forced by the server |
-| `Ctrl+O` or `/nocubes` | Open settings |
-
-The settings screen is also available through Horizon's native mod screen. Click a boolean to toggle it. Other values use JSON notation; Backspace edits and Enter applies. Click the footer for the next page, or right-click it for the previous page. Strings, including key bindings, need JSON quotes. Gameplay edits on a remote server require operator permission level 2 or the integrated server owner's identity. The server broadcasts accepted changes and clients remesh automatically.
+Click a boolean to toggle it. Other values use JSON notation; Backspace edits and Enter applies. Click the footer for the next page, or right-click it for the previous page. Gameplay edits on a remote server require operator permission level 2 or the integrated server owner's identity. The server broadcasts accepted changes and clients remesh automatically.
 
 Settings are saved to `config/nocubes.json` in the game's working directory. `NOCUBES_CONFIG` overrides the path. A missing file uses defaults. Changes made outside the game are reloaded every second; invalid updates preserve the last valid configuration. Invalid initial configuration reports an error and disables rendering/collisions until corrected. [`nocubes.example.json`](mixins/nocubes/data/nocubes.example.json) contains every setting and its default.
 
-Block selectors accept namespaced IDs and optional property filters, for example `minecraft:stone` or `minecraft:grass_block[snowy=true]`. Omitted namespaces mean `minecraft`. Blacklists override whitelists/defaults; explicit `state_overrides` take precedence over those lists. Default rules include upstream vanilla and supported mod block IDs, with absent IDs harmlessly ignored. Key chords use physical Rust/winit names such as `Ctrl+KeyV` and `Shift+KeyN`.
+Block selectors accept namespaced IDs and optional property filters, for example `minecraft:stone` or `minecraft:grass_block[snowy=true]`. Omitted namespaces mean `minecraft`. Blacklists override whitelists/defaults; explicit `state_overrides` take precedence over those lists. All full-collision model blocks (including building materials, logs, glass and modded cubes) now smooth by default. Plants, vines, fluids, air and non-full shapes keep their normal geometry; the existing terrain exceptions such as snow and paths remain supported. Classification is per state, so double slabs can smooth without changing half slabs. Turning off `use_defaults` leaves only explicit whitelist/state rules.
 
 All original collision enhancement levels are supported (`old_collision_enhancement` 0–4, `only_old_collisions`, `player_collisions_only`). An additional opt-in `sampled_collisions` mode uses `collision_resolution` 2–16; the default uses the ported upstream face colliders. Fluid extension range is 0–2, with source-fluid precedence and read-only extension; it does not place fluid blocks in the world.
 
@@ -59,7 +56,7 @@ cargo run -p nocubes-adapters -- /path/to/horizon
 horizon-mixins apply --workspace /path/to/horizon --mods ./mixins --out /tmp/nocubes-stage
 CARGO_TARGET_DIR=/tmp/nocubes-target cargo check --manifest-path /tmp/nocubes-stage/Cargo.toml \
   --locked -p horizon-client --lib --no-default-features
-cargo horizon-mod check ./dist/nocubes-0.2.1.hnmod --json
+cargo horizon-mod check ./dist/nocubes-0.2.5.hnmod --json
 ```
 
 The compile check uses Horizon's headless/server feature set, which avoids system audio/controller development dependencies. It creates no window and requests no GPU. Keep the Cargo target directory outside the disposable mixin stage.

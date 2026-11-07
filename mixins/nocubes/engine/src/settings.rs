@@ -11,6 +11,8 @@ struct Settings {
     local: Arc<Config>,
     remote: Option<Config>,
     effective: Arc<Config>,
+    disabled: Arc<Config>,
+    visual_only: Arc<Config>,
     disk: Option<Vec<u8>>,
     visual: Option<Config>,
 }
@@ -42,9 +44,12 @@ fn store() -> &'static RwLock<Settings> {
             })
             .unwrap_or_default();
         let local = Arc::new(c);
+        let (disabled, visual_only) = variants(&local);
         RwLock::new(Settings {
             local: local.clone(),
             effective: local,
+            disabled,
+            visual_only,
             remote: None,
             disk,
             visual: None,
@@ -75,6 +80,21 @@ fn merged(local: &Config, remote: Option<&Config>) -> Config {
     result.old_slopes = server.old_slopes;
     result
 }
+fn variants(c: &Config) -> (Arc<Config>, Arc<Config>) {
+    (
+        Arc::new(Config {
+            render: false,
+            collisions: false,
+            extend_fluids_range: 0,
+            debug: false,
+            ..c.clone()
+        }),
+        Arc::new(Config {
+            collisions: false,
+            ..c.clone()
+        }),
+    )
+}
 fn refresh(s: &mut Settings) {
     let mut effective = merged(&s.local, s.remote.as_ref());
     if s.remote.is_none()
@@ -84,6 +104,7 @@ fn refresh(s: &mut Settings) {
         effective.blacklist = v.blacklist.clone();
         effective.state_overrides = v.state_overrides.clone();
     }
+    (s.disabled, s.visual_only) = variants(&effective);
     s.effective = Arc::new(effective);
     REVISION.fetch_add(1, Ordering::Release);
 }
@@ -91,28 +112,15 @@ pub fn revision() -> u64 {
     REVISION.load(Ordering::Acquire)
 }
 pub fn config() -> Arc<Config> {
-    let c = store()
-        .read()
-        .unwrap_or_else(|e| e.into_inner())
-        .effective
-        .clone();
+    let s = store().read().unwrap_or_else(|e| e.into_inner());
     if enabled() {
-        if CLIENT_CONNECTED.load(Ordering::Acquire) && !has_server_config() {
-            Arc::new(Config {
-                collisions: false,
-                ..(*c).clone()
-            })
+        if CLIENT_CONNECTED.load(Ordering::Acquire) && s.remote.is_none() {
+            s.visual_only.clone()
         } else {
-            c
+            s.effective.clone()
         }
     } else {
-        Arc::new(Config {
-            render: false,
-            collisions: false,
-            extend_fluids_range: 0,
-            debug: false,
-            ..(*c).clone()
-        })
+        s.disabled.clone()
     }
 }
 
@@ -166,6 +174,9 @@ pub fn apply_server_config(bytes: &[u8]) -> Result<(), String> {
     };
     let c = parse(bytes)?;
     let mut s = store().write().unwrap_or_else(|e| e.into_inner());
+    if s.remote.as_ref() == Some(&c) {
+        return Ok(());
+    }
     s.remote = Some(c);
     s.visual = None;
     refresh(&mut s);
@@ -270,6 +281,36 @@ pub fn enabled() -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn block_toggle_rules_remove_conflicts_and_leave_other_blocks_unchanged() {
+        let mut cfg = Config::default();
+        cfg.whitelist.push("minecraft:oak_planks[axis=x]".into());
+        cfg.blacklist.push("minecraft:stone_bricks".into());
+        cfg.state_overrides
+            .insert("minecraft:oak_planks[axis=y]".into(), true);
+        apply_rule(&mut cfg, "minecraft:oak_planks", false);
+        assert!(cfg.whitelist.is_empty());
+        assert!(cfg.state_overrides.is_empty());
+        assert!(!cfg.smoothable_with_default("minecraft:oak_planks", |_| None, true));
+        apply_rule(&mut cfg, "minecraft:oak_planks", true);
+        assert!(cfg.smoothable_with_default("minecraft:oak_planks", |_| None, true));
+        assert_eq!(cfg.blacklist, ["minecraft:stone_bricks"]);
+    }
+    #[test]
+    fn server_settings_never_replace_local_block_key() {
+        let local = Config {
+            block_toggle_key: "KeyJ".into(),
+            ..Config::default()
+        };
+        let remote = Config {
+            block_toggle_key: "KeyK".into(),
+            use_defaults: false,
+            ..Config::default()
+        };
+        let effective = merged(&local, Some(&remote));
+        assert_eq!(effective.block_toggle_key, "KeyJ");
+        assert!(!effective.use_defaults);
+    }
     #[test]
     fn persisted_settings_round_trip_and_invalid_edits_preserve_file() {
         let root = std::env::temp_dir().join(format!("nocubes-config-test-{}", std::process::id()));

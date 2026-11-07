@@ -1,0 +1,53 @@
+{
+    "version":  "0.2.3",
+    "render_distance":  8,
+    "modes":  [
+                  {
+                      "mesher":  "SurfaceNets",
+                      "pending_chunks":  0,
+                      "screenshot":  "SurfaceNets.png"
+                  },
+                  {
+                      "mesher":  "SurfaceNets2x",
+                      "pending_chunks":  0,
+                      "screenshot":  "SurfaceNets2x.png"
+                  },
+                  {
+                      "mesher":  "MarchingCubes",
+                      "pending_chunks":  0,
+                      "screenshot":  "MarchingCubes.png"
+                  },
+                  {
+                      "mesher":  "MarchingCubes2x",
+                      "pending_chunks":  0,
+                      "screenshot":  "MarchingCubes2x.png"
+                  },
+                  {
+                      "mesher":  "CullingCubic",
+                      "pending_chunks":  0,
+                      "screenshot":  "CullingCubic.png"
+                  },
+                  {
+                      "mesher":  "StupidCubic",
+                      "pending_chunks":  0,
+                      "screenshot":  "StupidCubic.png"
+                  },
+                  {
+                      "mesher":  "OldNoCubes",
+                      "pending_chunks":  0,
+                      "screenshot":  "OldNoCubes.png"
+                  },
+                  {
+                      "mesher":  "CullingChamfer",
+                      "pending_chunks":  0,
+                      "screenshot":  "CullingChamfer.png"
+                  },
+                  {
+                      "mesher":  "Wulferis",
+                      "pending_chunks":  0,
+                      "screenshot":  "Wulferis.png"
+                  }
+              ],
+    "visual_review_required":  true,
+    "runtime_capture_passed":  true
+}

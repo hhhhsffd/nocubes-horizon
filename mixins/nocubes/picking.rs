@@ -1,6 +1,81 @@
 use super::*;
+type MeshKey = [[i32; 3]; 3];
+struct QueryMesh {
+    config: std::sync::Arc<horizon_core::nocubes::Config>,
+    samples: horizon_core::nocubes::kinds::Samples,
+    dependencies: Vec<([i32; 3], horizon_world::registry::BlockStateId)>,
+    faces: std::sync::Arc<[horizon_core::nocubes::Face]>,
+}
+thread_local! {
+    static QUERY_MESHES: std::cell::RefCell<std::collections::HashMap<MeshKey, QueryMesh>> =
+        std::cell::RefCell::new(std::collections::HashMap::new());
+    static QUERY_ORDER: std::cell::RefCell<std::collections::VecDeque<MeshKey>> =
+        const { std::cell::RefCell::new(std::collections::VecDeque::new()) };
+}
 impl Game<'_> {
+    /// Picking, selection outlines and cracks share unchanged local geometry.
+    /// Retain every block read by the mesher, including its sampling halo, so
+    /// edits and world/registry/config changes cannot leave stale surfaces.
+    pub(super) fn nocubes_query_mesh(
+        &self,
+        base: [i32; 3],
+        min: [i32; 3],
+        max: [i32; 3],
+        cfg: &std::sync::Arc<horizon_core::nocubes::Config>,
+        samples: &horizon_core::nocubes::kinds::Samples,
+    ) -> std::sync::Arc<[horizon_core::nocubes::Face]> {
+        let key = [base, min, max];
+        let block = |p: [i32; 3]| self.world.block(p[0], p[1], p[2]);
+        if let Some(faces) = QUERY_MESHES.with(|cache| {
+            let cache = cache.borrow();
+            let entry = cache.get(&key)?;
+            (std::sync::Arc::ptr_eq(&entry.config, cfg)
+                && entry.samples.same_registry(samples)
+                && entry.dependencies.iter().all(|(p, id)| block(*p) == *id))
+            .then(|| entry.faces.clone())
+        }) {
+            return faces;
+        }
+        let dependencies = std::cell::RefCell::new(std::collections::HashMap::new());
+        let sample = |q: [i32; 3]| {
+            let p = std::array::from_fn(|i| base[i] + q[i]);
+            let id = block(p);
+            dependencies.borrow_mut().insert(p, id);
+            samples.get(id.0)
+        };
+        let faces: std::sync::Arc<[horizon_core::nocubes::Face]> =
+            horizon_core::nocubes::generate_at(&sample, min, max, cfg, base).into();
+        let dependencies = dependencies.into_inner();
+        if dependencies.len() <= 8192 && faces.len() <= 8192 {
+            QUERY_MESHES.with(|cache| {
+                let mut cache = cache.borrow_mut();
+                if !cache.contains_key(&key) {
+                    QUERY_ORDER.with(|order| {
+                        let mut order = order.borrow_mut();
+                        if cache.len() >= 16 {
+                            if let Some(old) = order.pop_front() {
+                                cache.remove(&old);
+                            }
+                        }
+                        order.push_back(key);
+                    });
+                }
+                cache.insert(
+                    key,
+                    QueryMesh {
+                        config: cfg.clone(),
+                        samples: samples.clone(),
+                        dependencies: dependencies.into_iter().collect(),
+                        faces: faces.clone(),
+                    },
+                );
+            });
+        }
+        faces
+    }
     fn nocubes_vanilla_ray(&self, origin: [f64; 3], dir: [f64; 3], reach: f64) -> Option<Hit> {
+        let cfg = horizon_core::nocubes::config();
+        let samples = horizon_core::nocubes::kinds::samples(&cfg);
         let mut pos = origin.map(|v| v.floor() as i32);
         let step = dir.map(|d| if d > 0.0 { 1 } else { -1 });
         let delta = dir.map(|d| {
@@ -28,11 +103,8 @@ impl Game<'_> {
         while t <= reach {
             let state = self.world.block(pos[0], pos[1], pos[2]);
             let f = self.res.facts().get(state);
-            if !self.pack.assets.registry.state(state).is_some_and(|s| {
-                horizon_core::nocubes::config().render
-                    && horizon_core::nocubes::config()
-                        .smoothable_with(&s.name, |k| s.properties.get(k).map(String::as_str))
-            }) && !self.res.facts().is_air(state)
+            if !(cfg.render && samples.get(state.0).smooth)
+                && !self.res.facts().is_air(state)
                 && (f.fluid == Fluid::None
                     || f.waterlogged
                     || &*f.name == "minecraft:kelp"
@@ -135,10 +207,11 @@ impl Game<'_> {
         }
         let base = origin.map(|v| v.floor() as i32);
         let local = std::array::from_fn(|i| (origin[i] - f64::from(base[i])) as f32);
+        let samples = horizon_core::nocubes::kinds::samples(&cfg);
         let sample = |p: [i32; 3]| {
             let p = std::array::from_fn::<_, 3, _>(|i| p[i] + base[i]);
             let id = self.world.block(p[0], p[1], p[2]);
-            nocubes::kinds::sample(&cfg, id.0)
+            samples.get(id.0)
         };
         let end = std::array::from_fn::<_, 3, _>(|i| local[i] + dir[i] as f32 * reach as f32);
         let lo = std::array::from_fn(|i| local[i].min(end[i]).floor() as i32 - 1);
@@ -151,7 +224,8 @@ impl Game<'_> {
                 .sum::<f64>()
                 .sqrt()
         });
-        for surface in nocubes::generate_at(&sample, lo, hi, &cfg, base) {
+        let faces = self.nocubes_query_mesh(base, lo, hi, &cfg, &samples);
+        for surface in faces.iter() {
             for triangle in surface.triangles() {
                 if let Some(t) = nocubes::ray_triangle(local, dir.map(|v| v as f32), triangle)
                     && f64::from(t) < distance
@@ -165,7 +239,7 @@ impl Game<'_> {
                     face[axis] = if n[axis] > 0. { 1 } else { -1 };
                     best = Some(Hit {
                         pos: {
-                            let candidate = nocubes::material_position(&surface, cfg.mesher);
+                            let candidate = nocubes::material_position(surface, cfg.mesher);
                             let p = if sample(candidate).smooth {
                                 candidate
                             } else {

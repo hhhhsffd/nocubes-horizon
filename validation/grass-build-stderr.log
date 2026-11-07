@@ -1,0 +1,43 @@
+[ 0:01] Incremental rebuild: mods nocubes (performance)
+[ 0:02] Downloading Horizon's source at 41f822b
+[ 0:02] Applying the mixins
+[ 1:42] Checking the mods' crates against Horizon's Cargo.lock
+[ 1:51] Compiling the game (performance): 1 crates, now nocubes-engine
+[ 1:52] Compiling the game (performance): 2 crates, now horizon-world
+[ 1:52] Compiling the game (performance): 3 crates, now horizon-core
+[ 1:55] Compiling the game (performance): 378 of 394 crates, now horizon-core
+[ 1:56] Compiling the game (performance): 379 of 394 crates, now horizon-core
+[ 1:56] Compiling the game (performance): 380 of 394 crates, now horizon-optifine
+[ 1:56] Compiling the game (performance): 381 of 394 crates, now horizon-shaders
+[ 1:56] Compiling the game (performance): 382 of 394 crates, now horizon-assets
+[ 2:24] Compiling the game (performance): 382 of 394 crates, now horizon-assets
+[ 2:24] Compiling the game (performance): 382 of 394 crates, now horizon-assets
+[ 2:24] Compiling the game (performance): 382 of 394 crates, now horizon-assets
+[ 2:24] Compiling the game (performance): 382 of 394 crates, now horizon-assets
+[ 2:24] Compiling the game (performance): 383 of 394 crates, now horizon-assets
+[ 2:24] Compiling the game (performance): 384 of 394 crates, now horizon-client-core
+[ 2:24] Compiling the game (performance): 385 of 394 crates, now horizon-protocol
+[ 2:26] Compiling the game (performance): 385 of 394 crates, now horizon-protocol
+[ 2:26] Compiling the game (performance): 386 of 394 crates, now horizon-items
+[ 2:26] Compiling the game (performance): 387 of 394 crates, now horizon-client-input
+[ 2:37] Compiling the game (performance): 387 of 394 crates, now horizon-client-input
+[ 2:37] Compiling the game (performance): 388 of 394 crates, now horizon-command
+[ 2:37] Compiling the game (performance): 389 of 394 crates, now horizon-server-files
+[ 2:41] Compiling the game (performance): 389 of 394 crates, now horizon-server-files
+[ 2:41] Compiling the game (performance): 390 of 394 crates, now horizon-client-render
+[ 3:19] Compiling the game (performance): 390 of 394 crates, now horizon-client-render
+[ 3:19] Compiling the game (performance): 390 of 394 crates, now horizon-client-render
+[ 3:19] Compiling the game (performance): 390 of 394 crates, now horizon-client-render
+[ 3:19] Compiling the game (performance): 390 of 394 crates, now horizon-client-render
+[ 3:19] Compiling the game (performance): 390 of 394 crates, now horizon-client-render
+[ 3:19] Compiling the game (performance): 390 of 394 crates, now horizon-client-render
+[ 3:19] Compiling the game (performance): 390 of 394 crates, now horizon-client-render
+[ 3:19] Compiling the game (performance): 391 of 394 crates, now horizon-client-lib
+[ 4:06] Compiling the game (performance): 391 of 394 crates, now horizon-client-lib
+[ 4:06] Compiling the game (performance): 391 of 394 crates, now horizon-client-lib
+[ 4:06] Compiling the game (performance): 392 of 394 crates, now horizon-client
+[ 8:15] Compiling the game (performance): 392 of 394 crates, now horizon-client
+[ 8:15] Compiling the game (performance): 392 of 394 crates, now horizon-client
+[ 8:15] Compiling the game (performance): 393 of 394 crates, now horizon-client
+[ 8:15] Installing the build
+[ 8:42] Built in 8 min 42 s (performance, incremental)

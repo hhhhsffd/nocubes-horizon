@@ -729,7 +729,7 @@ fn main() {
                     let extra: syn::ItemFn = syn::parse_quote! {
                         fn nocubes_extended(world:&MobWorld<'_>,p:[i32;3])->FluidState {
                             let cfg=horizon_core::nocubes::config();
-                            horizon_core::nocubes::fluids::extended(p,cfg.extend_fluids_range,|p|world.registry.state(world.world.block(p[0],p[1],p[2])).is_some_and(|s|cfg.smoothable_with(&s.name,|k|s.properties.get(k).map(String::as_str))),|f:FluidState|f.kind()==FluidKind::Empty,|f:FluidState|f.is_source(),|p|world.fluid_tables.fluid(world.world.block(p[0],p[1],p[2])))
+                            horizon_core::nocubes::fluids::extended(p,cfg.extend_fluids_range,|p|horizon_core::nocubes::kinds::smoothable(&cfg,world.world.block(p[0],p[1],p[2]).0),|f:FluidState|f.kind()==FluidKind::Empty,|f:FluidState|f.is_source(),|p|world.fluid_tables.fluid(world.world.block(p[0],p[1],p[2])))
                         }
                     };
                     parsed.items.push(syn::Item::Fn(extra));
@@ -738,7 +738,7 @@ fn main() {
                     parsed.items.push(syn::parse_quote! {
                         fn nocubes_arrow_fluid(scene:&ArrowScene<'_,'_>,p:BlockPos)->FluidState {
                             let cfg=horizon_core::nocubes::config();
-                            horizon_core::nocubes::fluids::extended([p.x,p.y,p.z],cfg.extend_fluids_range,|q|scene.registry.state(scene.block(BlockPos::new(q[0],q[1],q[2]))).is_some_and(|s|cfg.smoothable_with(&s.name,|k|s.properties.get(k).map(String::as_str))),|f:FluidState|f.kind()==FluidKind::Empty,|f:FluidState|f.is_source(),|q|scene.fluids.fluid(scene.block(BlockPos::new(q[0],q[1],q[2]))))
+                            horizon_core::nocubes::fluids::extended([p.x,p.y,p.z],cfg.extend_fluids_range,|q|horizon_core::nocubes::kinds::smoothable(&cfg,scene.block(BlockPos::new(q[0],q[1],q[2])).0),|f:FluidState|f.kind()==FluidKind::Empty,|f:FluidState|f.is_source(),|q|scene.fluids.fluid(scene.block(BlockPos::new(q[0],q[1],q[2]))))
                         }
                     });
                 }

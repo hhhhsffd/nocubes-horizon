@@ -1,0 +1,14 @@
+﻿{
+    "version":  "0.2.5",
+    "native_version":  "native-41f822b-4ed4fb958e03",
+    "bundle_sha256":  "71aea1accaf4a619d214487c921efdfaa8b99b42ab0f4f40c283bc0f47c93718",
+    "bundle_files":  168,
+    "engine_tests_passed":  49,
+    "native_renderer_tests_passed":  11,
+    "in_game_control_checks_passed":  7,
+    "classification_fixtures_passed":  7,
+    "title_settings_passed":  true,
+    "final_key_unbound":  true,
+    "remote_multiplayer_retested":  false,
+    "fps_rebenchmarked":  false
+}

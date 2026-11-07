@@ -20,13 +20,7 @@ fn boat_fluid_height(
             p,
             cfg.extend_fluids_range,
             |p| {
-                game.pack
-                    .assets
-                    .registry
-                    .state(game.world.block(p[0], p[1], p[2]))
-                    .is_some_and(|s| {
-                        cfg.smoothable_with(&s.name, |k| s.properties.get(k).map(String::as_str))
-                    })
+                horizon_core::nocubes::kinds::smoothable(&cfg, game.world.block(p[0], p[1], p[2]).0)
             },
             |f: horizon_world::fluid::FluidState| {
                 f.kind() == horizon_world::fluid::FluidKind::Empty

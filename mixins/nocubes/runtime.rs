@@ -15,16 +15,37 @@ fn translated(key: &str) -> String {
     }
 }
 fn rows() -> Vec<(String, serde_json::Value)> {
-    serde_json::to_value(&*nocubes::config())
+    let mut rows: Vec<_> = serde_json::to_value(&*nocubes::config())
         .expect("finite configuration")
         .as_object()
         .unwrap()
         .iter()
         .map(|(k, v)| (k.clone(), v.clone()))
-        .collect()
+        .collect();
+    rows.sort_by_key(|(key, _)| key != "block_toggle_key");
+    rows
 }
 impl Game<'_> {
+    fn nocubes_settings_open(&self) -> bool {
+        if self.native_mod_screen() == Some("nocubes") {
+            return true;
+        }
+        if self.screen != Screen::Options {
+            return false;
+        }
+        let horizon_client::options_ui::Page::NativeMod(index) = self.ui.options.page() else {
+            return false;
+        };
+        self.settings
+            .mods
+            .installed
+            .get(index)
+            .is_some_and(|m| m.id == "nocubes")
+    }
     pub(super) fn nocubes_remesh(&mut self) {
+        if let Some(lod) = &mut self.lod {
+            lod.nocubes_sync();
+        }
         for (&(x, z), c) in &self.world.chunks {
             for sy in 0..c.sections.len() {
                 self.world.dirty_sections.insert((x, sy as i32, z));
@@ -66,38 +87,21 @@ impl Game<'_> {
             }
         }
     }
-    pub(super) fn nocubes_key(&mut self, event: &winit::event::KeyEvent, modifiers: u32) {
-        if !self.native_on("nocubes") || !event.state.is_pressed() || event.repeat {
+    pub(super) fn nocubes_key(&mut self, key: &str, pressed: bool) {
+        if !self.native_on("nocubes") || !pressed || self.screen != Screen::Playing {
             return;
         }
-        use winit::keyboard::PhysicalKey;
-        let PhysicalKey::Code(key) = event.physical_key else {
+        let Some(key) = horizon_client::keybinds::key_code(key) else {
             return;
         };
-        if self.screen != Screen::Playing {
-            return;
-        }
         let cfg = nocubes::config();
         let key = format!("{key:?}");
-        if nocubes::ui::binding_matches(&cfg.state_key, &key, modifiers) {
-            self.nocubes_toggle_block(true);
-        } else if nocubes::ui::binding_matches(&cfg.smooth_key, &key, modifiers) {
-            self.nocubes_toggle_block(false);
-        } else if nocubes::ui::binding_matches(&cfg.visuals_key, &key, modifiers) {
-            if cfg.force_visuals {
-                self.nocubes_notice("nocubes.notification.visualsForcedByServer");
-            } else if let Err(e) = nocubes::update_local(|c| c.render = !c.render) {
-                eprintln!("[NoCubes] {e}");
-            }
-        } else if nocubes::ui::binding_matches(&cfg.config_key, &key, modifiers) {
-            self.native_mod_screen_open("nocubes");
+        if nocubes::ui::binding_matches(&cfg.block_toggle_key, &key, glfw_modifiers(self.modifiers))
+        {
+            self.nocubes_toggle_block();
         }
     }
-    pub(super) fn nocubes_notice(&mut self, key: &str) {
-        let message = Text::translate_with_fallback(key, &translated(key), &[]);
-        self.system_message(message);
-    }
-    pub(super) fn nocubes_toggle_block(&mut self, exact: bool) {
+    pub(super) fn nocubes_toggle_block(&mut self) {
         let Some(hit) = self.pick() else {
             return;
         };
@@ -106,21 +110,8 @@ impl Game<'_> {
             return;
         };
         let cfg = nocubes::config();
-        let smooth =
-            !cfg.smoothable_with(&state.name, |k| state.properties.get(k).map(String::as_str));
-        let mut selector = state.name.clone();
-        if exact && !state.properties.is_empty() {
-            selector.push('[');
-            selector.push_str(
-                &state
-                    .properties
-                    .iter()
-                    .map(|(k, v)| format!("{k}={v}"))
-                    .collect::<Vec<_>>()
-                    .join(","),
-            );
-            selector.push(']');
-        }
+        let smooth = !nocubes::kinds::smoothable(&cfg, id.0);
+        let selector = state.name.clone();
         if self.remote.is_none() {
             if let Err(e) = nocubes::set_smoothable(&selector, smooth) {
                 eprintln!("[NoCubes] {e}");
@@ -207,7 +198,7 @@ impl Game<'_> {
         batch: &mut HudBatch,
         screen: &crate::mod_api::NativeScreenView<'_>,
     ) {
-        if self.native_mod_screen() != Some("nocubes") {
+        if !self.nocubes_settings_open() {
             return;
         }
         let state = nocubes::ui::screen()
@@ -227,7 +218,18 @@ impl Game<'_> {
         let start = state.page * size;
         for (i, (key, value)) in rows.iter().skip(start).take(size).enumerate() {
             let label = translated(&format!("nocubes.config.{key}"));
-            let line = format!("{label}: {value}");
+            let display = if key == "block_toggle_key" {
+                if state.binding {
+                    translated("nocubes.ui.binding_wait")
+                } else if value.as_str().is_none_or(str::is_empty) {
+                    translated("nocubes.ui.unbound")
+                } else {
+                    value.as_str().unwrap().to_owned()
+                }
+            } else {
+                value.to_string()
+            };
+            let line = format!("{label}: {display}");
             let line = if line.chars().count() > 80 {
                 format!("{}…", line.chars().take(79).collect::<String>())
             } else {
@@ -245,7 +247,9 @@ impl Game<'_> {
                 false,
             );
         }
-        let footer = if let Some((key, value)) = &state.edit {
+        let footer = if state.binding {
+            translated("nocubes.ui.binding_help")
+        } else if let Some((key, value)) = &state.edit {
             format!("{key}: {value}")
         } else {
             translated("nocubes.ui.help")
@@ -261,7 +265,7 @@ impl Game<'_> {
         button: i32,
         canceled: &mut bool,
     ) {
-        if self.native_mod_screen() != Some("nocubes") {
+        if !self.nocubes_settings_open() {
             return;
         }
         *canceled = true;
@@ -290,6 +294,12 @@ impl Game<'_> {
         let Some((key, value)) = rows.get(state.page * size + index as usize) else {
             return;
         };
+        state.error = None;
+        state.binding = key == "block_toggle_key";
+        if state.binding {
+            state.edit = None;
+            return;
+        }
         state.edit = Some((
             key.clone(),
             if let Some(b) = value.as_bool() {
@@ -332,10 +342,46 @@ impl Game<'_> {
             .unwrap_or_else(|e| e.into_inner())
             .error = result.err();
     }
-    pub(super) fn nocubes_screen_key(&self, key: &str, canceled: &mut bool) {
-        if self.native_mod_screen() != Some("nocubes") {
+    pub(super) fn nocubes_screen_key(
+        &self,
+        key: &str,
+        repeat: bool,
+        modifiers: u32,
+        canceled: &mut bool,
+    ) {
+        if !self.nocubes_settings_open() {
             return;
         }
+        let mut state = nocubes::ui::screen()
+            .lock()
+            .unwrap_or_else(|e| e.into_inner());
+        if state.binding {
+            *canceled = true;
+            if repeat {
+                return;
+            }
+            if key == "key.keyboard.escape" {
+                state.binding = false;
+                return;
+            }
+            let binding = if matches!(key, "key.keyboard.backspace" | "key.keyboard.delete") {
+                Some(String::new())
+            } else {
+                horizon_client::keybinds::key_code(key)
+                    .and_then(|code| nocubes::ui::binding_chord(&format!("{code:?}"), modifiers))
+            };
+            if let Some(binding) = binding {
+                state.binding = false;
+                drop(state);
+                let result = nocubes::ui::set_setting("block_toggle_key", binding.into());
+                nocubes::ui::screen()
+                    .lock()
+                    .unwrap_or_else(|e| e.into_inner())
+                    .error = result.err();
+            }
+            return;
+        }
+        drop(state);
         if key == "key.keyboard.enter" {
             self.nocubes_commit_setting();
             *canceled = true;
@@ -351,7 +397,15 @@ impl Game<'_> {
         }
     }
     pub(super) fn nocubes_char(&self, c: char, canceled: &mut bool) {
-        if self.native_mod_screen() != Some("nocubes") {
+        if !self.nocubes_settings_open() {
+            return;
+        }
+        if nocubes::ui::screen()
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .binding
+        {
+            *canceled = true;
             return;
         }
         if let Some((_, s)) = &mut nocubes::ui::screen()

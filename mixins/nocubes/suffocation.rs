@@ -10,9 +10,10 @@ pub(super) fn occupied(world: &World, facts: &BlockFacts, pos: [i32; 3], body: A
     if !cfg.collisions || !horizon_core::nocubes::kinds::smoothable(&cfg, id.0) {
         return true;
     }
+    let samples = horizon_core::nocubes::kinds::samples(&cfg);
     let sample = |q: [i32; 3]| {
         let id = world.block(pos[0] + q[0], pos[1] + q[1], pos[2] + q[2]);
-        horizon_core::nocubes::kinds::sample(&cfg, id.0)
+        samples.get(id.0)
     };
     horizon_core::nocubes::collision_boxes_at(&sample, [0; 3], &cfg, pos)
         .iter()

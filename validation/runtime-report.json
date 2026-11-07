@@ -1,0 +1,167 @@
+{
+    "status":  "port_extended_and_runtime_validated",
+    "version":  "0.2.2",
+    "validated_at_utc":  "2026-11-07T11:38:29.6869902Z",
+    "artifact":  {
+                     "path":  "dist/nocubes-0.2.2.hnmod",
+                     "size_bytes":  161709,
+                     "sha256":  "f888a9fa952c790de3bc3342b59309728aade31099a6cd82ed808f23b0794231",
+                     "archive_file_count":  161,
+                     "archive_source_matches_workspace":  true
+                 },
+    "native_build":  {
+                         "version":  "native-41f822b-1f1c688859ad",
+                         "profile":  "performance (Cargo fast, opt-level 3, incremental, no LTO)",
+                         "log":  "validation/completed-native-stdout.log",
+                         "installed_instance":  "NoCubes Port Validation",
+                         "main_player_instance_modified":  false
+                     },
+    "checks":  {
+                   "cargo_fmt":  "passed",
+                   "cargo_clippy_workspace_all_targets_deny_warnings":  "passed",
+                   "engine_tests_passed":  37,
+                   "transformed_native_tests_passed":  3,
+                   "total_tests_passed":  40,
+                   "full_native_client_build":  "passed",
+                   "official_bundle_validator":  "passed",
+                   "compiled_engine_source_matches_workspace":  true,
+                   "runtime_log_matching_errors":  0
+               },
+    "hardware":  {
+                     "cpu":  "AMD Ryzen 5 5600X (6 cores, 12 threads)",
+                     "ram_gib":  15.9,
+                     "gpu":  "NVIDIA GeForce RTX 2080",
+                     "driver":  "NVIDIA 621.14",
+                     "backend":  "Vulkan",
+                     "game_resolution":  [
+                                             1280,
+                                             720
+                                         ],
+                     "monitor_hz":  120
+                 },
+    "runtime":  {
+                    "in_game_tests_run":  true,
+                    "gpu_device_requested":  true,
+                    "all_nine_meshers_running":  true,
+                    "smoke_report":  "validation/runtime-smoke.json",
+                    "ray_edit_invalidation":  "passed: warm query hit disappears after removing the block and returns after restoration without moving the player",
+                    "configuration_invalidation":  "passed: isolated Surface Nets hit at Z 8.333333 changes to Z 8.0 in CullingCubic",
+                    "collision_edit_invalidation":  "passed: standing Y 81.0, floor removal releases the player to Y 71.8000001",
+                    "manual_coverage":  [
+                                            "terrain, snow, plants and source-water rendering",
+                                            "grass tuft lighting regression corrected and visually checked",
+                                            "smooth terrain picking and selection",
+                                            "mining a stone block and placing it back",
+                                            "walking on a smooth platform",
+                                            "native settings screen boolean edit persisted on Windows",
+                                            "one-second file configuration reload and remesh"
+                                        ],
+                    "screenshots":  "validation/screenshots/all-meshers.png"
+                },
+    "performance":  {
+                        "baseline":  "Horizon vanilla terrain/collision paths in the same executable, using render=false, collisions=false, extend_fluids_range=0; native adapter hooks remain installed",
+                        "method":  "ABBA (disabled, enabled, enabled, disabled), 10 seconds stationary plus four 0.6-second forward/back walking laps per sample; same world/camera/resolution, simulation distance 8, VSync off, AFK cap disabled, no compiler processes running",
+                        "default_mesher":  "SurfaceNets",
+                        "render_distances":  [
+                                                 8,
+                                                 24
+                                             ],
+                        "all_samples_pending_chunks":  0,
+                        "uncapped_results":  [
+                                                 {
+                                                     "render_distance":  8,
+                                                     "workload":  "stationary",
+                                                     "baseline_fps":  1506.8933715243827,
+                                                     "nocubes_fps":  1437.4004247944329,
+                                                     "fps_reduction_percent":  4.6116698130837421620767432200,
+                                                     "added_average_frame_ms":  0.03208340371642282
+                                                 },
+                                                 {
+                                                     "render_distance":  8,
+                                                     "workload":  "walking",
+                                                     "baseline_fps":  1505.1033584382581,
+                                                     "nocubes_fps":  1399.5305147200477,
+                                                     "fps_reduction_percent":  7.0143251708478051099013397700,
+                                                     "added_average_frame_ms":  0.05011912993016021
+                                                 },
+                                                 {
+                                                     "render_distance":  24,
+                                                     "workload":  "stationary",
+                                                     "baseline_fps":  1030.9907283644018,
+                                                     "nocubes_fps":  895.26277108076852,
+                                                     "fps_reduction_percent":  13.164808717432081510156954700,
+                                                     "added_average_frame_ms":  0.1470496612021453
+                                                 },
+                                                 {
+                                                     "render_distance":  24,
+                                                     "workload":  "walking",
+                                                     "baseline_fps":  1057.9532790521364,
+                                                     "nocubes_fps":  876.76448537663646,
+                                                     "fps_reduction_percent":  17.126351159649922220620129860,
+                                                     "added_average_frame_ms":  0.19533582216543422
+                                                 }
+                                             ],
+                        "capped_120_at_24_chunks":  [
+                                                        {
+                                                            "nocubes_enabled":  false,
+                                                            "workload":  "stationary",
+                                                            "fps":  119.94275368359138,
+                                                            "p95_range_ms":  [
+                                                                                 8.6225996017456055,
+                                                                                 8.62399959564209
+                                                                             ]
+                                                        },
+                                                        {
+                                                            "nocubes_enabled":  false,
+                                                            "workload":  "walking",
+                                                            "fps":  119.99595215190021,
+                                                            "p95_range_ms":  [
+                                                                                 8.6319999694824219,
+                                                                                 8.6607999801635742
+                                                                             ]
+                                                        },
+                                                        {
+                                                            "nocubes_enabled":  true,
+                                                            "workload":  "stationary",
+                                                            "fps":  119.89106262542008,
+                                                            "p95_range_ms":  [
+                                                                                 8.73009967803955,
+                                                                                 8.73550033569336
+                                                                             ]
+                                                        },
+                                                        {
+                                                            "nocubes_enabled":  true,
+                                                            "workload":  "walking",
+                                                            "fps":  119.99078881834049,
+                                                            "p95_range_ms":  [
+                                                                                 8.6459999084472656,
+                                                                                 8.7062997817993164
+                                                                             ]
+                                                        }
+                                                    ],
+                        "cpu_microbenchmark":  "validation/controlled-cpu-summary.json",
+                        "cpu_baseline":  "Original 0.2.1 engine extracted from git HEAD 78492df, identical benchmark and locked dependencies; compiled executables run in ABBA order with the game closed",
+                        "cpu_mesh_face_and_collision_box_counts_unchanged":  true,
+                        "raw_files":  [
+                                          "validation/matched-runtime-8.json",
+                                          "validation/matched-runtime-24.json",
+                                          "validation/matched-runtime-24-capped120.json",
+                                          "validation/controlled-cpu-before-1.txt",
+                                          "validation/controlled-cpu-after-1.txt",
+                                          "validation/controlled-cpu-after-2.txt",
+                                          "validation/controlled-cpu-before-2.txt"
+                                      ]
+                    },
+    "source_revisions":  {
+                             "horizon":  "41f822b659789780f58d32c63ddfb6887ea1b8bf",
+                             "horizon_mixins":  "5a64af938ec86b00d53d16a408aabc0038fb3e57",
+                             "nocubes":  "38904f71b818a1f4770c5253b9a1dd522201babc"
+                         },
+    "limitations":  [
+                        "Uncapped overhead remains: about 5-7% at 8 chunks and 13-17% at 24 chunks in these workloads; it is not zero-cost geometry.",
+                        "The paired baseline uses Horizon with NoCubes disabled; a separate Java Minecraft client was not benchmarked.",
+                        "Remote multiplayer, every world configuration, all graphics hardware/resolutions, and sustained cold-world exploration are not exhaustively validated.",
+                        "Alternative meshers, collision enhancement levels and sampled collisions retain their intentional algorithmic costs."
+                    ],
+    "exhaustive_runtime_parity_verified":  false
+}

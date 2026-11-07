@@ -1,0 +1,92 @@
+﻿cargo :     Finished `test` profile [unoptimized + debuginfo] target(s) in 2.55s
+At line:1 char:315
++ ... N='1.99.1-x86_64-pc-windows-gnu'; cargo test --workspace 2>&1 | Out-F ...
++                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (    Finished `t...get(s) in 2.55s:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+     Running unittests src\main.rs (target\debug\deps\nocubes_adapters-50f722e96e78eff7.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\main.rs (target\debug\deps\nocubes_bundle-455b2bd43ac2ed3b.exe)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src\lib.rs (target\debug\deps\nocubes_engine-f0b4cb41fe4f8148.exe)
+
+running 33 tests
+test fluids::tests::source_above_precedes_neighbors_and_flow_does_not_extend ... ok
+test cache::tests::cached_values_include_halo_and_unbounded_fallback ... ok
+test cache::tests::excessive_or_inverted_bounds_use_sparse_storage ... ok
+test fluids::tests::extension_crosses_negative_chunk_boundaries ... ok
+test collision::tests::enhancement_levels_match_original_sample_counts ... ok
+test kinds::tests::state_table_reuses_snapshot_and_rebuilds_after_configuration_change ... ok
+test collision::tests::new_collision_boxes_extend_inward ... ok
+test lod::tests::coarse_step_becomes_a_slope_without_adding_density_samples ... ok
+test lod::tests::flat_lod_surface_and_vertical_wall_stay_in_place_at_every_scale ... ok
+test lod::tests::unknown_or_protected_neighbor_pins_the_vertex ... ok
+test profiler::tests::rolling_window_discards_old_samples_and_reports_each_rollover ... ok
+test settings::tests::block_toggle_rules_remove_conflicts_and_leave_other_blocks_unchanged ... ok
+test color::tests::upstream_color_examples ... ok
+test settings::tests::server_settings_never_replace_local_block_key ... ok
+test tests::cubic_faces_point_outward ... ok
+test tests::invalid_config_is_rejected ... ok
+test tests::ray_hits_and_misses ... ok
+test tests::empty_and_solid_have_no_surface ... ok
+test tests::marching_flat_surface_points_up ... ok
+test tests::whitelist_states_and_blacklist_precedence ... ok
+test tests::flat_surface_is_at_block_top_and_points_up ... ok
+test texture::tests::side_texture_stays_upright_on_slopes_and_respects_baked_rotations ... ok
+test texture::tests::every_cube_direction_preserves_model_uv_for_any_vertex_order ... ok
+test tests::flat_collision_is_full_and_air_empty ... ok
+test tests::isolated_block_is_closed_and_preserved ... ok
+test texture::tests::triangular_faces_share_uv_at_the_repeated_vertex ... ok
+test tests::server_configuration_is_bounded_validated_and_reset ... ok
+test ui::tests::selectors_reject_invalid_network_input ... ok
+test tests::collision_rotation_matches_vertical_wall ... ok
+test settings::tests::persisted_settings_round_trip_and_invalid_edits_preserve_file ... ok
+test tests::every_mesher_generates_finite_geometry ... ok
+test tests::adjacent_sections_match_monolithic_surface ... ok
+test cache_parity_tests::dense_sampling_preserves_every_mesher_on_negative_coordinates_and_snow ... ok
+
+test result: ok. 33 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests\behavior.rs (target\debug\deps\behavior-da8645d5ba798783.exe)
+
+running 12 tests
+test input_bindings_and_permissions_match_creator_controls ... ok
+test original_legacy_mesher_discards_isolated_blocks ... ok
+test exact_state_overrides_and_optional_defaults_work ... ok
+test material_selection_and_light_fallback_follow_source_rules ... ok
+test legacy_fluid_solidity_only_excludes_source_liquid_blocks ... ok
+test cube_and_chamfer_topology_matches_upstream_faces ... ok
+test legacy_faces_are_not_culled_against_partial_snow_density ... ok
+test short_snow_layers_are_negative_density ... ok
+test wulferis_other_render_pass_is_soft_even_for_nonreplaceable_blocks ... ok
+test legacy_roughness_uses_world_coordinates_across_rebased_sections ... ok
+test collision_shapes_keep_fractional_coordinates_far_from_world_origin ... ok
+test every_binary_cube_case_stays_finite_for_both_iso_meshers ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.54s
+
+     Running tests\controls.rs (target\debug\deps\controls-fb49252e3c410d8c.exe)
+
+running 4 tests
+test full_blocks_default_to_smooth_but_decorations_and_partial_shapes_do_not ... ok
+test toggled_block_rules_override_new_defaults_and_do_not_affect_other_types ... ok
+test default_controls_are_unbound_and_legacy_controls_do_not_reactivate ... ok
+test captured_binding_round_trips_and_empty_never_matches ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests nocubes_engine
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

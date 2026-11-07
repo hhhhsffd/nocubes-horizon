@@ -1,0 +1,7 @@
+   Compiling serde_core v1.0.229
+   Compiling flate2 v1.1.11
+   Compiling zip v2.6.1
+   Compiling serde_json v1.0.154
+   Compiling nocubes-bundle v0.1.0 (D:\horizonmod\tools\bundle)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 13.66s
+     Running `target\debug\nocubes-bundle.exe`

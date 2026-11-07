@@ -4,6 +4,7 @@ use std::sync::{Mutex, OnceLock};
 pub struct ScreenState {
     pub page: usize,
     pub edit: Option<(String, String)>,
+    pub binding: bool,
     pub error: Option<String>,
 }
 pub fn screen() -> &'static Mutex<ScreenState> {
@@ -93,6 +94,9 @@ pub fn edit_from_bytes(data: &[u8]) -> Result<SmoothEdit, String> {
     Ok(e)
 }
 pub fn binding_matches(binding: &str, key: &str, modifiers: u32) -> bool {
+    if binding.is_empty() || key.is_empty() {
+        return false;
+    }
     let mut parts = binding.split('+').collect::<Vec<_>>();
     let Some(name) = parts.pop() else {
         return false;
@@ -108,6 +112,31 @@ pub fn binding_matches(binding: &str, key: &str, modifiers: u32) -> bool {
         }
     }
     expected == modifiers & 15 && name.eq_ignore_ascii_case(key)
+}
+/// Modifier keys alone keep the capture active until a non-modifier is pressed.
+pub fn binding_chord(key: &str, modifiers: u32) -> Option<String> {
+    if matches!(
+        key,
+        "ShiftLeft"
+            | "ShiftRight"
+            | "ControlLeft"
+            | "ControlRight"
+            | "AltLeft"
+            | "AltRight"
+            | "SuperLeft"
+            | "SuperRight"
+    ) || key.is_empty()
+    {
+        return None;
+    }
+    let mut result = String::new();
+    for (bit, name) in [(1, "Shift+"), (2, "Ctrl+"), (4, "Alt+"), (8, "Super+")] {
+        if modifiers & bit != 0 {
+            result.push_str(name);
+        }
+    }
+    result.push_str(key);
+    Some(result)
 }
 pub fn edit_authorized(permission: u8, owner: bool) -> bool {
     owner || permission >= 2

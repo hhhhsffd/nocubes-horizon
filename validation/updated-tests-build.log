@@ -1,0 +1,7 @@
+   Compiling nocubes-engine v0.2.2 (D:\horizonmod\mixins\nocubes\engine)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 41.93s
+     Running unittests src\main.rs (target\debug\deps\nocubes_adapters-50f722e96e78eff7.exe)
+     Running unittests src\main.rs (target\debug\deps\nocubes_bundle-455b2bd43ac2ed3b.exe)
+     Running unittests src\lib.rs (target\debug\deps\nocubes_engine-c79099e0faa794cf.exe)
+     Running tests\behavior.rs (target\debug\deps\behavior-e42d299ddad41b6a.exe)
+   Doc-tests nocubes_engine

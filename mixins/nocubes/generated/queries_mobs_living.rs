@@ -241,14 +241,7 @@ fn nocubes_extended(world: &MobWorld<'_>, p: [i32; 3]) -> FluidState {
     horizon_core::nocubes::fluids::extended(
         p,
         cfg.extend_fluids_range,
-        |p| {
-            world
-                .registry
-                .state(world.world.block(p[0], p[1], p[2]))
-                .is_some_and(|s| {
-                    cfg.smoothable_with(&s.name, |k| s.properties.get(k).map(String::as_str))
-                })
-        },
+        |p| horizon_core::nocubes::kinds::smoothable(&cfg, world.world.block(p[0], p[1], p[2]).0),
         |f: FluidState| f.kind() == FluidKind::Empty,
         |f: FluidState| f.is_source(),
         |p| {

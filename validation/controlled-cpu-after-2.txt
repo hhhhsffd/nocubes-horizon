@@ -1,0 +1,9 @@
+SurfaceNets: mesh_ms=0.3880 collision_us=27.3297 faces=416 boxes=109
+SurfaceNets2x: mesh_ms=0.9818 collision_us=40.1947 faces=402 boxes=154
+MarchingCubes: mesh_ms=0.2770 collision_us=14.6594 faces=848 boxes=161
+MarchingCubes2x: mesh_ms=0.6940 collision_us=13.0772 faces=808 boxes=65
+CullingCubic: mesh_ms=0.2496 collision_us=0.0372 faces=416 boxes=12
+StupidCubic: mesh_ms=0.4532 collision_us=0.0372 faces=13728 boxes=12
+OldNoCubes: mesh_ms=0.6774 collision_us=0.8441 faces=416 boxes=50
+CullingChamfer: mesh_ms=0.2371 collision_us=0.0378 faces=566 boxes=12
+Wulferis: mesh_ms=2.1577 collision_us=3.4341 faces=416 boxes=50

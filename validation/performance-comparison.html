@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+html,body{margin:0;background:transparent;color:var(--foreground);font-family:var(--font-sans)}
+#nocubes-performance{display:grid;gap:10px}
+#nocubes-performance figure{margin:0}
+#nocubes-performance figcaption{font-weight:500;margin-bottom:6px}
+#nocubes-performance .note{color:var(--muted-foreground)}
+#nocubes-performance svg{display:block;width:100%;height:310px;overflow:visible}
+#nocubes-performance svg text{fill:var(--foreground);font-size:12px;font-family:var(--font-sans)}
+</style></head>
+<body><div id="nocubes-performance">
+<figure>
+<figcaption>Uncapped performance on RTX 2080</figcaption>
+<div class="note">1280 × 720 · default Surface Nets · matched standing and walking runs</div>
+<svg role="img" aria-label="Horizon baseline and NoCubes frame rates at 8 and 24 chunks"></svg>
+</figure>
+<div class="note">120 FPS limit, 24 chunks: both configurations averaged approximately 120 FPS.</div>
+</div>
+<script>
+(()=>{
+const root=document.getElementById('nocubes-performance');
+const svg=root.querySelector('svg');
+const rows=[
+{label:'8 chunks · standing',baseline:1506.8934,mod:1437.4004},
+{label:'8 chunks · walking',baseline:1505.1034,mod:1399.5305},
+{label:'24 chunks · standing',baseline:1030.9907,mod:895.2628},
+{label:'24 chunks · walking',baseline:1057.9533,mod:876.7645}
+];
+const ns='http://www.w3.org/2000/svg';
+function element(tag,attrs,text){const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);if(text!==undefined)e.textContent=text;svg.append(e);return e;}
+function draw(){
+const width=Math.max(300,svg.getBoundingClientRect().width);
+const left=84,right=64,end=width-right;
+const maximum=Math.max(...rows.flatMap(r=>[r.baseline,r.mod]))*1.12;
+const x=v=>left+(end-left)*v/maximum;
+svg.setAttribute('viewBox',`0 0 ${width} 310`);svg.replaceChildren();
+element('title',{},'Matched Horizon performance');
+element('desc',{},'Mean uncapped frames per second. Horizon baseline uses its normal rendering and collision paths with NoCubes disabled in the same executable. NoCubes adds 0.03 to 0.20 milliseconds per average frame in these workloads.');
+element('rect',{'data-chart-frame':'',x:left,y:27,width:end-left,height:233,fill:'none',stroke:'var(--border)'});
+rows.forEach((row,index)=>{
+const y=20+index*66;
+element('text',{x:left,y},row.label);
+[['Horizon',row.baseline,'var(--chart-2)',y+10],['NoCubes',row.mod,'var(--chart-1)',y+26]].forEach(([label,value,color,top])=>{
+element('text',{x:left-10,y:top+10,'text-anchor':'end'},label);
+element('rect',{x:left,y:top,width:x(value)-left,height:11,fill:color});
+element('text',{x:x(value)+6,y:top+10},Math.round(value).toLocaleString('en-US'));
+});
+});
+const ticks=width<450?3:5;
+for(let i=0;i<ticks;i++){const value=maximum*i/(ticks-1);const at=x(value);element('line',{x1:at,x2:at,y1:260,y2:265,stroke:'var(--border)'});element('text',{x:at,y:281,'text-anchor':i===0?'start':i===ticks-1?'end':'middle'},Math.round(value).toLocaleString('en-US'));}
+element('text',{class:'axis-title','data-axis':'x',x:(left+end)/2,y:304,'text-anchor':'middle'},'Frames per second · higher is faster');
+element('text',{class:'axis-title','data-axis':'y',x:12,y:144,transform:'rotate(-90 12 144)','text-anchor':'middle'},'Workload');
+}
+new ResizeObserver(draw).observe(svg);draw();
+})();
+</script></body></html>

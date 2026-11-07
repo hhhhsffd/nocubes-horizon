@@ -9,6 +9,7 @@ pub fn install(facts: &BlockFacts, assets: &Assets) {
         .map(|(id, f)| {
             let plant = f.has_class("BushBlock") || f.has_class("VegetationBlock");
             horizon_core::nocubes::kinds::StateKind {
+                full_block: f.full_collision && f.render_shape == RenderShape::Model,
                 air: matches!(
                     f.name.as_ref(),
                     "minecraft:air" | "minecraft:cave_air" | "minecraft:void_air"
@@ -29,12 +30,15 @@ pub fn install(facts: &BlockFacts, assets: &Assets) {
             }
         })
         .collect();
-    horizon_core::nocubes::kinds::install_resolver(move |cfg, id| {
+    horizon_core::nocubes::kinds::install_resolver(states.len(), move |cfg, id| {
         use horizon_core::nocubes::{Mesher, Sample, snow_density};
         let Some(s) = registry.state(horizon_world::registry::BlockStateId(id)) else {
             return Sample::AIR;
         };
-        let smooth = cfg.smoothable_with(&s.name, |k| s.properties.get(k).map(String::as_str));
+        let kind = states.get(id as usize).copied().unwrap_or_default();
+        let property = |k: &str| s.properties.get(k).map(String::as_str);
+        let default_smooth = kind.default_smooth(cfg.legacy_default(&s.name, property));
+        let smooth = cfg.smoothable_with_default(&s.name, property, default_smooth);
         let mut density = s
             .properties
             .get("layers")
@@ -43,7 +47,6 @@ pub fn install(facts: &BlockFacts, assets: &Assets) {
         if cfg.mesher == Mesher::Wulferis && s.name != "minecraft:snow" {
             density = 1.;
         }
-        let kind = states.get(id as usize).copied().unwrap_or_default();
         Sample {
             state: id,
             smooth,

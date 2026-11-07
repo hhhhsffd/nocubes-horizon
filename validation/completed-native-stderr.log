@@ -1,0 +1,9 @@
+[ 0:59] Incremental rebuild: mods nocubes (performance)
+[ 1:00] Downloading Horizon's source at 41f822b
+[ 1:00] Applying the mixins
+[ 1:54] Checking the mods' crates against Horizon's Cargo.lock
+[ 2:03] Compiling the game (performance): 1 crates, now horizon-client
+[ 5:23] Compiling the game (performance): 392 of 394 crates, now horizon-client
+[ 5:23] Compiling the game (performance): 393 of 394 crates, now horizon-client
+[ 5:23] Installing the build
+[ 5:51] Built in 5 min 51 s (performance, incremental)

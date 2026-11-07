@@ -1,9 +1,15 @@
 //! NoCubes terrain algorithms. Coordinates are block-centred density samples.
 //! Derived from Cadiboo/NoCubes (LGPL-3.0); Surface Nets by Mikola Lysenko.
 #![forbid(unsafe_code)]
+mod cache;
 mod defaults;
+mod lod;
+pub use lod::lod_vertex;
+mod texture;
 use serde::{Deserialize, Serialize};
+#[cfg(test)]
 use std::collections::HashMap;
+pub use texture::surface_uv;
 pub type Point = [f32; 3];
 pub type Pos = [i32; 3];
 #[derive(Clone, Copy, Debug, Default, Serialize, Deserialize, PartialEq, Eq)]
@@ -43,11 +49,18 @@ pub struct Config {
     pub extend_fluids_range: u8,
     pub old_in_fluids: bool,
     pub grass_tufts: bool,
+    // Accept old configuration files, but never reactivate or expose their shortcuts.
+    #[serde(skip_serializing, deserialize_with = "ignore_legacy")]
     pub info_message: bool,
+    #[serde(skip_serializing, deserialize_with = "ignore_legacy")]
     pub visuals_key: String,
+    #[serde(skip_serializing, deserialize_with = "ignore_legacy")]
     pub config_key: String,
+    #[serde(skip_serializing, deserialize_with = "ignore_legacy")]
     pub smooth_key: String,
+    #[serde(skip_serializing, deserialize_with = "ignore_legacy")]
     pub state_key: String,
+    pub block_toggle_key: String,
     pub render_selection_box: bool,
     pub selection_color: String,
     pub debug: bool,
@@ -83,11 +96,12 @@ impl Default for Config {
             extend_fluids_range: 1,
             old_in_fluids: true,
             grass_tufts: false,
-            info_message: true,
-            visuals_key: "Ctrl+KeyV".into(),
-            config_key: "Ctrl+KeyO".into(),
-            smooth_key: "KeyN".into(),
-            state_key: "Shift+KeyN".into(),
+            info_message: false,
+            visuals_key: String::new(),
+            config_key: String::new(),
+            smooth_key: String::new(),
+            state_key: String::new(),
+            block_toggle_key: String::new(),
             render_selection_box: true,
             selection_color: "#0006".into(),
             debug: false,
@@ -100,6 +114,10 @@ impl Default for Config {
             debug_skip_rendering: false,
         }
     }
+}
+fn ignore_legacy<'de, D: serde::Deserializer<'de>, T: Default>(d: D) -> Result<T, D::Error> {
+    serde::de::IgnoredAny::deserialize(d)?;
+    Ok(T::default())
 }
 impl Config {
     pub fn validate(&self) -> Result<(), String> {
@@ -127,22 +145,27 @@ impl Config {
         name: &str,
         property: impl Fn(&str) -> Option<&'a str>,
     ) -> bool {
-        let matches = |entry: &str| {
-            let (block, props) = entry.split_once('[').unwrap_or((entry, ""));
-            let block = if block.contains(':') {
-                block.to_owned()
-            } else {
-                format!("minecraft:{block}")
-            };
-            block == name
-                && (props.is_empty()
-                    || props.strip_suffix(']').is_some_and(|p| {
-                        p.split(',').all(|kv| {
-                            kv.split_once('=')
-                                .is_some_and(|(k, v)| property(k).is_some_and(|a| a == v))
-                        })
-                    }))
-        };
+        self.smoothable_with_default(name, &property, self.legacy_default(name, &property))
+    }
+    /// Preserve the upstream terrain exceptions as well as full registry blocks.
+    pub fn legacy_default<'a>(
+        &self,
+        name: &str,
+        property: impl Fn(&str) -> Option<&'a str>,
+    ) -> bool {
+        defaults::DEFAULT_SMOOTHABLES.contains(&name)
+            || defaults::MODDED
+                .iter()
+                .any(|entry| selector_matches(entry, name, &property))
+    }
+    /// Resolve explicit rules over a registry-derived, per-state default.
+    pub fn smoothable_with_default<'a>(
+        &self,
+        name: &str,
+        property: impl Fn(&str) -> Option<&'a str>,
+        default_smooth: bool,
+    ) -> bool {
+        let matches = |entry: &str| selector_matches(entry, name, &property);
         if let Some((_, value)) = self
             .state_overrides
             .iter()
@@ -153,10 +176,28 @@ impl Config {
         }
         !self.blacklist.iter().any(|entry| matches(entry))
             && (self.whitelist.iter().any(|entry| matches(entry))
-                || self.use_defaults
-                    && (defaults::DEFAULT_SMOOTHABLES.contains(&name)
-                        || defaults::MODDED.iter().any(|entry| matches(entry))))
+                || self.use_defaults && default_smooth)
     }
+}
+fn selector_matches<'a>(
+    entry: &str,
+    name: &str,
+    property: &impl Fn(&str) -> Option<&'a str>,
+) -> bool {
+    let (block, props) = entry.split_once('[').unwrap_or((entry, ""));
+    let block = if block.contains(':') {
+        block.to_owned()
+    } else {
+        format!("minecraft:{block}")
+    };
+    block == name
+        && (props.is_empty()
+            || props.strip_suffix(']').is_some_and(|p| {
+                p.split(',').all(|kv| {
+                    kv.split_once('=')
+                        .is_some_and(|(k, v)| property(k).is_some_and(|a| a == v))
+                })
+            }))
 }
 mod settings;
 pub use settings::*;
@@ -247,8 +288,8 @@ fn field(sample: &impl Fn(Pos) -> Sample, p: Pos, smooth2: bool) -> f32 {
         -sample(p).density
     }
 }
-fn cell_vertex(sample: &impl Fn(Pos) -> Sample, p: Pos, smooth2: bool) -> Option<Point> {
-    let values: [f32; 8] = std::array::from_fn(|c| field(sample, corner(p, c), smooth2));
+fn cell_vertex(density: &impl Fn(Pos) -> f32, p: Pos, smooth2: bool) -> Option<Point> {
+    let values: [f32; 8] = std::array::from_fn(|c| density(corner(p, c)));
     if values.iter().all(|v| *v < 0.) || values.iter().all(|v| *v >= 0.) {
         return None;
     }
@@ -288,9 +329,17 @@ pub fn generate_at(
     cfg: &Config,
     origin: Pos,
 ) -> Vec<Face> {
-    let cache = std::cell::RefCell::new(HashMap::<Pos, Sample>::new());
-    let cached = |p| *cache.borrow_mut().entry(p).or_insert_with(|| sample(p));
-    let sample = &cached;
+    let cache = cache::GridCache::new(min, max, 3);
+    let cached = |p| cache.get(p, || sample(p));
+    generate_raw(&cached, min, max, cfg, origin)
+}
+fn generate_raw(
+    sample: &impl Fn(Pos) -> Sample,
+    min: Pos,
+    max: Pos,
+    cfg: &Config,
+    origin: Pos,
+) -> Vec<Face> {
     match cfg.mesher {
         Mesher::SurfaceNets | Mesher::SurfaceNets2x => {
             surface_nets(sample, min, max, cfg.mesher == Mesher::SurfaceNets2x)
@@ -304,7 +353,9 @@ pub fn generate_at(
 }
 fn surface_nets(sample: &impl Fn(Pos) -> Sample, min: Pos, max: Pos, smooth2: bool) -> Vec<Face> {
     let mut out = vec![];
-    let mut cache = HashMap::<Pos, Option<Point>>::new();
+    let cache = cache::GridCache::new(min, max, 3);
+    let densities = cache::GridCache::new(min, max, 3);
+    let density = |p| densities.get(p, || field(sample, p, smooth2));
     // Include one positive edge endpoint, but emit only owners in [min,max).
     for z in min[2] - 1..max[2] + 1 {
         for y in min[1] - 1..max[1] + 1 {
@@ -312,8 +363,8 @@ fn surface_nets(sample: &impl Fn(Pos) -> Sample, min: Pos, max: Pos, smooth2: bo
                 let p = [x, y, z];
                 for a in 0..3 {
                     let q = offset(p, a, 1);
-                    let d0 = field(sample, p, smooth2);
-                    let d1 = field(sample, q, smooth2);
+                    let d0 = density(p);
+                    let d1 = density(q);
                     if (d0 < 0.) == (d1 < 0.) {
                         continue;
                     }
@@ -343,10 +394,7 @@ fn surface_nets(sample: &impl Fn(Pos) -> Sample, min: Pos, max: Pos, smooth2: bo
                     let mut verts = [[0.; 3]; 4];
                     let mut valid = true;
                     for (i, cell) in cells.into_iter().enumerate() {
-                        match *cache
-                            .entry(cell)
-                            .or_insert_with(|| cell_vertex(sample, cell, smooth2))
-                        {
+                        match cache.get(cell, || cell_vertex(&density, cell, smooth2)) {
                             Some(v) => verts[i] = v,
                             None => {
                                 valid = false;
@@ -447,6 +495,61 @@ fn cubic(
 }
 mod alternate;
 mod marching;
+#[cfg(test)]
+mod cache_parity_tests {
+    use super::*;
+    #[test]
+    fn dense_sampling_preserves_every_mesher_on_negative_coordinates_and_snow() {
+        let sample = |p: Pos| {
+            if p[1] < (p[0] + p[2]).rem_euclid(3) - 1 {
+                Sample {
+                    state: 1,
+                    smooth: true,
+                    density: 1.,
+                    solid: true,
+                }
+            } else if p[1] == 1 && p[0].rem_euclid(2) == 0 {
+                Sample {
+                    state: 2,
+                    smooth: true,
+                    density: snow_density(3),
+                    solid: false,
+                }
+            } else {
+                Sample::AIR
+            }
+        };
+        for mesher in [
+            Mesher::SurfaceNets,
+            Mesher::SurfaceNets2x,
+            Mesher::MarchingCubes,
+            Mesher::MarchingCubes2x,
+            Mesher::CullingCubic,
+            Mesher::StupidCubic,
+            Mesher::OldNoCubes,
+            Mesher::CullingChamfer,
+            Mesher::Wulferis,
+        ] {
+            let cfg = Config {
+                mesher,
+                ..Default::default()
+            };
+            let min = [-2; 3];
+            let max = [3; 3];
+            let origin = [20_000_000, -64, -20_000_000];
+            let cached = generate_at(&sample, min, max, &cfg, origin);
+            let raw = generate_raw(&sample, min, max, &cfg, origin);
+            assert_eq!(cached.len(), raw.len(), "{mesher:?}");
+            for (a, b) in cached.iter().zip(raw) {
+                assert_eq!(
+                    (a.vertices, a.block, a.state),
+                    (b.vertices, b.block, b.state),
+                    "{mesher:?}"
+                );
+            }
+        }
+    }
+}
 /// Ray/triangle intersection, returns distance along a normalized ray.
 pub fn ray_triangle(origin: Point, dir: Point, tri: [Point; 3]) -> Option<f32> {
     let e1 = sub(tri[1], tri[0]);
@@ -906,6 +1009,15 @@ mod tests {
             ..Config::default()
         };
         apply_server_config(&serde_json::to_vec(&server).unwrap()).unwrap();
+        let before = revision();
+        let snapshot = config();
+        apply_server_config(&serde_json::to_vec(&server).unwrap()).unwrap();
+        assert_eq!(
+            revision(),
+            before,
+            "duplicate snapshots must not trigger remesh loops"
+        );
+        assert!(std::sync::Arc::ptr_eq(&snapshot, &config()));
         assert_eq!(config().mesher, Mesher::MarchingCubes);
         assert_eq!(config().collision_resolution, 4);
         assert_eq!(config().render, local_config().render);

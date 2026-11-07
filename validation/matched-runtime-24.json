@@ -1,0 +1,1986 @@
+{
+    "baseline":  "Horizon vanilla rendering/collision paths in the same executable; NoCubes disabled by config, adapter hooks remain installed",
+    "distance":  24,
+    "samples":  [
+                    {
+                        "enabled":  false,
+                        "state":  {
+                                      "busy":  null,
+                                      "dialog":  {
+                                                     "open":  null,
+                                                     "screen":  null
+                                                 },
+                                      "dimension":  "minecraft:overworld",
+                                      "gamemode":  "survival",
+                                      "held":  {
+                                                   "count":  64,
+                                                   "item":  "minecraft:stone"
+                                               },
+                                      "input":  {
+                                                    "counts":  {
+                                                                   "agent":  114,
+                                                                   "game":  0,
+                                                                   "user":  0
+                                                               },
+                                                    "events":  114,
+                                                    "last_origin":  "agent",
+                                                    "last_user_age_s":  null,
+                                                    "recording":  null,
+                                                    "replay":  null,
+                                                    "user_since_agent":  0
+                                                },
+                                      "looking_at":  {
+                                                         "block":  {
+                                                                       "block":  "minecraft:short_grass",
+                                                                       "distance":  1.4079403503208636,
+                                                                       "face":  "up",
+                                                                       "loaded":  true,
+                                                                       "point":  [
+                                                                                     -25.5,
+                                                                                     81.8125,
+                                                                                     6.65336020928447
+                                                                                 ],
+                                                                       "pos":  [
+                                                                                   -26,
+                                                                                   81,
+                                                                                   6
+                                                                               ],
+                                                                       "state":  "minecraft:short_grass"
+                                                                   },
+                                                         "entity":  null,
+                                                         "kind":  "block"
+                                                     },
+                                      "menu":  null,
+                                      "mining":  null,
+                                      "paused":  false,
+                                      "player":  {
+                                                     "absorption":  0.0,
+                                                     "air":  300,
+                                                     "block_pos":  [
+                                                                       -26,
+                                                                       81,
+                                                                       5
+                                                                   ],
+                                                     "death_time":  null,
+                                                     "effects":  [
+
+                                                                 ],
+                                                     "eye":  [
+                                                                 -25.5,
+                                                                 82.62000000476837,
+                                                                 5.5
+                                                             ],
+                                                     "fall_flying":  false,
+                                                     "flying":  false,
+                                                     "food":  17,
+                                                     "fov_modifier":  1.0,
+                                                     "health":  8.499998092651367,
+                                                     "hurt_time":  0,
+                                                     "on_ground":  true,
+                                                     "pitch":  35.0,
+                                                     "portal_effect":  0.0,
+                                                     "position":  [
+                                                                      -25.5,
+                                                                      81.0,
+                                                                      5.5
+                                                                  ],
+                                                     "saturation":  0.0,
+                                                     "shield_cooldown":  0,
+                                                     "sneaking":  false,
+                                                     "sprinting":  false,
+                                                     "velocity":  [
+                                                                      0.0,
+                                                                      -0.0784000015258789,
+                                                                      0.0
+                                                                  ],
+                                                     "xp":  {
+                                                                "level":  0,
+                                                                "progress":  0.0,
+                                                                "total":  0
+                                                            },
+                                                     "yaw":  0.0
+                                                 },
+                                      "pointer_grabbed":  true,
+                                      "screen":  "playing",
+                                      "selected":  1,
+                                      "sleeping":  null,
+                                      "swings":  0,
+                                      "ticks":  5489,
+                                      "time":  {
+                                                   "day":  1,
+                                                   "day_time":  30000,
+                                                   "time_of_day":  6000
+                                               },
+                                      "using":  null,
+                                      "weather":  {
+                                                      "raining":  false,
+                                                      "thundering":  false
+                                                  },
+                                      "world":  "NoCubesValidation"
+                                  },
+                        "status":  {
+                                       "block_entities":  299,
+                                       "border":  {
+                                                      "center":  [
+                                                                     0.0,
+                                                                     0.0
+                                                                 ],
+                                                      "size":  59999968.0
+                                                  },
+                                       "carts":  [
+
+                                                 ],
+                                       "chunks":  2175,
+                                       "creative":  false,
+                                       "day_time":  30000,
+                                       "debug":  {
+                                                     "advanced_tooltips":  false,
+                                                     "chunk_borders":  false,
+                                                     "clipboard":  null,
+                                                     "hitboxes":  false,
+                                                     "overlay":  false,
+                                                     "pause_menu":  true,
+                                                     "pause_on_lost_focus":  false
+                                                 },
+                                       "destroying":  [
+
+                                                      ],
+                                       "dimension":  "minecraft:overworld",
+                                       "dirty_light":  0,
+                                       "display":  {
+                                                       "height":  1440,
+                                                       "refresh_hz":  120,
+                                                       "scale":  1.0,
+                                                       "width":  2560
+                                                   },
+                                       "fangs_vertices":  0,
+                                       "fight":  {
+                                                     "alive_crystals":  0,
+                                                     "crystal_list":  [
+
+                                                                      ],
+                                                     "crystals":  0,
+                                                     "dragon":  null,
+                                                     "exit_portal":  null,
+                                                     "killed":  false,
+                                                     "players":  false,
+                                                     "respawn":  null
+                                                 },
+                                       "fishing":  null,
+                                       "fps":  529.090087890625,
+                                       "frames":  365554,
+                                       "generated_chunks":  2175,
+                                       "heard":  {
+                                                     "minecraft:block.grass.break":  2,
+                                                     "minecraft:block.stone.step":  42,
+                                                     "minecraft:block.water.ambient":  32,
+                                                     "minecraft:entity.player.big_fall":  1,
+                                                     "minecraft:entity.player.hurt":  2
+                                                 },
+                                       "held":  {
+                                                    "count":  64,
+                                                    "item":  "minecraft:stone"
+                                                },
+                                       "input":  {
+                                                     "counts":  {
+                                                                    "agent":  114,
+                                                                    "game":  0,
+                                                                    "user":  0
+                                                                },
+                                                     "events":  114,
+                                                     "last_origin":  "agent",
+                                                     "last_user_age_s":  null,
+                                                     "recording":  null,
+                                                     "replay":  null,
+                                                     "user_since_agent":  0
+                                                 },
+                                       "keys":  [
+
+                                                ],
+                                       "lightning":  {
+                                                         "bolts":  0,
+                                                         "flash":  0,
+                                                         "flashes":  0,
+                                                         "struck":  0
+                                                     },
+                                       "lod":  {
+                                                   "active_tiles":  0,
+                                                   "cached_tiles":  0,
+                                                   "detail_target_columns":  0,
+                                                   "distance":  0,
+                                                   "effective_distance":  0,
+                                                   "far_detail":  "full",
+                                                   "levels":  [
+
+                                                              ],
+                                                   "pending_observations":  0,
+                                                   "refined_samples":  0,
+                                                   "refined_target_columns":  0,
+                                                   "resident_quads":  0,
+                                                   "sampled_target_tiles":  0,
+                                                   "source":  "none",
+                                                   "source_attempted":  false,
+                                                   "target_tiles":  0,
+                                                   "terrain_distance":  24
+                                               },
+                                       "maps":  [
+
+                                                ],
+                                       "meshed_sections":  262907,
+                                       "mobs":  69,
+                                       "music":  null,
+                                       "name_tags":  [
+
+                                                     ],
+                                       "objects":  [
+
+                                                   ],
+                                       "offhand":  null,
+                                       "particles":  {
+                                                         "block":  130,
+                                                         "dripping_water":  1,
+                                                         "poof":  80,
+                                                         "tinted_leaves":  239,
+                                                         "underwater":  1994
+                                                     },
+                                       "pending_chunks":  0,
+                                       "pending_uploads":  0,
+                                       "physical_keys":  [
+
+                                                         ],
+                                       "pickups":  {
+
+                                                   },
+                                       "pitch":  35.0,
+                                       "player":  {
+                                                      "food":  17,
+                                                      "health":  8.499998092651367,
+                                                      "max_health":  null,
+                                                      "on_ground":  true,
+                                                      "position":  [
+                                                                       -25.5,
+                                                                       81.0,
+                                                                       5.5
+                                                                   ],
+                                                      "velocity":  [
+                                                                       0.0,
+                                                                       -0.0784000015258789,
+                                                                       0.0
+                                                                   ]
+                                                  },
+                                       "projectiles":  [
+
+                                                       ],
+                                       "render_distance":  24,
+                                       "renderer":  {
+                                                        "arena_bytes":  419426304,
+                                                        "backend":  "Vulkan",
+                                                        "culled_sections":  [
+                                                                                [
+                                                                                    697,
+                                                                                    737
+                                                                                ],
+                                                                                0.5573655962944031
+                                                                            ],
+                                                        "device_type":  "discrete",
+                                                        "drawn_sections":  1000,
+                                                        "driver":  "NVIDIA 621.14",
+                                                        "gpu":  "NVIDIA GeForce RTX 2080",
+                                                        "gpu_allocated_bytes":  690444656,
+                                                        "gpu_culling":  false,
+                                                        "gpu_culling_offer":  "Offered",
+                                                        "gpu_fading":  null,
+                                                        "gpu_frame":  false,
+                                                        "gpu_occluding":  false,
+                                                        "gpu_reserved_bytes":  807915552,
+                                                        "present_mode":  "Immediate",
+                                                        "resident_sections":  14966,
+                                                        "section_draw_calls":  5,
+                                                        "section_draws":  1757,
+                                                        "section_vertex_bytes":  304610184,
+                                                        "size":  [
+                                                                     1280,
+                                                                     720
+                                                                 ],
+                                                        "stats_lag":  0,
+                                                        "uploaded_bytes":  6043076664,
+                                                        "vendor":  "nvidia"
+                                                    },
+                                       "riding":  null,
+                                       "rockets":  0,
+                                       "screen":  "playing",
+                                       "selected":  1,
+                                       "server":  {
+                                                      "address":  "local",
+                                                      "chat":  [
+                                                                   "NoCubes: N toggles a block, Shift+N toggles one state, Ctrl+V toggles visuals, Ctrl+O opens settings.",
+                                                                   "Set own game mode to Spectator Mode",
+                                                                   "Set own game mode to Creative Mode",
+                                                                   "Set own game mode to Survival Mode",
+                                                                   "Set own game mode to Spectator Mode",
+                                                                   "Set own game mode to Survival Mode",
+                                                                   "Set own game mode to Creative Mode",
+                                                                   "Set own game mode to Survival Mode"
+                                                               ],
+                                                      "chunks":  2175,
+                                                      "dead_players":  [
+
+                                                                       ],
+                                                      "decode_errors":  0,
+                                                      "dimension":  "minecraft:overworld",
+                                                      "entities":  {
+                                                                       "minecraft:bee":  7,
+                                                                       "minecraft:cow":  19,
+                                                                       "minecraft:item":  4,
+                                                                       "minecraft:pig":  16,
+                                                                       "minecraft:sheep":  24,
+                                                                       "minecraft:wolf":  3
+                                                                   },
+                                                      "entity_id":  1,
+                                                      "food":  17,
+                                                      "game_mode":  0,
+                                                      "health":  8.499998092651367,
+                                                      "joined":  true,
+                                                      "loaded":  true,
+                                                      "lying_players":  [
+
+                                                                        ],
+                                                      "name":  "Furigold",
+                                                      "own_body":  false,
+                                                      "player_equipment":  [
+
+                                                                           ],
+                                                      "player_model":  true,
+                                                      "player_positions":  [
+
+                                                                           ],
+                                                      "players":  [
+                                                                      "Furigold"
+                                                                  ],
+                                                      "status":  "Loading terrain...",
+                                                      "text_display_vertices":  0,
+                                                      "text_displays":  0
+                                                  },
+                                       "sidebar":  null,
+                                       "sounds":  {
+                                                      "channels":  7,
+                                                      "decoded":  16,
+                                                      "decoded_mib":  5,
+                                                      "events":  [
+                                                                     [
+                                                                         "minecraft:entity.bee.loop",
+                                                                         7
+                                                                     ]
+                                                                 ],
+                                                      "handles":  7,
+                                                      "instances":  7,
+                                                      "playing":  7,
+                                                      "queued":  0,
+                                                      "ticking":  7,
+                                                      "used":  [
+                                                                   7,
+                                                                   0
+                                                               ]
+                                                  },
+                                       "stopped_sounds":  {
+
+                                                          },
+                                       "streaming":  {
+                                                         "decorating":  0,
+                                                         "finishing":  0,
+                                                         "generating":  0,
+                                                         "lighting":  0,
+                                                         "meshing":  3,
+                                                         "protos":  0,
+                                                         "queued":  0
+                                                     },
+                                       "target":  {
+                                                      "block":  "minecraft:short_grass",
+                                                      "pos":  [
+                                                                  -26,
+                                                                  81,
+                                                                  6
+                                                              ]
+                                                  },
+                                       "ticks":  5493,
+                                       "tridents":  0,
+                                       "uptime_seconds":  279.4128894,
+                                       "using":  null,
+                                       "yaw":  0.0
+                                   },
+                        "stationary":  {
+                                           "avg_fps":  1026.1071887079718,
+                                           "cpu":  {
+                                                       "avg_ms":  0.7484652023058935,
+                                                       "max_ms":  10.832799911499023,
+                                                       "p50_ms":  0.706000030040741,
+                                                       "p95_ms":  0.8998000025749207,
+                                                       "p99_ms":  1.530400037765503
+                                                   },
+                                           "dynamic_entities_drawn":  0,
+                                           "dynamic_entities_drawn_avg_per_frame":  0.0,
+                                           "frames":  10262,
+                                           "gpu":  {
+                                                       "avg_ms":  0.5060893890395821,
+                                                       "max_ms":  0.9687039852142334,
+                                                       "p50_ms":  0.4990079998970032,
+                                                       "p95_ms":  0.5099520087242126,
+                                                       "p99_ms":  0.6490880250930786
+                                                   },
+                                           "low_01pct_fps":  143.72208830509345,
+                                           "low_1pct_fps":  386.2564706968077,
+                                           "max_ms":  11.38249969482422,
+                                           "p50_ms":  0.9273000359535216,
+                                           "p95_ms":  1.1654000282287598,
+                                           "p99_ms":  1.8719000816345217,
+                                           "phases_avg_ms":  {
+                                                                 "prepare":  0.18197715835824765,
+                                                                 "render":  0.5485590136532105,
+                                                                 "tick":  0.013440382009982169,
+                                                                 "update":  0.0047456636722712385
+                                                             },
+                                           "seconds":  10.00090449899435,
+                                           "slow_phases_avg_ms":  {
+                                                                      "prepare":  0.34033689365803615,
+                                                                      "render":  1.256506792549948,
+                                                                      "tick":  0.5857543696161106,
+                                                                      "update":  0.008225242754227473
+                                                                  },
+                                           "static_bytes_uploaded":  0,
+                                           "static_entities_drawn":  0,
+                                           "static_entities_drawn_avg_per_frame":  0.0,
+                                           "static_snapshot_bytes_built":  0,
+                                           "static_snapshot_rebuilds":  0
+                                       },
+                        "walking":  {
+                                        "avg_fps":  1059.4408417023403,
+                                        "cpu":  {
+                                                    "avg_ms":  0.7215127201372636,
+                                                    "max_ms":  6.128300189971924,
+                                                    "p50_ms":  0.7037000060081482,
+                                                    "p95_ms":  0.746999979019165,
+                                                    "p99_ms":  1.1471999883651731
+                                                },
+                                        "dynamic_entities_drawn":  0,
+                                        "dynamic_entities_drawn_avg_per_frame":  0.0,
+                                        "frames":  5220,
+                                        "gpu":  {
+                                                    "avg_ms":  0.5057503019370339,
+                                                    "max_ms":  0.8560640215873718,
+                                                    "p50_ms":  0.5058559775352478,
+                                                    "p95_ms":  0.5155199766159058,
+                                                    "p99_ms":  0.5179200172424316
+                                                },
+                                        "low_01pct_fps":  181.1884143807009,
+                                        "low_1pct_fps":  531.4140918920278,
+                                        "max_ms":  6.354000091552734,
+                                        "p50_ms":  0.925100028514862,
+                                        "p95_ms":  0.9786999821662904,
+                                        "p99_ms":  1.3695999383926392,
+                                        "phases_avg_ms":  {
+                                                              "prepare":  0.17867934832856117,
+                                                              "render":  0.5257072025217773,
+                                                              "tick":  0.01267588125738954,
+                                                              "update":  0.004703812342818641
+                                                          },
+                                        "seconds":  4.9271274001598355,
+                                        "slow_phases_avg_ms":  {
+                                                                   "prepare":  0.1810735843653949,
+                                                                   "render":  0.7198962254344292,
+                                                                   "tick":  0.7499094363653435,
+                                                                   "update":  0.005158490624349072
+                                                               },
+                                        "static_bytes_uploaded":  0,
+                                        "static_entities_drawn":  0,
+                                        "static_entities_drawn_avg_per_frame":  0.0,
+                                        "static_snapshot_bytes_built":  0,
+                                        "static_snapshot_rebuilds":  0
+                                    }
+                    },
+                    {
+                        "enabled":  true,
+                        "state":  {
+                                      "busy":  null,
+                                      "dialog":  {
+                                                     "open":  null,
+                                                     "screen":  null
+                                                 },
+                                      "dimension":  "minecraft:overworld",
+                                      "gamemode":  "survival",
+                                      "held":  {
+                                                   "count":  64,
+                                                   "item":  "minecraft:stone"
+                                               },
+                                      "input":  {
+                                                    "counts":  {
+                                                                   "agent":  124,
+                                                                   "game":  0,
+                                                                   "user":  0
+                                                               },
+                                                    "events":  124,
+                                                    "last_origin":  "agent",
+                                                    "last_user_age_s":  null,
+                                                    "recording":  null,
+                                                    "replay":  null,
+                                                    "user_since_agent":  0
+                                                },
+                                      "looking_at":  {
+                                                         "block":  {
+                                                                       "block":  "minecraft:short_grass",
+                                                                       "distance":  1.4079403503208636,
+                                                                       "face":  "up",
+                                                                       "loaded":  true,
+                                                                       "point":  [
+                                                                                     -25.5,
+                                                                                     81.8125,
+                                                                                     6.65336020928447
+                                                                                 ],
+                                                                       "pos":  [
+                                                                                   -26,
+                                                                                   81,
+                                                                                   6
+                                                                               ],
+                                                                       "state":  "minecraft:short_grass"
+                                                                   },
+                                                         "entity":  null,
+                                                         "kind":  "block"
+                                                     },
+                                      "menu":  null,
+                                      "mining":  null,
+                                      "paused":  false,
+                                      "player":  {
+                                                     "absorption":  0.0,
+                                                     "air":  300,
+                                                     "block_pos":  [
+                                                                       -26,
+                                                                       81,
+                                                                       5
+                                                                   ],
+                                                     "death_time":  null,
+                                                     "effects":  [
+
+                                                                 ],
+                                                     "eye":  [
+                                                                 -25.5,
+                                                                 82.62000000476837,
+                                                                 5.5
+                                                             ],
+                                                     "fall_flying":  false,
+                                                     "flying":  false,
+                                                     "food":  17,
+                                                     "fov_modifier":  1.0,
+                                                     "health":  8.499998092651367,
+                                                     "hurt_time":  0,
+                                                     "on_ground":  true,
+                                                     "pitch":  35.0,
+                                                     "portal_effect":  0.0,
+                                                     "position":  [
+                                                                      -25.5,
+                                                                      81.0,
+                                                                      5.5
+                                                                  ],
+                                                     "saturation":  0.0,
+                                                     "shield_cooldown":  0,
+                                                     "sneaking":  false,
+                                                     "sprinting":  false,
+                                                     "velocity":  [
+                                                                      0.0,
+                                                                      -0.0784000015258789,
+                                                                      0.0
+                                                                  ],
+                                                     "xp":  {
+                                                                "level":  0,
+                                                                "progress":  0.0,
+                                                                "total":  0
+                                                            },
+                                                     "yaw":  0.0
+                                                 },
+                                      "pointer_grabbed":  true,
+                                      "screen":  "playing",
+                                      "selected":  1,
+                                      "sleeping":  null,
+                                      "swings":  0,
+                                      "ticks":  5920,
+                                      "time":  {
+                                                   "day":  1,
+                                                   "day_time":  30000,
+                                                   "time_of_day":  6000
+                                               },
+                                      "using":  null,
+                                      "weather":  {
+                                                      "raining":  false,
+                                                      "thundering":  false
+                                                  },
+                                      "world":  "NoCubesValidation"
+                                  },
+                        "status":  {
+                                       "block_entities":  299,
+                                       "border":  {
+                                                      "center":  [
+                                                                     0.0,
+                                                                     0.0
+                                                                 ],
+                                                      "size":  59999968.0
+                                                  },
+                                       "carts":  [
+
+                                                 ],
+                                       "chunks":  2181,
+                                       "creative":  false,
+                                       "day_time":  30000,
+                                       "debug":  {
+                                                     "advanced_tooltips":  false,
+                                                     "chunk_borders":  false,
+                                                     "clipboard":  null,
+                                                     "hitboxes":  false,
+                                                     "overlay":  false,
+                                                     "pause_menu":  true,
+                                                     "pause_on_lost_focus":  false
+                                                 },
+                                       "destroying":  [
+
+                                                      ],
+                                       "dimension":  "minecraft:overworld",
+                                       "dirty_light":  0,
+                                       "display":  {
+                                                       "height":  1440,
+                                                       "refresh_hz":  120,
+                                                       "scale":  1.0,
+                                                       "width":  2560
+                                                   },
+                                       "fangs_vertices":  0,
+                                       "fight":  {
+                                                     "alive_crystals":  0,
+                                                     "crystal_list":  [
+
+                                                                      ],
+                                                     "crystals":  0,
+                                                     "dragon":  null,
+                                                     "exit_portal":  null,
+                                                     "killed":  false,
+                                                     "players":  false,
+                                                     "respawn":  null
+                                                 },
+                                       "fishing":  null,
+                                       "fps":  536.5527954101562,
+                                       "frames":  384940,
+                                       "generated_chunks":  2181,
+                                       "heard":  {
+                                                     "minecraft:block.grass.break":  2,
+                                                     "minecraft:block.stone.step":  52,
+                                                     "minecraft:block.water.ambient":  34,
+                                                     "minecraft:entity.player.big_fall":  1,
+                                                     "minecraft:entity.player.hurt":  2
+                                                 },
+                                       "held":  {
+                                                    "count":  64,
+                                                    "item":  "minecraft:stone"
+                                                },
+                                       "input":  {
+                                                     "counts":  {
+                                                                    "agent":  124,
+                                                                    "game":  0,
+                                                                    "user":  0
+                                                                },
+                                                     "events":  124,
+                                                     "last_origin":  "agent",
+                                                     "last_user_age_s":  null,
+                                                     "recording":  null,
+                                                     "replay":  null,
+                                                     "user_since_agent":  0
+                                                 },
+                                       "keys":  [
+
+                                                ],
+                                       "lightning":  {
+                                                         "bolts":  0,
+                                                         "flash":  0,
+                                                         "flashes":  0,
+                                                         "struck":  0
+                                                     },
+                                       "lod":  {
+                                                   "active_tiles":  0,
+                                                   "cached_tiles":  0,
+                                                   "detail_target_columns":  0,
+                                                   "distance":  0,
+                                                   "effective_distance":  0,
+                                                   "far_detail":  "full",
+                                                   "levels":  [
+
+                                                              ],
+                                                   "pending_observations":  0,
+                                                   "refined_samples":  0,
+                                                   "refined_target_columns":  0,
+                                                   "resident_quads":  0,
+                                                   "sampled_target_tiles":  0,
+                                                   "source":  "none",
+                                                   "source_attempted":  false,
+                                                   "target_tiles":  0,
+                                                   "terrain_distance":  24
+                                               },
+                                       "maps":  [
+
+                                                ],
+                                       "meshed_sections":  318799,
+                                       "mobs":  69,
+                                       "music":  null,
+                                       "name_tags":  [
+
+                                                     ],
+                                       "objects":  [
+
+                                                   ],
+                                       "offhand":  null,
+                                       "particles":  {
+                                                         "block":  130,
+                                                         "dripping_water":  1,
+                                                         "poof":  80,
+                                                         "tinted_leaves":  255,
+                                                         "underwater":  2177
+                                                     },
+                                       "pending_chunks":  0,
+                                       "pending_uploads":  0,
+                                       "physical_keys":  [
+
+                                                         ],
+                                       "pickups":  {
+
+                                                   },
+                                       "pitch":  35.0,
+                                       "player":  {
+                                                      "food":  17,
+                                                      "health":  8.499998092651367,
+                                                      "max_health":  null,
+                                                      "on_ground":  true,
+                                                      "position":  [
+                                                                       -25.5,
+                                                                       81.0,
+                                                                       5.5
+                                                                   ],
+                                                      "velocity":  [
+                                                                       0.0,
+                                                                       -0.0784000015258789,
+                                                                       0.0
+                                                                   ]
+                                                  },
+                                       "projectiles":  [
+
+                                                       ],
+                                       "render_distance":  24,
+                                       "renderer":  {
+                                                        "arena_bytes":  1006620672,
+                                                        "backend":  "Vulkan",
+                                                        "culled_sections":  [
+                                                                                [
+                                                                                    1197,
+                                                                                    1229
+                                                                                ],
+                                                                                0.6599674820899963
+                                                                            ],
+                                                        "device_type":  "discrete",
+                                                        "drawn_sections":  1531,
+                                                        "driver":  "NVIDIA 621.14",
+                                                        "gpu":  "NVIDIA GeForce RTX 2080",
+                                                        "gpu_allocated_bytes":  1328251952,
+                                                        "gpu_culling":  false,
+                                                        "gpu_culling_offer":  "Offered",
+                                                        "gpu_fading":  null,
+                                                        "gpu_frame":  false,
+                                                        "gpu_occluding":  false,
+                                                        "gpu_reserved_bytes":  1512550464,
+                                                        "present_mode":  "Immediate",
+                                                        "resident_sections":  15109,
+                                                        "section_draw_calls":  34,
+                                                        "section_draws":  2341,
+                                                        "section_vertex_bytes":  899574576,
+                                                        "size":  [
+                                                                     1280,
+                                                                     720
+                                                                 ],
+                                                        "stats_lag":  0,
+                                                        "uploaded_bytes":  7092324024,
+                                                        "vendor":  "nvidia"
+                                                    },
+                                       "riding":  null,
+                                       "rockets":  0,
+                                       "screen":  "playing",
+                                       "selected":  1,
+                                       "server":  {
+                                                      "address":  "local",
+                                                      "chat":  [
+                                                                   "NoCubes: N toggles a block, Shift+N toggles one state, Ctrl+V toggles visuals, Ctrl+O opens settings.",
+                                                                   "Set own game mode to Spectator Mode",
+                                                                   "Set own game mode to Creative Mode",
+                                                                   "Set own game mode to Survival Mode",
+                                                                   "Set own game mode to Spectator Mode",
+                                                                   "Set own game mode to Survival Mode",
+                                                                   "Set own game mode to Creative Mode",
+                                                                   "Set own game mode to Survival Mode"
+                                                               ],
+                                                      "chunks":  2181,
+                                                      "dead_players":  [
+
+                                                                       ],
+                                                      "decode_errors":  0,
+                                                      "dimension":  "minecraft:overworld",
+                                                      "entities":  {
+                                                                       "minecraft:bee":  7,
+                                                                       "minecraft:cow":  19,
+                                                                       "minecraft:item":  4,
+                                                                       "minecraft:pig":  16,
+                                                                       "minecraft:sheep":  24,
+                                                                       "minecraft:wolf":  3
+                                                                   },
+                                                      "entity_id":  1,
+                                                      "food":  17,
+                                                      "game_mode":  0,
+                                                      "health":  8.499998092651367,
+                                                      "joined":  true,
+                                                      "loaded":  true,
+                                                      "lying_players":  [
+
+                                                                        ],
+                                                      "name":  "Furigold",
+                                                      "own_body":  false,
+                                                      "player_equipment":  [
+
+                                                                           ],
+                                                      "player_model":  true,
+                                                      "player_positions":  [
+
+                                                                           ],
+                                                      "players":  [
+                                                                      "Furigold"
+                                                                  ],
+                                                      "status":  "Loading terrain...",
+                                                      "text_display_vertices":  0,
+                                                      "text_displays":  0
+                                                  },
+                                       "sidebar":  null,
+                                       "sounds":  {
+                                                      "channels":  7,
+                                                      "decoded":  16,
+                                                      "decoded_mib":  5,
+                                                      "events":  [
+                                                                     [
+                                                                         "minecraft:entity.bee.loop",
+                                                                         7
+                                                                     ]
+                                                                 ],
+                                                      "handles":  7,
+                                                      "instances":  7,
+                                                      "playing":  7,
+                                                      "queued":  0,
+                                                      "ticking":  7,
+                                                      "used":  [
+                                                                   7,
+                                                                   0
+                                                               ]
+                                                  },
+                                       "stopped_sounds":  {
+
+                                                          },
+                                       "streaming":  {
+                                                         "decorating":  0,
+                                                         "finishing":  0,
+                                                         "generating":  0,
+                                                         "lighting":  0,
+                                                         "meshing":  0,
+                                                         "protos":  0,
+                                                         "queued":  0
+                                                     },
+                                       "target":  {
+                                                      "block":  "minecraft:short_grass",
+                                                      "pos":  [
+                                                                  -26,
+                                                                  81,
+                                                                  6
+                                                              ]
+                                                  },
+                                       "ticks":  5920,
+                                       "tridents":  0,
+                                       "uptime_seconds":  300.757885,
+                                       "using":  null,
+                                       "yaw":  0.0
+                                   },
+                        "stationary":  {
+                                           "avg_fps":  904.0937340326352,
+                                           "cpu":  {
+                                                       "avg_ms":  0.8820090035054684,
+                                                       "max_ms":  8.138399124145508,
+                                                       "p50_ms":  0.8410000205039978,
+                                                       "p95_ms":  0.8949999809265137,
+                                                       "p99_ms":  2.0947000980377197
+                                                   },
+                                           "dynamic_entities_drawn":  0,
+                                           "dynamic_entities_drawn_avg_per_frame":  0.0,
+                                           "frames":  9041,
+                                           "gpu":  {
+                                                       "avg_ms":  0.6412959892775366,
+                                                       "max_ms":  0.951903998851776,
+                                                       "p50_ms":  0.6410239934921265,
+                                                       "p95_ms":  0.6441919803619385,
+                                                       "p99_ms":  0.6470720171928406
+                                                   },
+                                           "low_01pct_fps":  131.34011771630608,
+                                           "low_1pct_fps":  324.6373335257583,
+                                           "max_ms":  8.382399559020996,
+                                           "p50_ms":  1.0642999410629272,
+                                           "p95_ms":  1.1261999607086182,
+                                           "p99_ms":  2.3240997791290283,
+                                           "phases_avg_ms":  {
+                                                                 "prepare":  0.195998185809412,
+                                                                 "render":  0.6486075546820335,
+                                                                 "tick":  0.032951498734347044,
+                                                                 "update":  0.0047014490135212665
+                                                             },
+                                           "seconds":  10.000069306612016,
+                                           "slow_phases_avg_ms":  {
+                                                                      "prepare":  0.2002758244564245,
+                                                                      "render":  0.8558186829745115,
+                                                                      "tick":  1.7892527475461857,
+                                                                      "update":  0.0045318681987227645
+                                                                  },
+                                           "static_bytes_uploaded":  0,
+                                           "static_entities_drawn":  0,
+                                           "static_entities_drawn_avg_per_frame":  0.0,
+                                           "static_snapshot_bytes_built":  0,
+                                           "static_snapshot_rebuilds":  0
+                                       },
+                        "walking":  {
+                                        "avg_fps":  862.4468564418285,
+                                        "cpu":  {
+                                                    "avg_ms":  0.9306032663085184,
+                                                    "max_ms":  7.3796000480651855,
+                                                    "p50_ms":  0.8454999923706055,
+                                                    "p95_ms":  1.3942999839782717,
+                                                    "p99_ms":  2.405799865722656
+                                                },
+                                        "dynamic_entities_drawn":  0,
+                                        "dynamic_entities_drawn_avg_per_frame":  0.0,
+                                        "frames":  4256,
+                                        "gpu":  {
+                                                    "avg_ms":  0.6509230538390409,
+                                                    "max_ms":  0.932799994945526,
+                                                    "p50_ms":  0.6511359810829163,
+                                                    "p95_ms":  0.6593279838562012,
+                                                    "p99_ms":  0.6615999937057495
+                                                },
+                                        "low_01pct_fps":  143.4189342574907,
+                                        "low_1pct_fps":  278.96934425189414,
+                                        "max_ms":  7.60890007019043,
+                                        "p50_ms":  1.0686999559402466,
+                                        "p95_ms":  1.6966999769210815,
+                                        "p99_ms":  2.637200117111206,
+                                        "phases_avg_ms":  {
+                                                              "prepare":  0.20229713327104323,
+                                                              "render":  0.6834127586194896,
+                                                              "tick":  0.04028202546262611,
+                                                              "update":  0.004869901373336018
+                                                          },
+                                        "seconds":  4.9347968146801,
+                                        "slow_phases_avg_ms":  {
+                                                                   "prepare":  0.2356976780087449,
+                                                                   "render":  1.0252720893815506,
+                                                                   "tick":  2.0650348864105896,
+                                                                   "update":  0.006274418596741419
+                                                               },
+                                        "static_bytes_uploaded":  0,
+                                        "static_entities_drawn":  0,
+                                        "static_entities_drawn_avg_per_frame":  0.0,
+                                        "static_snapshot_bytes_built":  0,
+                                        "static_snapshot_rebuilds":  0
+                                    }
+                    },
+                    {
+                        "enabled":  true,
+                        "state":  {
+                                      "busy":  null,
+                                      "dialog":  {
+                                                     "open":  null,
+                                                     "screen":  null
+                                                 },
+                                      "dimension":  "minecraft:overworld",
+                                      "gamemode":  "survival",
+                                      "held":  {
+                                                   "count":  64,
+                                                   "item":  "minecraft:stone"
+                                               },
+                                      "input":  {
+                                                    "counts":  {
+                                                                   "agent":  134,
+                                                                   "game":  0,
+                                                                   "user":  0
+                                                               },
+                                                    "events":  134,
+                                                    "last_origin":  "agent",
+                                                    "last_user_age_s":  null,
+                                                    "recording":  null,
+                                                    "replay":  null,
+                                                    "user_since_agent":  0
+                                                },
+                                      "looking_at":  {
+                                                         "block":  {
+                                                                       "block":  "minecraft:short_grass",
+                                                                       "distance":  1.4805896293425316,
+                                                                       "face":  "up",
+                                                                       "loaded":  true,
+                                                                       "point":  [
+                                                                                     -25.5,
+                                                                                     81.8125,
+                                                                                     6.7128732331407015
+                                                                                 ],
+                                                                       "pos":  [
+                                                                                   -26,
+                                                                                   81,
+                                                                                   6
+                                                                               ],
+                                                                       "state":  "minecraft:short_grass"
+                                                                   },
+                                                         "entity":  null,
+                                                         "kind":  "block"
+                                                     },
+                                      "menu":  null,
+                                      "mining":  null,
+                                      "paused":  false,
+                                      "player":  {
+                                                     "absorption":  0.0,
+                                                     "air":  300,
+                                                     "block_pos":  [
+                                                                       -26,
+                                                                       81,
+                                                                       5
+                                                                   ],
+                                                     "death_time":  null,
+                                                     "effects":  [
+
+                                                                 ],
+                                                     "eye":  [
+                                                                 -25.5,
+                                                                 82.6616667509079,
+                                                                 5.5
+                                                             ],
+                                                     "fall_flying":  false,
+                                                     "flying":  false,
+                                                     "food":  17,
+                                                     "fov_modifier":  1.0,
+                                                     "health":  8.499998092651367,
+                                                     "hurt_time":  0,
+                                                     "on_ground":  true,
+                                                     "pitch":  35.0,
+                                                     "portal_effect":  0.0,
+                                                     "position":  [
+                                                                      -25.5,
+                                                                      81.04166674613953,
+                                                                      5.5
+                                                                  ],
+                                                     "saturation":  0.0,
+                                                     "shield_cooldown":  0,
+                                                     "sneaking":  false,
+                                                     "sprinting":  false,
+                                                     "velocity":  [
+                                                                      0.0,
+                                                                      -0.0784000015258789,
+                                                                      0.0
+                                                                  ],
+                                                     "xp":  {
+                                                                "level":  0,
+                                                                "progress":  0.0,
+                                                                "total":  0
+                                                            },
+                                                     "yaw":  0.0
+                                                 },
+                                      "pointer_grabbed":  true,
+                                      "screen":  "playing",
+                                      "selected":  1,
+                                      "sleeping":  null,
+                                      "swings":  0,
+                                      "ticks":  6280,
+                                      "time":  {
+                                                   "day":  1,
+                                                   "day_time":  30000,
+                                                   "time_of_day":  6000
+                                               },
+                                      "using":  null,
+                                      "weather":  {
+                                                      "raining":  false,
+                                                      "thundering":  false
+                                                  },
+                                      "world":  "NoCubesValidation"
+                                  },
+                        "status":  {
+                                       "block_entities":  299,
+                                       "border":  {
+                                                      "center":  [
+                                                                     0.0,
+                                                                     0.0
+                                                                 ],
+                                                      "size":  59999968.0
+                                                  },
+                                       "carts":  [
+
+                                                 ],
+                                       "chunks":  2181,
+                                       "creative":  false,
+                                       "day_time":  30000,
+                                       "debug":  {
+                                                     "advanced_tooltips":  false,
+                                                     "chunk_borders":  false,
+                                                     "clipboard":  null,
+                                                     "hitboxes":  false,
+                                                     "overlay":  false,
+                                                     "pause_menu":  true,
+                                                     "pause_on_lost_focus":  false
+                                                 },
+                                       "destroying":  [
+
+                                                      ],
+                                       "dimension":  "minecraft:overworld",
+                                       "dirty_light":  0,
+                                       "display":  {
+                                                       "height":  1440,
+                                                       "refresh_hz":  120,
+                                                       "scale":  1.0,
+                                                       "width":  2560
+                                                   },
+                                       "fangs_vertices":  0,
+                                       "fight":  {
+                                                     "alive_crystals":  0,
+                                                     "crystal_list":  [
+
+                                                                      ],
+                                                     "crystals":  0,
+                                                     "dragon":  null,
+                                                     "exit_portal":  null,
+                                                     "killed":  false,
+                                                     "players":  false,
+                                                     "respawn":  null
+                                                 },
+                                       "fishing":  null,
+                                       "fps":  890.3384399414062,
+                                       "frames":  400992,
+                                       "generated_chunks":  2181,
+                                       "heard":  {
+                                                     "minecraft:block.grass.break":  2,
+                                                     "minecraft:block.stone.step":  63,
+                                                     "minecraft:block.water.ambient":  36,
+                                                     "minecraft:entity.player.big_fall":  1,
+                                                     "minecraft:entity.player.hurt":  2
+                                                 },
+                                       "held":  {
+                                                    "count":  64,
+                                                    "item":  "minecraft:stone"
+                                                },
+                                       "input":  {
+                                                     "counts":  {
+                                                                    "agent":  134,
+                                                                    "game":  0,
+                                                                    "user":  0
+                                                                },
+                                                     "events":  134,
+                                                     "last_origin":  "agent",
+                                                     "last_user_age_s":  null,
+                                                     "recording":  null,
+                                                     "replay":  null,
+                                                     "user_since_agent":  0
+                                                 },
+                                       "keys":  [
+
+                                                ],
+                                       "lightning":  {
+                                                         "bolts":  0,
+                                                         "flash":  0,
+                                                         "flashes":  0,
+                                                         "struck":  0
+                                                     },
+                                       "lod":  {
+                                                   "active_tiles":  0,
+                                                   "cached_tiles":  0,
+                                                   "detail_target_columns":  0,
+                                                   "distance":  0,
+                                                   "effective_distance":  0,
+                                                   "far_detail":  "full",
+                                                   "levels":  [
+
+                                                              ],
+                                                   "pending_observations":  0,
+                                                   "refined_samples":  0,
+                                                   "refined_target_columns":  0,
+                                                   "resident_quads":  0,
+                                                   "sampled_target_tiles":  0,
+                                                   "source":  "none",
+                                                   "source_attempted":  false,
+                                                   "target_tiles":  0,
+                                                   "terrain_distance":  24
+                                               },
+                                       "maps":  [
+
+                                                ],
+                                       "meshed_sections":  318813,
+                                       "mobs":  69,
+                                       "music":  null,
+                                       "name_tags":  [
+
+                                                     ],
+                                       "objects":  [
+
+                                                   ],
+                                       "offhand":  null,
+                                       "particles":  {
+                                                         "block":  130,
+                                                         "dripping_water":  1,
+                                                         "poof":  80,
+                                                         "tinted_leaves":  272,
+                                                         "underwater":  2338
+                                                     },
+                                       "pending_chunks":  0,
+                                       "pending_uploads":  0,
+                                       "physical_keys":  [
+
+                                                         ],
+                                       "pickups":  {
+
+                                                   },
+                                       "pitch":  35.0,
+                                       "player":  {
+                                                      "food":  17,
+                                                      "health":  8.499998092651367,
+                                                      "max_health":  null,
+                                                      "on_ground":  true,
+                                                      "position":  [
+                                                                       -25.5,
+                                                                       81.04166674613953,
+                                                                       5.5
+                                                                   ],
+                                                      "velocity":  [
+                                                                       0.0,
+                                                                       -0.0784000015258789,
+                                                                       0.0
+                                                                   ]
+                                                  },
+                                       "projectiles":  [
+
+                                                       ],
+                                       "render_distance":  24,
+                                       "renderer":  {
+                                                        "arena_bytes":  1006620672,
+                                                        "backend":  "Vulkan",
+                                                        "culled_sections":  [
+                                                                                [
+                                                                                    1199,
+                                                                                    1239
+                                                                                ],
+                                                                                0.6619845628738403
+                                                                            ],
+                                                        "device_type":  "discrete",
+                                                        "drawn_sections":  1531,
+                                                        "driver":  "NVIDIA 621.14",
+                                                        "gpu":  "NVIDIA GeForce RTX 2080",
+                                                        "gpu_allocated_bytes":  1328251952,
+                                                        "gpu_culling":  false,
+                                                        "gpu_culling_offer":  "Offered",
+                                                        "gpu_fading":  null,
+                                                        "gpu_frame":  false,
+                                                        "gpu_occluding":  false,
+                                                        "gpu_reserved_bytes":  1512550464,
+                                                        "present_mode":  "Immediate",
+                                                        "resident_sections":  15109,
+                                                        "section_draw_calls":  34,
+                                                        "section_draws":  2341,
+                                                        "section_vertex_bytes":  899574768,
+                                                        "size":  [
+                                                                     1280,
+                                                                     720
+                                                                 ],
+                                                        "stats_lag":  0,
+                                                        "uploaded_bytes":  7093498104,
+                                                        "vendor":  "nvidia"
+                                                    },
+                                       "riding":  null,
+                                       "rockets":  0,
+                                       "screen":  "playing",
+                                       "selected":  1,
+                                       "server":  {
+                                                      "address":  "local",
+                                                      "chat":  [
+                                                                   "NoCubes: N toggles a block, Shift+N toggles one state, Ctrl+V toggles visuals, Ctrl+O opens settings.",
+                                                                   "Set own game mode to Spectator Mode",
+                                                                   "Set own game mode to Creative Mode",
+                                                                   "Set own game mode to Survival Mode",
+                                                                   "Set own game mode to Spectator Mode",
+                                                                   "Set own game mode to Survival Mode",
+                                                                   "Set own game mode to Creative Mode",
+                                                                   "Set own game mode to Survival Mode"
+                                                               ],
+                                                      "chunks":  2181,
+                                                      "dead_players":  [
+
+                                                                       ],
+                                                      "decode_errors":  0,
+                                                      "dimension":  "minecraft:overworld",
+                                                      "entities":  {
+                                                                       "minecraft:bee":  7,
+                                                                       "minecraft:cow":  19,
+                                                                       "minecraft:item":  4,
+                                                                       "minecraft:pig":  16,
+                                                                       "minecraft:sheep":  24,
+                                                                       "minecraft:wolf":  3
+                                                                   },
+                                                      "entity_id":  1,
+                                                      "food":  17,
+                                                      "game_mode":  0,
+                                                      "health":  8.499998092651367,
+                                                      "joined":  true,
+                                                      "loaded":  true,
+                                                      "lying_players":  [
+
+                                                                        ],
+                                                      "name":  "Furigold",
+                                                      "own_body":  false,
+                                                      "player_equipment":  [
+
+                                                                           ],
+                                                      "player_model":  true,
+                                                      "player_positions":  [
+
+                                                                           ],
+                                                      "players":  [
+                                                                      "Furigold"
+                                                                  ],
+                                                      "status":  "Loading terrain...",
+                                                      "text_display_vertices":  0,
+                                                      "text_displays":  0
+                                                  },
+                                       "sidebar":  null,
+                                       "sounds":  {
+                                                      "channels":  7,
+                                                      "decoded":  16,
+                                                      "decoded_mib":  5,
+                                                      "events":  [
+                                                                     [
+                                                                         "minecraft:entity.bee.loop",
+                                                                         7
+                                                                     ]
+                                                                 ],
+                                                      "handles":  7,
+                                                      "instances":  7,
+                                                      "playing":  7,
+                                                      "queued":  0,
+                                                      "ticking":  7,
+                                                      "used":  [
+                                                                   7,
+                                                                   0
+                                                               ]
+                                                  },
+                                       "stopped_sounds":  {
+
+                                                          },
+                                       "streaming":  {
+                                                         "decorating":  0,
+                                                         "finishing":  0,
+                                                         "generating":  0,
+                                                         "lighting":  0,
+                                                         "meshing":  0,
+                                                         "protos":  0,
+                                                         "queued":  0
+                                                     },
+                                       "target":  {
+                                                      "block":  "minecraft:short_grass",
+                                                      "pos":  [
+                                                                  -26,
+                                                                  81,
+                                                                  6
+                                                              ]
+                                                  },
+                                       "ticks":  6280,
+                                       "tridents":  0,
+                                       "uptime_seconds":  318.780736,
+                                       "using":  null,
+                                       "yaw":  0.0
+                                   },
+                        "stationary":  {
+                                           "avg_fps":  886.4324201331043,
+                                           "cpu":  {
+                                                       "avg_ms":  0.8992404511266688,
+                                                       "max_ms":  16.49329948425293,
+                                                       "p50_ms":  0.8398000001907349,
+                                                       "p95_ms":  0.9735000133514404,
+                                                       "p99_ms":  2.176499843597412
+                                                   },
+                                           "dynamic_entities_drawn":  0,
+                                           "dynamic_entities_drawn_avg_per_frame":  0.0,
+                                           "frames":  8865,
+                                           "gpu":  {
+                                                       "avg_ms":  0.64049682872684,
+                                                       "max_ms":  1.0035200119018557,
+                                                       "p50_ms":  0.6404799818992615,
+                                                       "p95_ms":  0.6430720090866089,
+                                                       "p99_ms":  0.6453440189361572
+                                                   },
+                                           "low_01pct_fps":  87.43500749856152,
+                                           "low_1pct_fps":  271.0878985224278,
+                                           "max_ms":  26.386899948120117,
+                                           "p50_ms":  1.0621000528335571,
+                                           "p95_ms":  1.2185999155044556,
+                                           "p99_ms":  2.4123001098632812,
+                                           "phases_avg_ms":  {
+                                                                 "prepare":  0.19881891687576608,
+                                                                 "render":  0.6611776991678507,
+                                                                 "tick":  0.03478162436653086,
+                                                                 "update":  0.0047210942459273274
+                                                             },
+                                           "seconds":  10.000762380361556,
+                                           "slow_phases_avg_ms":  {
+                                                                      "prepare":  0.23420112404260743,
+                                                                      "render":  1.0492808992943068,
+                                                                      "tick":  1.7945292150899976,
+                                                                      "update":  0.005402247254014685
+                                                                  },
+                                           "static_bytes_uploaded":  0,
+                                           "static_entities_drawn":  0,
+                                           "static_entities_drawn_avg_per_frame":  0.0,
+                                           "static_snapshot_bytes_built":  0,
+                                           "static_snapshot_rebuilds":  0
+                                       },
+                        "walking":  {
+                                        "avg_fps":  891.1163106025496,
+                                        "cpu":  {
+                                                    "avg_ms":  0.8967600185479285,
+                                                    "max_ms":  8.634500503540039,
+                                                    "p50_ms":  0.8497000336647034,
+                                                    "p95_ms":  0.9371999502182008,
+                                                    "p99_ms":  2.3242998123168945
+                                                },
+                                        "dynamic_entities_drawn":  0,
+                                        "dynamic_entities_drawn_avg_per_frame":  0.0,
+                                        "frames":  4387,
+                                        "gpu":  {
+                                                    "avg_ms":  0.6505634801953535,
+                                                    "max_ms":  0.6656000018119812,
+                                                    "p50_ms":  0.6507520079612732,
+                                                    "p95_ms":  0.6593919992446899,
+                                                    "p99_ms":  0.6615039706230164
+                                                },
+                                        "low_01pct_fps":  142.3013538032305,
+                                        "low_1pct_fps":  312.6567716204248,
+                                        "max_ms":  8.876500129699707,
+                                        "p50_ms":  1.0736000537872314,
+                                        "p95_ms":  1.170699954032898,
+                                        "p99_ms":  2.5522000789642334,
+                                        "phases_avg_ms":  {
+                                                              "prepare":  0.19664488235543304,
+                                                              "render":  0.6594564168796143,
+                                                              "tick":  0.03616154578980165,
+                                                              "update":  0.004750125451885539
+                                                          },
+                                        "seconds":  4.923038606524467,
+                                        "slow_phases_avg_ms":  {
+                                                                   "prepare":  0.20351818000728433,
+                                                                   "render":  0.8804409029808912,
+                                                                   "tick":  1.8763477504253387,
+                                                                   "update":  0.0045863637298514896
+                                                               },
+                                        "static_bytes_uploaded":  0,
+                                        "static_entities_drawn":  0,
+                                        "static_entities_drawn_avg_per_frame":  0.0,
+                                        "static_snapshot_bytes_built":  0,
+                                        "static_snapshot_rebuilds":  0
+                                    }
+                    },
+                    {
+                        "enabled":  false,
+                        "state":  {
+                                      "busy":  null,
+                                      "dialog":  {
+                                                     "open":  null,
+                                                     "screen":  null
+                                                 },
+                                      "dimension":  "minecraft:overworld",
+                                      "gamemode":  "survival",
+                                      "held":  {
+                                                   "count":  64,
+                                                   "item":  "minecraft:stone"
+                                               },
+                                      "input":  {
+                                                    "counts":  {
+                                                                   "agent":  144,
+                                                                   "game":  0,
+                                                                   "user":  0
+                                                               },
+                                                    "events":  144,
+                                                    "last_origin":  "agent",
+                                                    "last_user_age_s":  null,
+                                                    "recording":  null,
+                                                    "replay":  null,
+                                                    "user_since_agent":  0
+                                                },
+                                      "looking_at":  {
+                                                         "block":  {
+                                                                       "block":  "minecraft:short_grass",
+                                                                       "distance":  1.4079403503208636,
+                                                                       "face":  "up",
+                                                                       "loaded":  true,
+                                                                       "point":  [
+                                                                                     -25.5,
+                                                                                     81.8125,
+                                                                                     6.65336020928447
+                                                                                 ],
+                                                                       "pos":  [
+                                                                                   -26,
+                                                                                   81,
+                                                                                   6
+                                                                               ],
+                                                                       "state":  "minecraft:short_grass"
+                                                                   },
+                                                         "entity":  null,
+                                                         "kind":  "block"
+                                                     },
+                                      "menu":  null,
+                                      "mining":  null,
+                                      "paused":  false,
+                                      "player":  {
+                                                     "absorption":  0.0,
+                                                     "air":  300,
+                                                     "block_pos":  [
+                                                                       -26,
+                                                                       81,
+                                                                       5
+                                                                   ],
+                                                     "death_time":  null,
+                                                     "effects":  [
+
+                                                                 ],
+                                                     "eye":  [
+                                                                 -25.5,
+                                                                 82.62000000476837,
+                                                                 5.5
+                                                             ],
+                                                     "fall_flying":  false,
+                                                     "flying":  false,
+                                                     "food":  17,
+                                                     "fov_modifier":  1.0,
+                                                     "health":  8.499998092651367,
+                                                     "hurt_time":  0,
+                                                     "on_ground":  true,
+                                                     "pitch":  35.0,
+                                                     "portal_effect":  0.0,
+                                                     "position":  [
+                                                                      -25.5,
+                                                                      81.0,
+                                                                      5.5
+                                                                  ],
+                                                     "saturation":  0.0,
+                                                     "shield_cooldown":  0,
+                                                     "sneaking":  false,
+                                                     "sprinting":  false,
+                                                     "velocity":  [
+                                                                      0.0,
+                                                                      -0.0784000015258789,
+                                                                      0.0
+                                                                  ],
+                                                     "xp":  {
+                                                                "level":  0,
+                                                                "progress":  0.0,
+                                                                "total":  0
+                                                            },
+                                                     "yaw":  0.0
+                                                 },
+                                      "pointer_grabbed":  true,
+                                      "screen":  "playing",
+                                      "selected":  1,
+                                      "sleeping":  null,
+                                      "swings":  0,
+                                      "ticks":  6640,
+                                      "time":  {
+                                                   "day":  1,
+                                                   "day_time":  30000,
+                                                   "time_of_day":  6000
+                                               },
+                                      "using":  null,
+                                      "weather":  {
+                                                      "raining":  false,
+                                                      "thundering":  false
+                                                  },
+                                      "world":  "NoCubesValidation"
+                                  },
+                        "status":  {
+                                       "block_entities":  299,
+                                       "border":  {
+                                                      "center":  [
+                                                                     0.0,
+                                                                     0.0
+                                                                 ],
+                                                      "size":  59999968.0
+                                                  },
+                                       "carts":  [
+
+                                                 ],
+                                       "chunks":  2181,
+                                       "creative":  false,
+                                       "day_time":  30000,
+                                       "debug":  {
+                                                     "advanced_tooltips":  false,
+                                                     "chunk_borders":  false,
+                                                     "clipboard":  null,
+                                                     "hitboxes":  false,
+                                                     "overlay":  false,
+                                                     "pause_menu":  true,
+                                                     "pause_on_lost_focus":  false
+                                                 },
+                                       "destroying":  [
+
+                                                      ],
+                                       "dimension":  "minecraft:overworld",
+                                       "dirty_light":  0,
+                                       "display":  {
+                                                       "height":  1440,
+                                                       "refresh_hz":  120,
+                                                       "scale":  1.0,
+                                                       "width":  2560
+                                                   },
+                                       "fangs_vertices":  0,
+                                       "fight":  {
+                                                     "alive_crystals":  0,
+                                                     "crystal_list":  [
+
+                                                                      ],
+                                                     "crystals":  0,
+                                                     "dragon":  null,
+                                                     "exit_portal":  null,
+                                                     "killed":  false,
+                                                     "players":  false,
+                                                     "respawn":  null
+                                                 },
+                                       "fishing":  null,
+                                       "fps":  1043.20654296875,
+                                       "frames":  416815,
+                                       "generated_chunks":  2181,
+                                       "heard":  {
+                                                     "minecraft:block.grass.break":  2,
+                                                     "minecraft:block.stone.step":  73,
+                                                     "minecraft:block.water.ambient":  37,
+                                                     "minecraft:entity.player.big_fall":  1,
+                                                     "minecraft:entity.player.hurt":  2
+                                                 },
+                                       "held":  {
+                                                    "count":  64,
+                                                    "item":  "minecraft:stone"
+                                                },
+                                       "input":  {
+                                                     "counts":  {
+                                                                    "agent":  144,
+                                                                    "game":  0,
+                                                                    "user":  0
+                                                                },
+                                                     "events":  144,
+                                                     "last_origin":  "agent",
+                                                     "last_user_age_s":  null,
+                                                     "recording":  null,
+                                                     "replay":  null,
+                                                     "user_since_agent":  0
+                                                 },
+                                       "keys":  [
+
+                                                ],
+                                       "lightning":  {
+                                                         "bolts":  0,
+                                                         "flash":  0,
+                                                         "flashes":  0,
+                                                         "struck":  0
+                                                     },
+                                       "lod":  {
+                                                   "active_tiles":  0,
+                                                   "cached_tiles":  0,
+                                                   "detail_target_columns":  0,
+                                                   "distance":  0,
+                                                   "effective_distance":  0,
+                                                   "far_detail":  "full",
+                                                   "levels":  [
+
+                                                              ],
+                                                   "pending_observations":  0,
+                                                   "refined_samples":  0,
+                                                   "refined_target_columns":  0,
+                                                   "resident_quads":  0,
+                                                   "sampled_target_tiles":  0,
+                                                   "source":  "none",
+                                                   "source_attempted":  false,
+                                                   "target_tiles":  0,
+                                                   "terrain_distance":  24
+                                               },
+                                       "maps":  [
+
+                                                ],
+                                       "meshed_sections":  374647,
+                                       "mobs":  70,
+                                       "music":  null,
+                                       "name_tags":  [
+
+                                                     ],
+                                       "objects":  [
+
+                                                   ],
+                                       "offhand":  null,
+                                       "particles":  {
+                                                         "block":  130,
+                                                         "dripping_water":  2,
+                                                         "poof":  80,
+                                                         "tinted_leaves":  289,
+                                                         "underwater":  2465
+                                                     },
+                                       "pending_chunks":  0,
+                                       "pending_uploads":  0,
+                                       "physical_keys":  [
+
+                                                         ],
+                                       "pickups":  {
+
+                                                   },
+                                       "pitch":  35.0,
+                                       "player":  {
+                                                      "food":  17,
+                                                      "health":  8.499998092651367,
+                                                      "max_health":  null,
+                                                      "on_ground":  true,
+                                                      "position":  [
+                                                                       -25.5,
+                                                                       81.0,
+                                                                       5.5
+                                                                   ],
+                                                      "velocity":  [
+                                                                       0.0,
+                                                                       -0.0784000015258789,
+                                                                       0.0
+                                                                   ]
+                                                  },
+                                       "projectiles":  [
+
+                                                       ],
+                                       "render_distance":  24,
+                                       "renderer":  {
+                                                        "arena_bytes":  617902080,
+                                                        "backend":  "Vulkan",
+                                                        "culled_sections":  [
+                                                                                [
+                                                                                    703,
+                                                                                    732
+                                                                                ],
+                                                                                0.5610440373420715
+                                                                            ],
+                                                        "device_type":  "discrete",
+                                                        "drawn_sections":  1000,
+                                                        "driver":  "NVIDIA 621.14",
+                                                        "gpu":  "NVIDIA GeForce RTX 2080",
+                                                        "gpu_allocated_bytes":  903217520,
+                                                        "gpu_culling":  false,
+                                                        "gpu_culling_offer":  "Offered",
+                                                        "gpu_fading":  null,
+                                                        "gpu_frame":  false,
+                                                        "gpu_occluding":  false,
+                                                        "gpu_reserved_bytes":  1056722992,
+                                                        "present_mode":  "Immediate",
+                                                        "resident_sections":  15020,
+                                                        "section_draw_calls":  9,
+                                                        "section_draws":  1757,
+                                                        "section_vertex_bytes":  305727384,
+                                                        "size":  [
+                                                                     1280,
+                                                                     720
+                                                                 ],
+                                                        "stats_lag":  0,
+                                                        "uploaded_bytes":  7451796624,
+                                                        "vendor":  "nvidia"
+                                                    },
+                                       "riding":  null,
+                                       "rockets":  0,
+                                       "screen":  "playing",
+                                       "selected":  1,
+                                       "server":  {
+                                                      "address":  "local",
+                                                      "chat":  [
+                                                                   "NoCubes: N toggles a block, Shift+N toggles one state, Ctrl+V toggles visuals, Ctrl+O opens settings.",
+                                                                   "Set own game mode to Spectator Mode",
+                                                                   "Set own game mode to Creative Mode",
+                                                                   "Set own game mode to Survival Mode",
+                                                                   "Set own game mode to Spectator Mode",
+                                                                   "Set own game mode to Survival Mode",
+                                                                   "Set own game mode to Creative Mode",
+                                                                   "Set own game mode to Survival Mode"
+                                                               ],
+                                                      "chunks":  2181,
+                                                      "dead_players":  [
+
+                                                                       ],
+                                                      "decode_errors":  0,
+                                                      "dimension":  "minecraft:overworld",
+                                                      "entities":  {
+                                                                       "minecraft:bee":  8,
+                                                                       "minecraft:cow":  19,
+                                                                       "minecraft:item":  4,
+                                                                       "minecraft:pig":  16,
+                                                                       "minecraft:sheep":  24,
+                                                                       "minecraft:wolf":  3
+                                                                   },
+                                                      "entity_id":  1,
+                                                      "food":  17,
+                                                      "game_mode":  0,
+                                                      "health":  8.499998092651367,
+                                                      "joined":  true,
+                                                      "loaded":  true,
+                                                      "lying_players":  [
+
+                                                                        ],
+                                                      "name":  "Furigold",
+                                                      "own_body":  false,
+                                                      "player_equipment":  [
+
+                                                                           ],
+                                                      "player_model":  true,
+                                                      "player_positions":  [
+
+                                                                           ],
+                                                      "players":  [
+                                                                      "Furigold"
+                                                                  ],
+                                                      "status":  "Loading terrain...",
+                                                      "text_display_vertices":  0,
+                                                      "text_displays":  0
+                                                  },
+                                       "sidebar":  null,
+                                       "sounds":  {
+                                                      "channels":  8,
+                                                      "decoded":  16,
+                                                      "decoded_mib":  5,
+                                                      "events":  [
+                                                                     [
+                                                                         "minecraft:entity.bee.loop",
+                                                                         8
+                                                                     ]
+                                                                 ],
+                                                      "handles":  8,
+                                                      "instances":  8,
+                                                      "playing":  8,
+                                                      "queued":  0,
+                                                      "ticking":  8,
+                                                      "used":  [
+                                                                   8,
+                                                                   0
+                                                               ]
+                                                  },
+                                       "stopped_sounds":  {
+
+                                                          },
+                                       "streaming":  {
+                                                         "decorating":  0,
+                                                         "finishing":  0,
+                                                         "generating":  0,
+                                                         "lighting":  0,
+                                                         "meshing":  0,
+                                                         "protos":  0,
+                                                         "queued":  0
+                                                     },
+                                       "target":  {
+                                                      "block":  "minecraft:short_grass",
+                                                      "pos":  [
+                                                                  -26,
+                                                                  81,
+                                                                  6
+                                                              ]
+                                                  },
+                                       "ticks":  6640,
+                                       "tridents":  0,
+                                       "uptime_seconds":  336.7792224,
+                                       "using":  null,
+                                       "yaw":  0.0
+                                   },
+                        "stationary":  {
+                                           "avg_fps":  1035.8745899350895,
+                                           "cpu":  {
+                                                       "avg_ms":  0.7396458637209193,
+                                                       "max_ms":  6.714699745178223,
+                                                       "p50_ms":  0.7117999792098999,
+                                                       "p95_ms":  0.7822999954223633,
+                                                       "p99_ms":  1.214400053024292
+                                                   },
+                                           "dynamic_entities_drawn":  0,
+                                           "dynamic_entities_drawn_avg_per_frame":  0.0,
+                                           "frames":  10359,
+                                           "gpu":  {
+                                                       "avg_ms":  0.5001977572818327,
+                                                       "max_ms":  0.7291839718818665,
+                                                       "p50_ms":  0.4997119903564453,
+                                                       "p95_ms":  0.5031039714813232,
+                                                       "p99_ms":  0.5061119794845581
+                                                   },
+                                           "low_01pct_fps":  122.07830341460394,
+                                           "low_1pct_fps":  393.93521461167694,
+                                           "max_ms":  23.05470085144043,
+                                           "p50_ms":  0.932699978351593,
+                                           "p95_ms":  1.0141000747680664,
+                                           "p99_ms":  1.465499997138977,
+                                           "phases_avg_ms":  {
+                                                                 "prepare":  0.1799452069505599,
+                                                                 "render":  0.5420643976266601,
+                                                                 "tick":  0.013199140860784796,
+                                                                 "update":  0.004692277303121956
+                                                             },
+                                           "seconds":  10.000245300590992,
+                                           "slow_phases_avg_ms":  {
+                                                                      "prepare":  0.29236923014888394,
+                                                                      "render":  1.02114904156098,
+                                                                      "tick":  0.6365932675230747,
+                                                                      "update":  0.006285576978161071
+                                                                  },
+                                           "static_bytes_uploaded":  0,
+                                           "static_entities_drawn":  0,
+                                           "static_entities_drawn_avg_per_frame":  0.0,
+                                           "static_snapshot_bytes_built":  0,
+                                           "static_snapshot_rebuilds":  0
+                                       },
+                        "walking":  {
+                                        "avg_fps":  1056.4627594282676,
+                                        "cpu":  {
+                                                    "avg_ms":  0.7241873344856461,
+                                                    "max_ms":  6.330999851226807,
+                                                    "p50_ms":  0.7064000368118286,
+                                                    "p95_ms":  0.7570000290870667,
+                                                    "p99_ms":  1.1574000120162964
+                                                },
+                                        "dynamic_entities_drawn":  0,
+                                        "dynamic_entities_drawn_avg_per_frame":  0.0,
+                                        "frames":  5195,
+                                        "gpu":  {
+                                                    "avg_ms":  0.5070853848544534,
+                                                    "max_ms":  0.5254719853401184,
+                                                    "p50_ms":  0.5071359872817993,
+                                                    "p95_ms":  0.5162240266799927,
+                                                    "p99_ms":  0.518559992313385
+                                                },
+                                        "low_01pct_fps":  209.4226217632943,
+                                        "low_1pct_fps":  552.7745578285626,
+                                        "max_ms":  6.576099872589111,
+                                        "p50_ms":  0.9275000095367432,
+                                        "p95_ms":  0.9884999394416808,
+                                        "p99_ms":  1.381500005722046,
+                                        "phases_avg_ms":  {
+                                                              "prepare":  0.17830791146394953,
+                                                              "render":  0.5296457557063246,
+                                                              "tick":  0.011814860463872036,
+                                                              "update":  0.0046718576225193075
+                                                          },
+                                        "seconds":  4.9173526976108555,
+                                        "slow_phases_avg_ms":  {
+                                                                   "prepare":  0.18214807716699744,
+                                                                   "render":  0.7286211550235748,
+                                                                   "tick":  0.663800003221975,
+                                                                   "update":  0.0048153846918676906
+                                                               },
+                                        "static_bytes_uploaded":  0,
+                                        "static_entities_drawn":  0,
+                                        "static_entities_drawn_avg_per_frame":  0.0,
+                                        "static_snapshot_bytes_built":  0,
+                                        "static_snapshot_rebuilds":  0
+                                    }
+                    }
+                ]
+}

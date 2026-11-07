@@ -1,0 +1,41 @@
+[14:26:46] [Render thread/INFO]: Horizon 0.1.0
+[14:26:50] [World data preload/INFO]: Horizon: worldgen data loaded in 504.61ms
+[14:26:55] [load-render/INFO]: Horizon: block sprites: 1301 layers at 64 px (largest 64 px, budget 256 MiB)
+[14:27:02] [Render thread/INFO]: load core tables: 16.22s
+[14:27:02] [Render thread/INFO]: load pack tables: 16.25s
+[14:27:05] [load-items/INFO]: load items: 19.14s
+[14:27:07] [Render thread/INFO]: Horizon: resources loaded in 21.3s; 35723 block states, 1658 items, 67 biomes; 11 worker threads
+[14:27:07] [Render thread/INFO]: Horizon: audio output Kulaklıklar (Arctis 5 Game) (48000 Hz, 2 channels, f32)
+[14:27:08] [Render thread/INFO]: Horizon: control socket C:\Users\furig\AppData\Roaming\horizon-launcher\game-control.json
+[14:27:08] [Render thread/INFO]: Horizon renderer: NVIDIA GeForce RTX 2080 (Vulkan, DiscreteGpu)
+[14:27:08] [Render thread/INFO]: Horizon renderer: requesting the device (driver NVIDIA 621.14) with features [TEXTURE_FORMAT_16BIT_NORM | TEXTURE_ADAPTER_SPECIFIC_FORMAT_FEATURES | TIMESTAMP_QUERY_INSIDE_ENCODERS | MAPPABLE_PRIMARY_BUFFERS | MULTI_DRAW_INDIRECT_COUNT | VERTEX_WRITABLE_STORAGE | CLEAR_TEXTURE | TEXTURE_ATOMIC | SHADER_EARLY_DEPTH_TEST | SUBGROUP | TIMESTAMP_QUERY | INDIRECT_FIRST_INSTANCE | RG11B10UFLOAT_RENDERABLE | FLOAT32_FILTERABLE | FLOAT32_BLENDABLE] and the adapter's limits (buffers up to 1099511627776 bytes, storage bindings up to 2147483644 bytes, 2048 texture layers)
+[14:27:08] [Render thread/INFO]: Horizon renderer: device ready; configuring the surface (1280x720 Bgra8Unorm, Mailbox)
+[14:27:08] [Render thread/INFO]: Horizon renderer: HDR output not offered by this display
+[14:27:08] [Render thread/INFO]: Horizon renderer: creating the pipelines
+[14:27:08] [Render thread/INFO]: Horizon renderer: pipelines ready (multi-draw on, occlusion culling on, GPU culling available, GPU timer on)
+[14:27:09] [Server thread/INFO]: Starting integrated minecraft server version 26.3
+[14:27:09] [unnamed/INFO]: Horizon: live features ready in 35.4891ms
+[14:27:13] [World data preload/INFO]: Horizon: world data preloaded for the launch's world in 22621 ms
+[14:27:13] [Render thread/INFO]: Horizon renderer: acquiring the first frame
+[14:27:13] [Render thread/INFO]: Horizon renderer: submitting the first frame
+[14:27:13] [Render thread/INFO]: Horizon renderer: presenting the first frame
+[14:27:13] [Render thread/INFO]: Horizon: first frame after 5264 ms
+[14:27:13] [Render thread/INFO]: Controller connected: vJoy Device
+[14:27:13] [Server thread/INFO]: Furigold[/127.0.0.1:0] logged in with entity id 1 at (-25.5, 81.04166674613953, 5.5)
+[14:27:13] [Server thread/INFO]: System chat: Furigold joined the game
+[14:27:13] [Render thread/INFO]: [CHAT] NoCubes: N toggles a block, Shift+N toggles one state, Ctrl+V toggles visuals, Ctrl+O opens settings.
+[14:27:37] [Server thread/INFO]: System chat: [Furigold: Set own game mode to Spectator Mode]
+[14:27:37] [Render thread/INFO]: [CHAT] Set own game mode to Spectator Mode
+[14:27:37] [Server thread/INFO]: System chat: [Furigold: Set own game mode to Creative Mode]
+[14:27:37] [Render thread/INFO]: [CHAT] Set own game mode to Creative Mode
+[14:28:34] [Server thread/INFO]: System chat: [Furigold: Set own game mode to Survival Mode]
+[14:28:34] [Render thread/INFO]: [CHAT] Set own game mode to Survival Mode
+[14:28:42] [Server thread/INFO]: System chat: [Furigold: Set own game mode to Spectator Mode]
+[14:28:42] [Render thread/INFO]: [CHAT] Set own game mode to Spectator Mode
+[14:29:25] [Server thread/INFO]: System chat: [Furigold: Set own game mode to Survival Mode]
+[14:29:25] [Render thread/INFO]: [CHAT] Set own game mode to Survival Mode
+[14:29:28] [Server thread/INFO]: System chat: [Furigold: Set own game mode to Creative Mode]
+[14:29:28] [Render thread/INFO]: [CHAT] Set own game mode to Creative Mode
+[14:30:00] [Server thread/INFO]: System chat: [Furigold: Set own game mode to Survival Mode]
+[14:30:00] [Render thread/INFO]: [CHAT] Set own game mode to Survival Mode
+[14:31:42] [Server thread/INFO]: Changing view distance to 24, from 8

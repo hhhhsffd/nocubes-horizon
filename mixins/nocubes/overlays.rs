@@ -19,10 +19,11 @@ impl Game<'_> {
                     .map(|p| [p.x.floor() as i32, p.y.floor() as i32, p.z.floor() as i32])
             })
             .unwrap_or([0; 3]);
+        let samples = horizon_core::nocubes::kinds::samples(&cfg);
         let sample = |q: [i32; 3]| {
             let p = std::array::from_fn::<_, 3, _>(|i| base[i] + q[i]);
             let id = self.world.block(p[0], p[1], p[2]);
-            nocubes::kinds::sample(&cfg, id.0)
+            samples.get(id.0)
         };
         let world = |p: [f32; 3]| std::array::from_fn(|i| f64::from(base[i]) + f64::from(p[i]));
         let selection = hit.is_some_and(|h| h.pos == base)
@@ -38,13 +39,14 @@ impl Game<'_> {
             } else {
                 None
             };
-            let faces = nocubes::generate_at(&sample, [-radius; 3], [radius + 1; 3], &cfg, base);
+            let faces =
+                self.nocubes_query_mesh(base, [-radius; 3], [radius + 1; 3], &cfg, &samples);
             if let Some(p) = &mut profile {
                 p.set_faces(faces.len());
             }
             let [r, g, b, a] = nocubes::parse_color(&cfg.selection_color).unwrap_or([0, 0, 0, 102]);
             let color = u32::from_be_bytes([a, r, g, b]);
-            for face in faces {
+            for face in faces.iter() {
                 if selection && face.block != [0; 3] && radius == 0 {
                     continue;
                 }

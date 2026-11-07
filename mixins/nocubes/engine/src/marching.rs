@@ -30,12 +30,14 @@ pub(super) fn generate(
     smooth2: bool,
 ) -> Vec<Face> {
     let mut out = vec![];
+    let densities = cache::GridCache::new(min, max, 2);
+    let density = |p| densities.get(p, || field(sample, p, smooth2));
     for z in min[2]..max[2] {
         for y in min[1]..max[1] {
             for x in min[0]..max[0] {
                 let p = [x, y, z];
                 let points = CORNERS.map(|c| std::array::from_fn(|i| p[i] + c[i]));
-                let values = points.map(|q| field(sample, q, smooth2));
+                let values = points.map(density);
                 let mask = values
                     .iter()
                     .enumerate()

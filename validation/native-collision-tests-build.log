@@ -1,0 +1,44 @@
+   Compiling horizon-world v0.1.0 (C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-world)
+warning: libmimalloc-sys@0.1.49: In file included from C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/prim.c:12,
+warning: libmimalloc-sys@0.1.49:                  from C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:40:
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:822: warning: ignoring '#pragma comment ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   822 |     #pragma comment(linker, "/INCLUDE:_tls_used")
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:823: warning: ignoring '#pragma comment ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   823 |     #pragma comment(linker, "/INCLUDE:_mi_tls_callback_pre")
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:824: warning: ignoring '#pragma comment ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   824 |     #pragma comment(linker, "/INCLUDE:_mi_tls_callback_post")
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:825: warning: ignoring '#pragma const_seg ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   825 |     #pragma const_seg(".CRT$XLB")
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:828: warning: ignoring '#pragma const_seg ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   828 |     #pragma const_seg()
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:829: warning: ignoring '#pragma const_seg ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   829 |     #pragma const_seg(".CRT$XLY")
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:832: warning: ignoring '#pragma const_seg ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   832 |     #pragma const_seg()
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:833: warning: ignoring '#pragma const_seg ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   833 |     #pragma const_seg(".CRT$XIB")
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\prim/windows/prim.c:836: warning: ignoring '#pragma const_seg ' [-Wunknown-pragmas]
+warning: libmimalloc-sys@0.1.49:   836 |     #pragma const_seg()
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49:    41 | #if MI_OSX_ZONE
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: visibility attribute not supported in this configuration; ignored [-Wattributes]
+warning: libmimalloc-sys@0.1.49: C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\third_party\libmimalloc-sys\c_src\mimalloc\v3\src\static.c:41: warning: visibility attribute not supported in this configuration; ignored [-Wattributes]
+   Compiling horizon-shaders v0.1.0 (C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-shaders)
+   Compiling horizon-client-core v0.1.0 (C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-client-core)
+   Compiling horizon-protocol v0.1.0 (C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-protocol)
+   Compiling horizon-items v0.1.0 (C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-items)
+   Compiling horizon-client-input v0.1.0 (C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-client-input)
+   Compiling horizon-command v0.1.0 (C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-command)
+   Compiling horizon-client-render v0.1.0 (C:\Users\furig\AppData\Roaming\horizon-launcher\native\stage\crates\horizon-client-render)
+    Finished `fast` profile [optimized] target(s) in 2m 01s
+     Running unittests src\lib.rs (C:\Users\furig\AppData\Roaming\horizon-launcher\native\target\fast\deps\horizon_client_render-73d12b93598c82d9.exe)

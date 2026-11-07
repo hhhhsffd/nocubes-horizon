@@ -1,0 +1,8 @@
+
+running 3 tests
+test mesher::nocubes_render::occlusion_tests::solid_interior_occludes_and_a_hole_keeps_its_surface_halo_open ... ok
+test collisions::nocubes_collision::tests::collision_cache_invalidates_after_edits_config_or_registry_changes ... ok
+test collisions::nocubes_collision::tests::batched_shape_union_matches_incremental_optimization ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 1581 filtered out; finished in 0.37s
+

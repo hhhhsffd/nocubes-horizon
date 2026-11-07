@@ -1,0 +1,4 @@
+enabled=False: stationary=1,495.5 FPS, walking=1,502.5 FPS
+enabled=True: stationary=1,440.5 FPS, walking=1,411.0 FPS
+enabled=True: stationary=1,434.3 FPS, walking=1,388.0 FPS
+enabled=False: stationary=1,518.3 FPS, walking=1,507.7 FPS
